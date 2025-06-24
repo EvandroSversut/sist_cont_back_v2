@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 // esta classe faz vinculo com os produtos da nota
 @Entity
-@Table(name = "compras")
+@Table(name = "ItensCompra")
 public class ItensCompra {
 
     @Id

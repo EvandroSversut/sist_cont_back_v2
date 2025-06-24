@@ -15,6 +15,8 @@ public class ComprasService {
     private ComprasRepository repository;
 
     public Compras salvar(Compras compra) {
+        // Vincula a compra nos itens
+        compra.getItens().forEach(item -> item.setCompra(compra));
         return repository.save(compra);
     }
 

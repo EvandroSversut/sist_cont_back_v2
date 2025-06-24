@@ -3,6 +3,7 @@ package com.sistema.sistema_contabil.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,9 @@ public class ComprasController {
     private ComprasService comprasService;
 
     @PostMapping
-    public Compras salvar(@RequestBody Compras compras) {
-        return comprasService.salvar(compras);
+    public ResponseEntity<Compras> salvarCompra(@RequestBody Compras compra) {
+        Compras saved = comprasService.salvar(compra);
+        return ResponseEntity.ok(saved);
     }
 
     @GetMapping
