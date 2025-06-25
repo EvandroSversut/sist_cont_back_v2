@@ -86,6 +86,12 @@ public class ItensCompra {
         this.valorTotal = valorTotal;
     }
 
+    @Override
+    public String toString() {
+        return "ItensCompra [id=" + id + ", compra=" + compra + ", produto=" + produto + ", quantidade=" + quantidade
+                + ", valorUnitario=" + valorUnitario + ", valorTotal=" + valorTotal + "]";
+    }
+
   
     
    

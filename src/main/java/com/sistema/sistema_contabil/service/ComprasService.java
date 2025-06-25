@@ -15,6 +15,8 @@ public class ComprasService {
     private ComprasRepository repository;
 
     public Compras salvar(Compras compra) {
+        System.out.println("📦 Dados recebidos do front:");
+        System.out.println(compra); // imprime o objeto
         // Vincula a compra nos itens
         compra.getItens().forEach(item -> item.setCompra(compra));
         return repository.save(compra);

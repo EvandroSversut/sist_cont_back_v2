@@ -105,7 +105,7 @@ public class Compras {
         this.descricaoNota = descricaoNota;
     }
 
-    public BigDecimal getValorTotal() {
+       public BigDecimal getValorTotal() {
         return valorTotal;
     }
 
@@ -136,6 +136,16 @@ public class Compras {
     public void setItens(List<ItensCompra> itens) {
         this.itens = itens;
     }
+
+    @Override
+    public String toString() {
+        return "Compras [id=" + id + ", pessoaJuridica=" + pessoaJuridica + ", dataCompra=" + dataCompra
+                + ", numeroNota=" + numeroNota + ", serieNota=" + serieNota + ", descricaoNota=" + descricaoNota
+                + ", valorTotal=" + valorTotal + ", valorDesconto=" + valorDesconto + ", valorIcms=" + valorIcms
+                + ", itens=" + itens + "]";
+    }
+
+   
   
     
    
