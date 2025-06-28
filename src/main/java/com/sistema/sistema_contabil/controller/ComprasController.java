@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sistema.sistema_contabil.model.Compras;
 import com.sistema.sistema_contabil.service.ComprasService;
 
@@ -25,7 +27,7 @@ public class ComprasController {
     private ComprasService comprasService;
 
     @PostMapping
-    public ResponseEntity<Compras> salvarCompra(@RequestBody Compras compra) {
+    public ResponseEntity<Compras> salvarCompra(@RequestBody Compras compra) throws JsonProcessingException {
        
         Compras saved = comprasService.salvar(compra);
         return ResponseEntity.ok(saved);
@@ -45,4 +47,14 @@ public class ComprasController {
     public void deletar(@PathVariable Long id) {
         comprasService.deletar(id);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Compras> atualizarCompra(@PathVariable Long id, @RequestBody Compras novaCompra) {
+    Compras atualizada = comprasService.atualizarCompra(id, novaCompra);
+    if (atualizada == null) {
+        return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(atualizada);
+}
+
 }

@@ -1,6 +1,9 @@
 package com.sistema.sistema_contabil.model;
 
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +26,7 @@ public class ItensCompra {
 
     @ManyToOne
     @JoinColumn(name = "compra_id", nullable = false)
+    @JsonIgnore
     private Compras compra;
 
     @ManyToOne
@@ -34,6 +38,9 @@ public class ItensCompra {
 
     @Column(nullable = false)
     private BigDecimal valorUnitario;
+
+    @Column(nullable = false)
+    private BigDecimal desconto;
 
     @Column(nullable = false)
     private BigDecimal valorTotal;
@@ -78,6 +85,14 @@ public class ItensCompra {
         this.valorUnitario = valorUnitario;
     }
 
+    public BigDecimal getDesconto() {
+        return desconto;
+    }
+
+    public void setDesconto(BigDecimal desconto) {
+        this.desconto = desconto;
+    }
+
     public BigDecimal getValorTotal() {
         return valorTotal;
     }
@@ -89,8 +104,10 @@ public class ItensCompra {
     @Override
     public String toString() {
         return "ItensCompra [id=" + id + ", compra=" + compra + ", produto=" + produto + ", quantidade=" + quantidade
-                + ", valorUnitario=" + valorUnitario + ", valorTotal=" + valorTotal + "]";
+                + ", valorUnitario=" + valorUnitario + ", desconto=" + desconto + ", valorTotal=" + valorTotal + "]";
     }
+
+  
 
   
     

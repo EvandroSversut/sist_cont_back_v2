@@ -9,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.sistema.sistema_contabil.dto.PessoaJuridicaDTO;
 import com.sistema.sistema_contabil.dto.PessoaUsuarioDTO;
-import com.sistema.sistema_contabil.model.Pessoa;
 import com.sistema.sistema_contabil.model.PessoaFisica;
-import com.sistema.sistema_contabil.model.PessoaJuridica;
 import com.sistema.sistema_contabil.model.Usuario;
 import com.sistema.sistema_contabil.repository.PessoaFisicaRepository;
 import com.sistema.sistema_contabil.repository.UsuarioRepository;

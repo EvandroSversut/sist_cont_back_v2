@@ -12,8 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -27,10 +27,6 @@ public class Compras {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "compras_seq")
     @SequenceGenerator(name = "compras_seq", sequenceName = "compras_seq", allocationSize = 1)
     private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "pessoa_juridica_id", nullable = false)
-    private PessoaJuridica pessoaJuridica;
   
     @Column(nullable = false)
 	@Temporal(TemporalType.DATE)
@@ -52,8 +48,15 @@ public class Compras {
 
 	@Column(nullable = false)
 	private BigDecimal valorIcms;
+    
+    @ManyToOne
+    @JoinColumn(name = "pessoa_juridica_id", nullable = false)
+    private PessoaJuridica pessoaJuridica;
 
       // 💡 RELACIONAMENTO COM ITENS DE COMPRA
+      // NAO CRIA UMA COLUNA NA TABELA COMPRAS, E SIM UM RELACIONAMENTO BIDIRECIONAL DE UM-PARA-MUITOS
+      // ENTRE COMPRAS E ITENSCOMPRA. INDICA QUE UMA COMPRA PODE TER MUITOS ITENS
+      // MAPPEDBY = "COMPRA" QUER DIZER QUE O LADO DONO DO RELACIONAMENTO É O "ITENSCOMPRA"
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItensCompra> itens = new ArrayList<>();
 
