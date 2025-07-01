@@ -11,6 +11,10 @@ public class NotaFiscal {
     @SequenceGenerator(name = "nota_seq", sequenceName = "nota_seq", allocationSize = 1)
     private Long id;
 
+    private String emitenteCnpj;
+
+    private String destinatarioNome;
+
     @Lob
     @Column(columnDefinition = "TEXT")
     private String xml;
@@ -27,9 +31,28 @@ public class NotaFiscal {
         this.dataCadastro = LocalDateTime.now();
     }
 
-    // getters e setters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmitenteCnpj() {
+        return emitenteCnpj;
+    }
+
+    public void setEmitenteCnpj(String emitenteCnpj) {
+        this.emitenteCnpj = emitenteCnpj;
+    }
+
+    public String getDestinatarioNome() {
+        return destinatarioNome;
+    }
+
+    public void setDestinatarioNome(String destinatarioNome) {
+        this.destinatarioNome = destinatarioNome;
     }
 
     public String getXml() {
@@ -47,4 +70,7 @@ public class NotaFiscal {
     public void setDataCadastro(LocalDateTime dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
+
+    // getters e setters
+    
 }
