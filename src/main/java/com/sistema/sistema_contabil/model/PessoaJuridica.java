@@ -7,20 +7,27 @@ import jakarta.persistence.Table;
 @Table(name = "pessoa_juridica")
 public class PessoaJuridica extends Pessoa {
 
+    private String tipo; // EMITENTE ou DESTINATARIO
     private String razaoSocial;        
     private String nomeFantasia;
     private String cnpj;
     private String inscMunicipal;
     private String inscEstadual;
-
+    private String uf;
+    private String municipio;
+    
+    public String getTipo() {
+        return tipo;
+    }
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
     public String getRazaoSocial() {
         return razaoSocial;
     }
-
     public void setRazaoSocial(String razaoSocial) {
         this.razaoSocial = razaoSocial;
     }
-    
     public String getNomeFantasia() {
         return nomeFantasia;
     }
@@ -45,6 +52,19 @@ public class PessoaJuridica extends Pessoa {
     public void setInscEstadual(String inscEstadual) {
         this.inscEstadual = inscEstadual;
     }
-    
+    public String getUf() {
+        return uf;
+    }
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
+    public String getMunicipio() {
+        return municipio;
+    }
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
+    }
+
+        
        
 }

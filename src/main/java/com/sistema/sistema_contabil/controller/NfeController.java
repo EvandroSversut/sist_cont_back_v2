@@ -22,7 +22,7 @@ public class NfeController {
         System.out.println("### conteúdo recebido:");
         System.out.println(xml);
         
-        service.salvar(xml);
+        //service.salvar(xml);
 
         return ResponseEntity.ok("XML recebido e salvo com sucesso.");
     }
@@ -30,7 +30,7 @@ public class NfeController {
      // Endpoint para rodar o testeSalvar()
     @GetMapping("/teste-salvar")
     public ResponseEntity<String> testeSalvar() {
-        service.testeSalvar();
+        //service.testeSalvar();
         return ResponseEntity.ok("Teste salvar executado.");
     }
 }

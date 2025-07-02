@@ -2,6 +2,7 @@ package com.sistema.sistema_contabil.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class NotaFiscal {
@@ -11,25 +12,26 @@ public class NotaFiscal {
     @SequenceGenerator(name = "nota_seq", sequenceName = "nota_seq", allocationSize = 1)
     private Long id;
 
-    private String emitenteCnpj;
+    private LocalDateTime dataCadastro = LocalDateTime.now();
 
-    private String destinatarioNome;
+    // 🔗 Relacionamento com destinatário
+    @ManyToOne
+    private Pessoa destinatario;
+
+    // 🔗 Itens da nota
+    @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoItem> itens;
+
+    // 💵 Dados de pagamento
+    @Embedded
+    private Pagamento pagamento;
+
+    // 🚚 Dados de transporte
+    @Embedded
+    private Transporte transporte;
 
     @Lob
-    @Column(columnDefinition = "TEXT")
-    private String xml;
-
-    private LocalDateTime dataCadastro;
-
-    // construtores
-    public NotaFiscal() {
-        this.dataCadastro = LocalDateTime.now();
-    }
-
-    public NotaFiscal(String xml) {
-        this.xml = xml;
-        this.dataCadastro = LocalDateTime.now();
-    }
+    private String xml; // será preenchido após gerar
 
     public Long getId() {
         return id;
@@ -37,30 +39,6 @@ public class NotaFiscal {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmitenteCnpj() {
-        return emitenteCnpj;
-    }
-
-    public void setEmitenteCnpj(String emitenteCnpj) {
-        this.emitenteCnpj = emitenteCnpj;
-    }
-
-    public String getDestinatarioNome() {
-        return destinatarioNome;
-    }
-
-    public void setDestinatarioNome(String destinatarioNome) {
-        this.destinatarioNome = destinatarioNome;
-    }
-
-    public String getXml() {
-        return xml;
-    }
-
-    public void setXml(String xml) {
-        this.xml = xml;
     }
 
     public LocalDateTime getDataCadastro() {
@@ -71,6 +49,46 @@ public class NotaFiscal {
         this.dataCadastro = dataCadastro;
     }
 
-    // getters e setters
+    public Pessoa getDestinatario() {
+        return destinatario;
+    }
+
+    public void setDestinatario(Pessoa destinatario) {
+        this.destinatario = destinatario;
+    }
+
+    public List<ProdutoItem> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ProdutoItem> itens) {
+        this.itens = itens;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
+    }
+
+    public Transporte getTransporte() {
+        return transporte;
+    }
+
+    public void setTransporte(Transporte transporte) {
+        this.transporte = transporte;
+    }
+
+    public String getXml() {
+        return xml;
+    }
+
+    public void setXml(String xml) {
+        this.xml = xml;
+    }
+
+    // Getters e Setters...
     
 }
