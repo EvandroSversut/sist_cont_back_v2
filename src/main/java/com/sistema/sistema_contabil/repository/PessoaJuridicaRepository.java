@@ -18,6 +18,9 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
       boolean existsByCnpj(String cnpj);
 
       List<PessoaJuridica> findAll();
+
+      List<PessoaJuridica> findByCnpjContainingIgnoreCaseOrRazaoSocialContainingIgnoreCase(String cnpj, String razaoSocial);
+
 }
 
     

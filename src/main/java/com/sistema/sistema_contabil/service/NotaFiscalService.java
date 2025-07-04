@@ -1,17 +1,21 @@
 package com.sistema.sistema_contabil.service;
 
-import com.sistema.sistema_contabil.dto.*;
-import com.sistema.sistema_contabil.model.*;
-import com.sistema.sistema_contabil.repository.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sistema.sistema_contabil.dto.NotaFiscalDTO;
+import com.sistema.sistema_contabil.model.ItemNotaFiscal;
+import com.sistema.sistema_contabil.model.NotaFiscal;
+import com.sistema.sistema_contabil.model.Pagamento;
+import com.sistema.sistema_contabil.model.Pessoa;
+import com.sistema.sistema_contabil.model.PessoaJuridica;
+import com.sistema.sistema_contabil.model.Transporte;
+import com.sistema.sistema_contabil.repository.NotaFiscalRepository;
+import com.sistema.sistema_contabil.repository.PessoaRepository;
 
 @Service
 public class NotaFiscalService {
@@ -40,6 +44,14 @@ public class NotaFiscalService {
                     nova.setIe(dto.destinatario.ie);
                     nova.setUf(dto.destinatario.uf);
                     nova.setMunicipio(dto.destinatario.municipio);
+                    nova.setComplemento(""); // ✅ CORRETO
+                    nova.setEmail(""); // ✅ CORRETO
+                    nova.setNumero(""); // ✅ CORRETO
+                    nova.setRua(""); // ✅ CORRETO
+                    nova.setTelefone(""); // ✅ CORRETO
+                    nova.setUf(""); // ✅ CORRETO
+                    nova.setCep(""); // ✅ CORRETO
+                    nova.setCidade(""); // ✅ CORRETO
                     return pessoaRepository.save(nova);
                 });
 

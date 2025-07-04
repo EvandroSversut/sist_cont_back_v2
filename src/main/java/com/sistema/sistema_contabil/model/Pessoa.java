@@ -1,6 +1,13 @@
 package com.sistema.sistema_contabil.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.SequenceGenerator;
 
 // se nao colocar este "@Inheritance(strategy = InheritanceType.JOINED)"
 // , as classes que herdarem vao criar as colunas desta classe
@@ -12,15 +19,14 @@ public class Pessoa {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pessoa_seq")
     @SequenceGenerator(name = "pessoa_seq", sequenceName = "pessoa_seq", allocationSize = 1)
     private Long id;
-  
-    
+      
     @Column(nullable = false)
     private String telefone;
 
     @Column(nullable = false)
     private String rua;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String numero;
 
     @Column(nullable = false)
@@ -35,7 +41,7 @@ public class Pessoa {
     @Column(nullable = true)
     private String cidade;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String uf;
 
     @Column(nullable = false)
