@@ -108,10 +108,10 @@ public class PessoaJuridicaService {
         PessoaJuridicaDTO dto = new PessoaJuridicaDTO();
         dto.setId(entity.getId());
         dto.setRazaoSocial(entity.getRazaoSocial());
-        dto.setNomeFantasia(entity.getNomeFantasia());
+        //dto.setNomeFantasia(entity.getNomeFantasia());
         dto.setCnpj(entity.getCnpj());
-        dto.setInscEstadual(entity.getInscEstadual());
-        dto.setInscMunicipal(entity.getInscMunicipal());
+        dto.setInscEstadual(entity.getIe());
+        //dto.setInscMunicipal(entity.getInscMunicipal());
         dto.setTelefone(entity.getTelefone());
         dto.setEmail(entity.getEmail());
         dto.setRua(entity.getRua());
@@ -130,9 +130,9 @@ public class PessoaJuridicaService {
         //entity.setId(dto.getId());
         entity.setCnpj(dto.getCnpj());
         entity.setRazaoSocial(dto.getRazaoSocial());
-        entity.setNomeFantasia(dto.getNomeFantasia());
-        entity.setInscEstadual(dto.getInscEstadual());
-        entity.setInscMunicipal(dto.getInscMunicipal());
+        //entity.setNomeFantasia(dto.getNomeFantasia());
+        entity.setIe(dto.getInscEstadual());
+        //entity.setInscMunicipal(dto.getInscMunicipal());
         entity.setEmail(dto.getEmail());
         entity.setTelefone(dto.getTelefone());
         entity.setRua(dto.getRua());

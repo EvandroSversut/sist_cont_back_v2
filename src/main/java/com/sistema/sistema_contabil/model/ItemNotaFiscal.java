@@ -3,10 +3,11 @@ package com.sistema.sistema_contabil.model;
 import jakarta.persistence.*;
 
 @Entity
-public class ProdutoItem {
+public class ItemNotaFiscal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "produto_item_seq")
+    @SequenceGenerator(name = "produto_item_seq", sequenceName = "produto_item_seq", allocationSize = 1)
     private Long id;
 
     private String codigo;
@@ -111,6 +112,5 @@ public class ProdutoItem {
         this.notaFiscal = notaFiscal;
     }
 
-    // Getters e Setters...
     
 }

@@ -27,7 +27,5 @@ public class Pagamento {
     public void setValorTroco(double valorTroco) {
         this.valorTroco = valorTroco;
     }
-
-    // Getters e Setters...
     
 }

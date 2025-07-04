@@ -12,23 +12,26 @@ public class NotaFiscal {
     @SequenceGenerator(name = "nota_seq", sequenceName = "nota_seq", allocationSize = 1)
     private Long id;
 
-    private LocalDateTime dataCadastro = LocalDateTime.now();
+    @ManyToOne
+    private Pessoa emitente;
 
     // 🔗 Relacionamento com destinatário
     @ManyToOne
     private Pessoa destinatario;
 
-    // 🔗 Itens da nota
-    @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProdutoItem> itens;
+        // 🚚 Dados de transporte
+    @Embedded
+    private Transporte transportadora;
 
     // 💵 Dados de pagamento
     @Embedded
     private Pagamento pagamento;
 
-    // 🚚 Dados de transporte
-    @Embedded
-    private Transporte transporte;
+    // 🔗 Itens da nota
+    @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemNotaFiscal> itens;
+
+    private LocalDateTime dataCadastro = LocalDateTime.now();
 
     @Lob
     private String xml; // será preenchido após gerar
@@ -41,12 +44,12 @@ public class NotaFiscal {
         this.id = id;
     }
 
-    public LocalDateTime getDataCadastro() {
-        return dataCadastro;
+    public Pessoa getEmitente() {
+        return emitente;
     }
 
-    public void setDataCadastro(LocalDateTime dataCadastro) {
-        this.dataCadastro = dataCadastro;
+    public void setEmitente(Pessoa emitente) {
+        this.emitente = emitente;
     }
 
     public Pessoa getDestinatario() {
@@ -57,14 +60,6 @@ public class NotaFiscal {
         this.destinatario = destinatario;
     }
 
-    public List<ProdutoItem> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<ProdutoItem> itens) {
-        this.itens = itens;
-    }
-
     public Pagamento getPagamento() {
         return pagamento;
     }
@@ -73,12 +68,20 @@ public class NotaFiscal {
         this.pagamento = pagamento;
     }
 
-    public Transporte getTransporte() {
-        return transporte;
+    public List<ItemNotaFiscal> getItens() {
+        return itens;
     }
 
-    public void setTransporte(Transporte transporte) {
-        this.transporte = transporte;
+    public void setItens(List<ItemNotaFiscal> itens) {
+        this.itens = itens;
+    }
+
+    public LocalDateTime getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDateTime dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
     public String getXml() {
@@ -89,6 +92,14 @@ public class NotaFiscal {
         this.xml = xml;
     }
 
-    // Getters e Setters...
+    public Transporte getTransportadora() {
+        return transportadora;
+    }
+
+    public void setTransportadora(Transporte transportadora) {
+        this.transportadora = transportadora;
+    }
+
+   
     
 }

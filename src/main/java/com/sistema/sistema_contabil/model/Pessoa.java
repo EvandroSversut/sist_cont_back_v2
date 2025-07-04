@@ -26,13 +26,13 @@ public class Pessoa {
     @Column(nullable = false)
     private String complemento;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String bairro;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String cep;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String cidade;
 
     @Column(nullable = false)
