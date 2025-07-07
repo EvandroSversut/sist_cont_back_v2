@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service
 public class NotaFiscalService {
@@ -39,7 +38,9 @@ public class NotaFiscalService {
                     nova.setRazaoSocial(dto.destinatario.razaoSocial);
                     nova.setIe(dto.destinatario.ie);
                     nova.setUf(dto.destinatario.uf);
-                    nova.setMunicipio(dto.destinatario.municipio);
+                    
+                     nova.setCep("78787"); // ✅ CORRETO
+                      nova.setCidade(""); // ✅ CORRETO
                     return pessoaRepository.save(nova);
                 });
 

@@ -14,16 +14,16 @@ public class Pessoa {
     private Long id;
   
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String telefone;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String rua;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String numero;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String complemento;
 
     @Column(nullable = true)
@@ -35,10 +35,10 @@ public class Pessoa {
     @Column(nullable = true)
     private String cidade;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String uf;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String email;
 
     public Long getId() {

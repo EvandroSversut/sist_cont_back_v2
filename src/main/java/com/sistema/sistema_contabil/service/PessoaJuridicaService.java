@@ -142,6 +142,9 @@ public class PessoaJuridicaService {
         entity.setCep(dto.getCep());
         entity.setCidade(dto.getCidade());
         entity.setUf(dto.getUf());
+
+        logger.info("PessoaJuridica convertida: {}", entity);
+
         return entity;
     }
     

@@ -1,6 +1,8 @@
 package com.sistema.sistema_contabil.model;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,13 +15,52 @@ public class NotaFiscal {
     private Long id;
 
     @ManyToOne
-    private Pessoa emitente;
+    private PessoaJuridica emitente;
 
     // 🔗 Relacionamento com destinatário
     @ManyToOne
-    private Pessoa destinatario;
+    private PessoaJuridica destinatario;
 
-        // 🚚 Dados de transporte
+    @Column(name = "numero_nf", nullable = false)
+    private String numeroNf;
+
+    @Column(name = "serie_nf", nullable = false)
+    private String serieNf;
+
+    @Column(name = "tipo_operacao", nullable = false)
+    private String tipoOperacao;
+
+    @Column(name = "valor_total", nullable = false)
+    private BigDecimal valorTotal;
+
+    @Column(name = "valor_desconto")
+    private BigDecimal valorDesconto;
+
+    @Column(name = "valor_icms")
+    private BigDecimal valorIcms;
+
+    @Column(name = "valor_frete")
+    private BigDecimal valorFrete;
+
+    @Column(name = "chave_nfe")
+    private String chaveNfe;
+
+    @Column(name = "status_nfe", nullable = false)
+    private String statusNfe;
+
+    @Column(name = "xml_gerado", columnDefinition = "TEXT")
+    private String xmlGerado;
+
+    @Column(name = "protocolo_autorizacao")
+    private String protocoloAutorizacao;
+
+    @Column(name = "data_cadastro", nullable = false)
+    private LocalDateTime dataCadastro;
+
+    @Column(name = "data_emissao", nullable = false)
+    private LocalDateTime dataEmissao;
+
+    // 🚚 Dados de transporte
     @Embedded
     private Transporte transportadora;
 
@@ -30,12 +71,7 @@ public class NotaFiscal {
     // 🔗 Itens da nota
     @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemNotaFiscal> itens;
-
-    private LocalDateTime dataCadastro = LocalDateTime.now();
-
-    @Lob
-    private String xml; // será preenchido após gerar
-
+   
     public Long getId() {
         return id;
     }

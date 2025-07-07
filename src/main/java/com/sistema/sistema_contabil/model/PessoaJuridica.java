@@ -11,14 +11,6 @@ public class PessoaJuridica extends Pessoa {
     private String cnpj;
     private String razaoSocial;
     private String ie;
-    private String uf;
-    private String municipio;
-
-    private String logradouro;
-    private String numero;
-    private String bairro;
-    private String cep;
-    private String cidade;
     
     public String getTipo() {
         return tipo;
@@ -44,48 +36,17 @@ public class PessoaJuridica extends Pessoa {
     public void setIe(String ie) {
         this.ie = ie;
     }
-    public String getUf() {
-        return uf;
+    @Override
+    public String toString() {
+        return "PessoaJuridica [tipo=" + tipo + ", cnpj=" + cnpj + ", razaoSocial=" + razaoSocial + ", ie=" + ie
+                + ", getTipo()=" + getTipo() + ", getCnpj()=" + getCnpj() + ", getRazaoSocial()=" + getRazaoSocial()
+                + ", getIe()=" + getIe() + ", getId()=" + getId() + ", getTelefone()=" + getTelefone() + ", getRua()="
+                + getRua() + ", getClass()=" + getClass() + ", getNumero()=" + getNumero() + ", getComplemento()="
+                + getComplemento() + ", getBairro()=" + getBairro() + ", getCep()=" + getCep() + ", getCidade()="
+                + getCidade() + ", getUf()=" + getUf() + ", getEmail()=" + getEmail() + ", toString()="
+                + super.toString() + ", hashCode()=" + hashCode() + "]";
     }
-    public void setUf(String uf) {
-        this.uf = uf;
-    }
-    public String getMunicipio() {
-        return municipio;
-    }
-    public void setMunicipio(String municipio) {
-        this.municipio = municipio;
-    }
-    public String getLogradouro() {
-        return logradouro;
-    }
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-    public String getNumero() {
-        return numero;
-    }
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-    public String getBairro() {
-        return bairro;
-    }
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-    public String getCep() {
-        return cep;
-    }
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-    public String getCidade() {
-        return cidade;
-    }
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
+   
     
    
         
