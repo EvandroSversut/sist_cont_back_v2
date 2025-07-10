@@ -1,18 +1,13 @@
 package com.sistema.sistema_contabil.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.sistema.sistema_contabil.service.NotaFiscalService;
 
 @RestController
 @RequestMapping("/api/nfe")
 //@CrossOrigin(origins = "*") // libera para o front-end Angular
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class NfeController {
-
-    @Autowired
-    private NotaFiscalService service;
 
     @PostMapping
     public ResponseEntity<String> receberXml(@RequestBody String xml) {

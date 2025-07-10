@@ -71,7 +71,7 @@ public class NotaFiscal {
     // 🔗 Itens da nota
     @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemNotaFiscal> itens;
-   
+
     public Long getId() {
         return id;
     }
@@ -80,20 +80,132 @@ public class NotaFiscal {
         this.id = id;
     }
 
-    public Pessoa getEmitente() {
+    public PessoaJuridica getEmitente() {
         return emitente;
     }
 
-    public void setEmitente(Pessoa emitente) {
+    public void setEmitente(PessoaJuridica emitente) {
         this.emitente = emitente;
     }
 
-    public Pessoa getDestinatario() {
+    public PessoaJuridica getDestinatario() {
         return destinatario;
     }
 
-    public void setDestinatario(Pessoa destinatario) {
+    public void setDestinatario(PessoaJuridica destinatario) {
         this.destinatario = destinatario;
+    }
+
+    public String getNumeroNf() {
+        return numeroNf;
+    }
+
+    public void setNumeroNf(String numeroNf) {
+        this.numeroNf = numeroNf;
+    }
+
+    public String getSerieNf() {
+        return serieNf;
+    }
+
+    public void setSerieNf(String serieNf) {
+        this.serieNf = serieNf;
+    }
+
+    public String getTipoOperacao() {
+        return tipoOperacao;
+    }
+
+    public void setTipoOperacao(String tipoOperacao) {
+        this.tipoOperacao = tipoOperacao;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public BigDecimal getValorDesconto() {
+        return valorDesconto;
+    }
+
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
+    }
+
+    public BigDecimal getValorIcms() {
+        return valorIcms;
+    }
+
+    public void setValorIcms(BigDecimal valorIcms) {
+        this.valorIcms = valorIcms;
+    }
+
+    public BigDecimal getValorFrete() {
+        return valorFrete;
+    }
+
+    public void setValorFrete(BigDecimal valorFrete) {
+        this.valorFrete = valorFrete;
+    }
+
+    public String getChaveNfe() {
+        return chaveNfe;
+    }
+
+    public void setChaveNfe(String chaveNfe) {
+        this.chaveNfe = chaveNfe;
+    }
+
+    public String getStatusNfe() {
+        return statusNfe;
+    }
+
+    public void setStatusNfe(String statusNfe) {
+        this.statusNfe = statusNfe;
+    }
+
+    public String getXmlGerado() {
+        return xmlGerado;
+    }
+
+    public void setXmlGerado(String xmlGerado) {
+        this.xmlGerado = xmlGerado;
+    }
+
+    public String getProtocoloAutorizacao() {
+        return protocoloAutorizacao;
+    }
+
+    public void setProtocoloAutorizacao(String protocoloAutorizacao) {
+        this.protocoloAutorizacao = protocoloAutorizacao;
+    }
+
+    public LocalDateTime getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDateTime dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public LocalDateTime getDataEmissao() {
+        return dataEmissao;
+    }
+
+    public void setDataEmissao(LocalDateTime dataEmissao) {
+        this.dataEmissao = dataEmissao;
+    }
+
+    public Transporte getTransportadora() {
+        return transportadora;
+    }
+
+    public void setTransportadora(Transporte transportadora) {
+        this.transportadora = transportadora;
     }
 
     public Pagamento getPagamento() {
@@ -111,31 +223,6 @@ public class NotaFiscal {
     public void setItens(List<ItemNotaFiscal> itens) {
         this.itens = itens;
     }
-
-    public LocalDateTime getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(LocalDateTime dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public String getXml() {
-        return xml;
-    }
-
-    public void setXml(String xml) {
-        this.xml = xml;
-    }
-
-    public Transporte getTransportadora() {
-        return transportadora;
-    }
-
-    public void setTransportadora(Transporte transportadora) {
-        this.transportadora = transportadora;
-    }
-
    
-    
+        
 }

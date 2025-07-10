@@ -11,7 +11,7 @@ public class Transporte {
     private String cnpjTransportadora;
     private String placaVeiculo;
     private String ufPlaca;
-    private double valorFrete;
+    
     
     public String getModFrete() {
         return modFrete;
@@ -43,12 +43,7 @@ public class Transporte {
     public void setUfPlaca(String ufPlaca) {
         this.ufPlaca = ufPlaca;
     }
-    public double getValorFrete() {
-        return valorFrete;
-    }
-    public void setValorFrete(double valorFrete) {
-        this.valorFrete = valorFrete;
-    }
+  
 
     // Getters e Setters...
 

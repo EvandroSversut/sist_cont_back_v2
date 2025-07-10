@@ -30,7 +30,7 @@ public class NotaFiscalService {
     }
 
         // Buscar ou criar destinatário
-        Pessoa destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
+        PessoaJuridica destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
                 .orElseGet(() -> {
                     PessoaJuridica nova = new PessoaJuridica();
                     nova.setTipo("DESTINATARIO");
@@ -72,14 +72,14 @@ public class NotaFiscalService {
         transporte.setCnpjTransportadora(dto.transporte.cnpjTransportadora);
         transporte.setPlacaVeiculo(dto.transporte.placaVeiculo);
         transporte.setUfPlaca(dto.transporte.ufPlaca);
-        transporte.setValorFrete(dto.transporte.valorFrete);
+        //transporte.setValorFrete(dto.transporte.valor_frete);
 
         // Criar nota fiscal
         NotaFiscal nota = new NotaFiscal();
         nota.setDestinatario(destinatario);
         nota.setPagamento(pagamento);
         nota.setTransportadora(transporte);
-        nota.setXml("Será gerado no backend depois");
+        //nota.setXml("Será gerado no backend depois");
 
         // Relacionar nota com itens
         itens.forEach(i -> i.setNotaFiscal(nota));

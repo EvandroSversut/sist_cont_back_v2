@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sistema.sistema_contabil.dto.PessoaJuridicaDTO;
 import com.sistema.sistema_contabil.model.PessoaJuridica;
-import com.sistema.sistema_contabil.repository.PessoaJuridicaRepository;
 import com.sistema.sistema_contabil.service.PessoaJuridicaService;
 
 @RestController
@@ -24,8 +23,7 @@ public class JuridicaController {
     @Autowired
     private PessoaJuridicaService service;
 
-    @Autowired
-    private PessoaJuridicaRepository pessoaRepo;
+    
 
     // 🔥 Fluxo Perfeito:
     // ✅ Front-end envia DTO → Controller recebe DTO.

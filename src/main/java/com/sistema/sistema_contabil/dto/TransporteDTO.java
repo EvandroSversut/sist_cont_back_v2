@@ -7,7 +7,7 @@ public class TransporteDTO {
     public String cnpjTransportadora;
     public String placaVeiculo;
     public String ufPlaca;
-    public double valorFrete;
+    public double valor_frete;
 
     public String getModFrete() {
         return modFrete;
@@ -39,13 +39,13 @@ public class TransporteDTO {
     public void setUfPlaca(String ufPlaca) {
         this.ufPlaca = ufPlaca;
     }
-    public double getValorFrete() {
-        return valorFrete;
+    public double getValor_frete() {
+        return valor_frete;
     }
-    public void setValorFrete(double valorFrete) {
-        this.valorFrete = valorFrete;
+    public void setValor_frete(double valor_frete) {
+        this.valor_frete = valor_frete;
     }
-
+   
     
 }
  
