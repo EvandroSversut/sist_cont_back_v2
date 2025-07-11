@@ -119,6 +119,14 @@ public class PessoaJuridicaDTO {
     public void setUf(String uf) {
         this.uf = uf;
     }
+
+    public String getCnae() {
+        return cnae;
+    }
+    public void setCnae(String cnae) {
+        this.cnae = cnae;
+    }
+        
 /* 
     @Override
     public String toString() {
