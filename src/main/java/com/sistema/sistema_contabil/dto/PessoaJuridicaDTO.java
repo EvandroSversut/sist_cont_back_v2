@@ -14,6 +14,7 @@ public class PessoaJuridicaDTO {
     public String cnpj;
     public String inscEstadual;
     public String inscMunicipal;
+    public String cnae;
     public String telefone;
     public String email;
     public String rua;
@@ -136,6 +137,7 @@ public class PessoaJuridicaDTO {
                 "\nCNPJ: " + cnpj +
                 "\nRazão Social: " + razaoSocial +
                 "\nNome Fantasia: " + nomeFantasia +
+                 "\nCNAE: " + cnae +
                 "\nTelefone: " + telefone +
                 "\nEmail: " + email +
                 "\nEndereço: " + rua + ", " + numero + " - " + bairro +
