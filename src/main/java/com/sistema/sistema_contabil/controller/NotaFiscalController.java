@@ -15,8 +15,8 @@ public class NotaFiscalController {
     @Autowired
     private NotaFiscalService notaFiscalService;
 
-    @PostMapping("/json")
-    public ResponseEntity<String> salvarNotaJson(@RequestBody NotaFiscalDTO dto) {
+    @PostMapping("/salvar")
+    public ResponseEntity<String> salvarNotaFiscal(@RequestBody NotaFiscalDTO dto) {
         notaFiscalService.salvarNotaFiscalEstruturada(dto);
         return ResponseEntity.ok("NF-e salva com sucesso!");
     }

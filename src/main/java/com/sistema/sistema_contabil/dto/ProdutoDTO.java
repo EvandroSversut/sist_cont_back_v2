@@ -10,8 +10,16 @@ public class ProdutoDTO {
     public double quantidade;
     public double valorUnitario;
     public double desconto;
-    public double aliquotaIcms;
-
+    private double valorTotal;
+    private double frete;
+    private double seguro;
+    private double outraDesp;
+    private double icms;
+    private double ipi;
+    private double pis;
+    private double cofins;
+    private double iss;
+    
     public String getCodigo() {
         return codigo;
     }
@@ -60,13 +68,62 @@ public class ProdutoDTO {
     public void setDesconto(double desconto) {
         this.desconto = desconto;
     }
-    public double getAliquotaIcms() {
-        return aliquotaIcms;
+    public double getValorTotal() {
+        return valorTotal;
     }
-    public void setAliquotaIcms(double aliquotaIcms) {
-        this.aliquotaIcms = aliquotaIcms;
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+    public double getFrete() {
+        return frete;
+    }
+    public void setFrete(double frete) {
+        this.frete = frete;
+    }
+    public double getSeguro() {
+        return seguro;
+    }
+    public void setSeguro(double seguro) {
+        this.seguro = seguro;
+    }
+    public double getOutraDesp() {
+        return outraDesp;
+    }
+    public void setOutraDesp(double outraDesp) {
+        this.outraDesp = outraDesp;
+    }
+    public double getIcms() {
+        return icms;
+    }
+    public void setIcms(double icms) {
+        this.icms = icms;
+    }
+    public double getIpi() {
+        return ipi;
+    }
+    public void setIpi(double ipi) {
+        this.ipi = ipi;
+    }
+    public double getPis() {
+        return pis;
+    }
+    public void setPis(double pis) {
+        this.pis = pis;
+    }
+    public double getCofins() {
+        return cofins;
+    }
+    public void setCofins(double cofins) {
+        this.cofins = cofins;
+    }
+    public double getIss() {
+        return iss;
+    }
+    public void setIss(double iss) {
+        this.iss = iss;
     }
 
+  
     
     
 }

@@ -131,10 +131,10 @@ public class PessoaJuridicaService {
         //entity.setId(dto.getId());
         entity.setCnpj(dto.getCnpj());
         entity.setRazaoSocial(dto.getRazaoSocial());
-        //entity.setNomeFantasia(dto.getNomeFantasia());
+        entity.setNomeFantasia(dto.getNomeFantasia());
         entity.setIe(dto.getInscEstadual());
         entity.setCnae(dto.getCnae());
-        //entity.setInscMunicipal(dto.getInscMunicipal());
+        entity.setInscMun(dto.getInscMunicipal());
         entity.setEmail(dto.getEmail());
         entity.setTelefone(dto.getTelefone());
         entity.setRua(dto.getRua());

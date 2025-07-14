@@ -14,6 +14,9 @@ public class NotaFiscal {
     @SequenceGenerator(name = "nota_seq", sequenceName = "nota_seq", allocationSize = 1)
     private Long id;
 
+    @Embedded
+    private GeraisNfe geraisNfe;
+
     @ManyToOne
     private PessoaJuridica emitente;
 
@@ -21,16 +24,13 @@ public class NotaFiscal {
     @ManyToOne
     private PessoaJuridica destinatario;
 
-    @Column(name = "numero_nf", nullable = false)
+    @Column(name = "numero_nf", nullable = true)
     private String numeroNf;
 
-    @Column(name = "serie_nf", nullable = false)
-    private String serieNf;
-
-    @Column(name = "tipo_operacao", nullable = false)
+    @Column(name = "tipo_operacao", nullable = true)
     private String tipoOperacao;
 
-    @Column(name = "valor_total", nullable = false)
+    @Column(name = "valor_total", nullable = true)
     private BigDecimal valorTotal;
 
     @Column(name = "valor_desconto")
@@ -45,7 +45,7 @@ public class NotaFiscal {
     @Column(name = "chave_nfe")
     private String chaveNfe;
 
-    @Column(name = "status_nfe", nullable = false)
+    @Column(name = "status_nfe", nullable = true)
     private String statusNfe;
 
     @Column(name = "xml_gerado", columnDefinition = "TEXT")
@@ -54,11 +54,8 @@ public class NotaFiscal {
     @Column(name = "protocolo_autorizacao")
     private String protocoloAutorizacao;
 
-    @Column(name = "data_cadastro", nullable = false)
+    @Column(name = "data_cadastro", nullable = true)
     private LocalDateTime dataCadastro;
-
-    @Column(name = "data_emissao", nullable = false)
-    private LocalDateTime dataEmissao;
 
     // 🚚 Dados de transporte
     @Embedded
@@ -102,14 +99,6 @@ public class NotaFiscal {
 
     public void setNumeroNf(String numeroNf) {
         this.numeroNf = numeroNf;
-    }
-
-    public String getSerieNf() {
-        return serieNf;
-    }
-
-    public void setSerieNf(String serieNf) {
-        this.serieNf = serieNf;
     }
 
     public String getTipoOperacao() {
@@ -191,14 +180,7 @@ public class NotaFiscal {
     public void setDataCadastro(LocalDateTime dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
-
-    public LocalDateTime getDataEmissao() {
-        return dataEmissao;
-    }
-
-    public void setDataEmissao(LocalDateTime dataEmissao) {
-        this.dataEmissao = dataEmissao;
-    }
+ 
 
     public Transporte getTransportadora() {
         return transportadora;
@@ -222,6 +204,14 @@ public class NotaFiscal {
 
     public void setItens(List<ItemNotaFiscal> itens) {
         this.itens = itens;
+    }
+
+    public GeraisNfe getGeraisNfe() {
+        return geraisNfe;
+    }
+
+    public void setGeraisNfe(GeraisNfe geraisNfe) {
+        this.geraisNfe = geraisNfe;
     }
    
         

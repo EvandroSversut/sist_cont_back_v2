@@ -28,6 +28,8 @@ public class Produtos {
     private String unidade;
 
     @Column(nullable = false)
+    private String ncm;
+
     private String descricao;
 
     public Long getId() {
@@ -46,6 +48,14 @@ public class Produtos {
         this.nomeProduto = nomeProduto;
     }
 
+    public String getNcm() {
+        return ncm;
+    }
+
+    public void setNcm(String ncm) {
+        this.ncm = ncm;
+    }
+
     public String getUnidade() {
         return unidade;
     }
@@ -61,8 +71,8 @@ public class Produtos {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
-	 
+
+   
     
    
 }

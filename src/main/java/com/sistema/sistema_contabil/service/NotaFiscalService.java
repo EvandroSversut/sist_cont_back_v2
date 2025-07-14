@@ -20,6 +20,12 @@ public class NotaFiscalService {
 
     public void salvarNotaFiscalEstruturada(NotaFiscalDTO dto) {
         System.out.println("✅ Service - Recebendo NF-e do front (DTO).");
+        System.out.println("📘 Dados Gerais: " + dto.gerais);
+        System.out.println("🧾 Emitente: " + dto.getEmitente());
+        System.out.println("📦 Produtos: " + dto.getProdutos());
+        System.out.println("👤 Destinatário: " + dto.getDestinatario());
+        System.out.println("🚚 Transporte: " + dto.getTransporte());
+        System.out.println("💵 Pagamento: " + dto.getPagamento());
         
             try {
         ObjectMapper mapper = new ObjectMapper();
@@ -29,6 +35,7 @@ public class NotaFiscalService {
         System.err.println("❌ Erro ao converter DTO para JSON: " + e.getMessage());
     }
 
+        
         // Buscar ou criar destinatário
         PessoaJuridica destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
                 .orElseGet(() -> {
@@ -55,7 +62,7 @@ public class NotaFiscalService {
             item.setQuantidade(p.quantidade);
             item.setValorUnitario(p.valorUnitario);
             item.setDesconto(p.desconto);
-            item.setAliquotaIcms(p.aliquotaIcms);
+            //item.setAliquotaIcms(p.aliquotaIcms);
             return item;
         }).collect(Collectors.toList());
 
@@ -85,6 +92,34 @@ public class NotaFiscalService {
         itens.forEach(i -> i.setNotaFiscal(nota));
         nota.setItens(itens);
 
+        GeraisNfe gerais = new GeraisNfe();
+       
+        gerais.setLayout(dto.gerais.layout);
+        gerais.setIdChaveAcesso(dto.gerais.idChaveAcesso);
+        gerais.setUfEmitente(dto.gerais.ufEmitente);
+        gerais.setCodNumericoNFe(dto.gerais.codNumericoNFe);
+        gerais.setNatOperacao(dto.gerais.natOperacao);
+        gerais.setCrt(dto.gerais.crt);
+        gerais.setSerie(dto.gerais.serie);
+        gerais.setNumeroNFe(dto.gerais.numeroNFe);
+        gerais.setDtHrEmissao(dto.gerais.dtHrEmissao);
+        gerais.setDtHrSaida(dto.gerais.dtHrSaida);
+        gerais.setTipo(dto.gerais.tipo);
+        gerais.setDestinoOpe(dto.gerais.destinoOpe);
+        gerais.setIbge(dto.gerais.ibge);
+        gerais.setFormatoDanfe(dto.gerais.formatoDanfe);
+        gerais.setTipoEmissao(dto.gerais.tipoEmissao);
+        gerais.setDigitoChave(dto.gerais.digitoChave);
+        gerais.setAmbiente(dto.gerais.ambiente);
+        gerais.setFinalidade(dto.gerais.finalidade);
+        gerais.setConsumidorFinal(dto.gerais.consumidorFinal);
+        gerais.setVendaPresencial(dto.gerais.vendaPresencial);
+        gerais.setProcessoVersaoEmissor(dto.gerais.processoVersaoEmissor);
+
+        nota.setGeraisNfe(gerais);
+
+
+        // Salvar nota fiscal no banco
         notaFiscalRepository.save(nota);
 
         System.out.println("📦 Nota fiscal salva com sucesso no banco.");
