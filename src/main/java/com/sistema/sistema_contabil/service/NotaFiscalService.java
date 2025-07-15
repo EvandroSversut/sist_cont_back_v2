@@ -17,12 +17,24 @@ import com.sistema.sistema_contabil.model.Transporte;
 import com.sistema.sistema_contabil.repository.NotaFiscalRepository;
 import com.sistema.sistema_contabil.repository.PessoaRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class NotaFiscalService {
 
-    @Autowired private NotaFiscalRepository notaFiscalRepository;
-    @Autowired private PessoaRepository pessoaRepository;
+    @Autowired 
+    private NotaFiscalRepository notaFiscalRepository;
 
+    @Autowired 
+    private PessoaRepository pessoaRepository;
+
+        /**
+     * Salva uma nota fiscal completa, estruturada com dados de emitente, destinatário,
+     * itens (produtos), transporte, pagamento e dados gerais da NF-e.
+     *
+     * @param dto Objeto NotaFiscalDTO contendo todos os dados da nota fiscal recebidos do front-end.
+     */
+    @Transactional
     public void salvarNotaFiscalEstruturada(NotaFiscalDTO dto) {
         System.out.println("✅ Service - Recebendo NF-e do front (DTO).");
         System.out.println("📘 Dados Gerais: " + dto.gerais);
@@ -32,29 +44,19 @@ public class NotaFiscalService {
         System.out.println("🚚 Transporte: " + dto.getTransporte());
         System.out.println("💵 Pagamento: " + dto.getPagamento());
         
-            try {
+        try {
         ObjectMapper mapper = new ObjectMapper();
         String jsonDTO = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto);
         System.out.println("🔍 Dados recebidos do front-end (DTO):\n" + jsonDTO);
-    } catch (Exception e) {
-        System.err.println("❌ Erro ao converter DTO para JSON: " + e.getMessage());
-    }
+    
 
-        
-        // Buscar ou criar destinatário
-        PessoaJuridica destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
-                .orElseGet(() -> {
-                    PessoaJuridica nova = new PessoaJuridica();
-                    nova.setTipo("DESTINATARIO");
-                    nova.setCnpj(dto.destinatario.cnpj);
-                    nova.setRazaoSocial(dto.destinatario.razaoSocial);
-                    nova.setIe(dto.destinatario.ie);
-                    nova.setUf(dto.destinatario.uf);
-                    nova.setEmail("email");
-                    nova.setCep("78787"); // ✅ CORRETO
-                    nova.setCidade(""); // ✅ CORRETO
-                    return pessoaRepository.save(nova);
-                });
+    
+    PessoaJuridica emitente = pessoaRepository.findByCnpj(dto.emitente.cnpj)
+    .orElseThrow(() -> new RuntimeException("Emitente não encontrado com CNPJ: " + dto.emitente.cnpj));
+
+    PessoaJuridica destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
+    .orElseThrow(() -> new RuntimeException("Destinatário não encontrado com CNPJ: " + dto.destinatario.cnpj));
+
 
         // Montar lista de itens
         List<ItemNotaFiscal> itens = dto.produtos.stream().map(p -> {
@@ -88,6 +90,7 @@ public class NotaFiscalService {
 
         // Criar nota fiscal
         NotaFiscal nota = new NotaFiscal();
+        nota.setEmitente(emitente);
         nota.setDestinatario(destinatario);
         nota.setPagamento(pagamento);
         nota.setTransportadora(transporte);
@@ -128,5 +131,16 @@ public class NotaFiscalService {
         notaFiscalRepository.save(nota);
 
         System.out.println("📦 Nota fiscal salva com sucesso no banco.");
+         // 📃 Log para depuração (opcional)
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonDebug = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto);
+            System.out.println("NF-e salva:");
+            System.out.println(jsonDebug);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao salvar nota fiscal: " + e.getMessage());
+        
+    }
     }
 }
