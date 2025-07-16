@@ -17,11 +17,15 @@ public class NotaFiscal {
     @Embedded
     private GeraisNfe geraisNfe;
 
-    // 🔗 Relacionamento com emitente
+    // 🔗 Relacionamento com emitente. Muitas nfe para um emitente
+    // Cada nota fiscal esta associada a um unica PessoaJuridica (Emitente ou Destinatario)
+    // Essa associação é feita via chave estrangeira (foreign key) no banco, que aponta para o id da PessoaJuridica.
     @ManyToOne
     private PessoaJuridica emitente;
 
-    // 🔗 Relacionamento com destinatário
+    // 🔗 Relacionamento com destinatário. Muitas nfe para um destinatario
+    // Cada nota fiscal esta associada a um unica PessoaJuridica (Emitente ou Destinatario)
+    // Essa associação é feita via chave estrangeira (foreign key) no banco, que aponta para o id da PessoaJuridica.
     @ManyToOne
     private PessoaJuridica destinatario;
 

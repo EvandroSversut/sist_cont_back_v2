@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sistema.sistema_contabil.controller.AcessoController;
 import com.sistema.sistema_contabil.dto.NotaFiscalDTO;
 import com.sistema.sistema_contabil.model.GeraisNfe;
 import com.sistema.sistema_contabil.model.ItemNotaFiscal;
@@ -14,6 +15,7 @@ import com.sistema.sistema_contabil.model.NotaFiscal;
 import com.sistema.sistema_contabil.model.Pagamento;
 import com.sistema.sistema_contabil.model.PessoaJuridica;
 import com.sistema.sistema_contabil.model.Transporte;
+import com.sistema.sistema_contabil.repository.AcessoRepository;
 import com.sistema.sistema_contabil.repository.NotaFiscalRepository;
 import com.sistema.sistema_contabil.repository.PessoaRepository;
 
@@ -22,12 +24,23 @@ import jakarta.transaction.Transactional;
 @Service
 public class NotaFiscalService {
 
+    private final AcessoRepository acessoRepository;
+
+    private final AcessoController acessoController;
+
     @Autowired 
     private NotaFiscalRepository notaFiscalRepository;
 
     @Autowired 
     private PessoaRepository pessoaRepository;
 
+
+    NotaFiscalService(AcessoController acessoController, AcessoRepository acessoRepository) {
+        this.acessoController = acessoController;
+        this.acessoRepository = acessoRepository;
+    }
+
+    
         /**
      * Salva uma nota fiscal completa, estruturada com dados de emitente, destinatário,
      * itens (produtos), transporte, pagamento e dados gerais da NF-e.
@@ -50,28 +63,16 @@ public class NotaFiscalService {
         System.out.println("🔍 Dados recebidos do front-end (DTO):\n" + jsonDTO);
     
 
-    
-    PessoaJuridica emitente = pessoaRepository.findByCnpj(dto.emitente.cnpj)
-    .orElseThrow(() -> new RuntimeException("Emitente não encontrado com CNPJ: " + dto.emitente.cnpj));
+        // 🔎 Busca o emitente pelo CNPJ informado no DTO. Se não existir, lança exceção.
+        PessoaJuridica emitente = pessoaRepository.findByCnpj(dto.emitente.cnpj)
+        .orElseThrow(() -> new RuntimeException("Emitente não encontrado com CNPJ: " + dto.emitente.cnpj));
 
-    PessoaJuridica destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
-    .orElseThrow(() -> new RuntimeException("Destinatário não encontrado com CNPJ: " + dto.destinatario.cnpj));
+        // 🔎 Busca o destinatário pelo CNPJ informado no DTO. Se não existir, lança exceção.
+        PessoaJuridica destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
+        .orElseThrow(() -> new RuntimeException("Destinatário não encontrado com CNPJ: " + dto.destinatario.cnpj));
 
 
-        // Montar lista de itens
-        List<ItemNotaFiscal> itens = dto.produtos.stream().map(p -> {
-            ItemNotaFiscal item = new ItemNotaFiscal();
-            item.setCodigo(p.codigo);
-            item.setDescricao(p.descricao);
-            item.setNcm(p.ncm);
-            item.setCfop(p.cfop);
-            item.setUnidade(p.unidade);
-            item.setQuantidade(p.quantidade);
-            item.setValorUnitario(p.valorUnitario);
-            item.setDesconto(p.desconto);
-            //item.setAliquotaIcms(p.aliquotaIcms);
-            return item;
-        }).collect(Collectors.toList());
+
 
         // Dados de pagamento
         Pagamento pagamento = new Pagamento();
@@ -90,16 +91,19 @@ public class NotaFiscalService {
 
         // Criar nota fiscal
         NotaFiscal nota = new NotaFiscal();
+        /* Explicaçao: exemplo Emitente: como na entity NotaFiscal está anotado como ManyToOne
+         * o objeto PessoaJuridica passado no setEmitente() já tem um id preenchido
+         * e o JPA entende que se o objeto tem ID, ele já existe no banco, entao nao deve
+         * ser recriado, so referenciado
+         * ✔️ Ou seja, ele não copia os dados do emitente e destinatário para a nota, 
+         * apenas vincula os IDs já existentes
+          */
         nota.setEmitente(emitente);
         nota.setDestinatario(destinatario);
-        nota.setPagamento(pagamento);
         nota.setTransportadora(transporte);
-        //nota.setXml("Será gerado no backend depois");
-
-        // Relacionar nota com itens
-        itens.forEach(i -> i.setNotaFiscal(nota));
-        nota.setItens(itens);
-
+        nota.setPagamento(pagamento);
+        
+      
         GeraisNfe gerais = new GeraisNfe();
        
         gerais.setLayout(dto.gerais.layout);
@@ -126,13 +130,42 @@ public class NotaFiscalService {
 
         nota.setGeraisNfe(gerais);
 
+                // Montar lista de itens
+        // 📆 Converte a lista de ProdutoDTO em lista de ItemNotaFiscal vinculando com a nota.
+        List<ItemNotaFiscal> itens = dto.produtos.stream().map(p -> {
+            ItemNotaFiscal item = new ItemNotaFiscal();
+            item.setCodigo(p.getCodigo());
+            item.setDescricao(p.getDescricao());
+            item.setNcm(p.getNcm());
+            item.setUnidade(p.getUnidade());
+            item.setCfop(p.getCfop());
+            item.setQuantidade(p.getQuantidade());
+            item.setValorUnitario(p.getValorUnitario());
+            item.setDesconto(p.getDesconto());
+            item.setFrete(p.getFrete());
+            item.setSeguro(p.getSeguro());
+            item.setOutraDesp(p.getOutraDesp());
+            item.setValorTotal(p.getValorTotal());
+            item.setIcms(p.getIcms());
+            item.setIpi(p.getIpi());
+            item.setPis(p.getPis());
+            item.setCofins(p.getCofins());
+            item.setIss(p.getIss());
+            //item.setAliquotaIcms(p.aliquotaIcms);
+            return item;
+        }).collect(Collectors.toList());
 
-        // Salvar nota fiscal no banco
-        notaFiscalRepository.save(nota);
+          // Relacionar nota com itens
+            itens.forEach(i -> i.setNotaFiscal(nota));
+            nota.setItens(itens);
 
-        System.out.println("📦 Nota fiscal salva com sucesso no banco.");
-         // 📃 Log para depuração (opcional)
-            ObjectMapper mapper = new ObjectMapper();
+
+            // Salvar nota fiscal no banco
+            notaFiscalRepository.save(nota);
+
+            System.out.println("📦 Nota fiscal salva com sucesso no banco.");
+            // 📃 Log para depuração (opcional)
+            
             String jsonDebug = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto);
             System.out.println("NF-e salva:");
             System.out.println(jsonDebug);

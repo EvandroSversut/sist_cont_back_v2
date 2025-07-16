@@ -20,7 +20,7 @@ public class GeraisNfe {
     private String formatoDanfe;
     private String tipoEmissao;
     private String digitoChave;
-    private String ambiente;
+    private String ambiente; 
     private String finalidade;
     private String consumidorFinal;
     private String vendaPresencial;

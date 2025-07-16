@@ -2,14 +2,14 @@ package com.sistema.sistema_contabil.dto;
 
 public class ProdutoDTO {
     
-    public String codigo;
-    public String descricao;
-    public String ncm;
-    public String cfop;
-    public String unidade;
-    public double quantidade;
-    public double valorUnitario;
-    public double desconto;
+    private String codigo;
+    private String descricao;
+    private String ncm;
+    private String cfop;
+    private String unidade;
+    private double quantidade;
+    private double valorUnitario;
+    private double desconto;
     private double valorTotal;
     private double frete;
     private double seguro;
@@ -122,8 +122,6 @@ public class ProdutoDTO {
     public void setIss(double iss) {
         this.iss = iss;
     }
-
   
-    
-    
+        
 }
