@@ -22,4 +22,9 @@ public class GeraisDTO {
     public String consumidorFinal;
     public String vendaPresencial;
     public String processoVersaoEmissor;
+    public String baseCalculo;
+    public String vrIcms;
+    public String vrTotalProd;
+    public String vrTotalNfe;
+
 }

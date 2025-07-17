@@ -1,5 +1,8 @@
 package com.sistema.sistema_contabil.model;
 
+import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
@@ -25,6 +28,10 @@ public class GeraisNfe {
     private String consumidorFinal;
     private String vendaPresencial;
     private String processoVersaoEmissor;
+    private String vrIcms;
+    private String vrTotalProd;
+    private String vrTotalNfe;
+
 
     public String getLayout() {
         return layout;
@@ -152,7 +159,26 @@ public class GeraisNfe {
     public void setProcessoVersaoEmissor(String processoVersaoEmissor) {
         this.processoVersaoEmissor = processoVersaoEmissor;
     }
+   
+    public String getVrIcms() {
+        return vrIcms;
+    }
+    public void setVrIcms(String vrIcms) {
+        this.vrIcms = vrIcms;
+    }
+    public String getVrTotalProd() {
+        return vrTotalProd;
+    }
+    public void setVrTotalProd(String vrTotalProd) {
+        this.vrTotalProd = vrTotalProd;
+    }
+    public String getVrTotalNfe() {
+        return vrTotalNfe;
+    }
+    public void setVrTotalNfe(String vrTotalNfe) {
+        this.vrTotalNfe = vrTotalNfe;
+    }
 
-    // Getters e Setters
+    
     
 }

@@ -71,9 +71,6 @@ public class NotaFiscalService {
         PessoaJuridica destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
         .orElseThrow(() -> new RuntimeException("Destinatário não encontrado com CNPJ: " + dto.destinatario.cnpj));
 
-
-
-
         // Dados de pagamento
         Pagamento pagamento = new Pagamento();
         pagamento.setFormaPagamento(dto.pagamento.formaPagamento);
@@ -127,6 +124,10 @@ public class NotaFiscalService {
         gerais.setConsumidorFinal(dto.gerais.consumidorFinal);
         gerais.setVendaPresencial(dto.gerais.vendaPresencial);
         gerais.setProcessoVersaoEmissor(dto.gerais.processoVersaoEmissor);
+        //gerais.setBaseCalculo(dto.gerais.baseCalculo);
+        gerais.setVrIcms(dto.gerais.vrIcms);
+        gerais.setVrTotalProd(dto.gerais.vrTotalProd);
+        gerais.setVrTotalNfe(dto.gerais.vrTotalNfe);
 
         nota.setGeraisNfe(gerais);
 

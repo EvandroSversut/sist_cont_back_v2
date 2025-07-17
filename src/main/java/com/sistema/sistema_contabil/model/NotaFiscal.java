@@ -41,6 +41,18 @@ public class NotaFiscal {
     @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemNotaFiscal> itens;
 
+    private BigDecimal baseCalculo;
+
+    @Column(name = "valor_icms")
+    private BigDecimal vrIcms;
+
+    @Column(name = "valor_total_prod")
+    private BigDecimal vrTotalProd;
+
+    @Column(name = "valor_total_nfe")
+    private BigDecimal vrTotalNfe;
+
+
     public Long getId() {
         return id;
     }
@@ -97,41 +109,38 @@ public class NotaFiscal {
         this.itens = itens;
     }
 
-  /* 
-    @Column(name = "numero_nf", nullable = true)
-    private String numeroNf;
+    public BigDecimal getBaseCalculo() {
+        return baseCalculo;
+    }
 
-    @Column(name = "tipo_operacao", nullable = true)
-    private String tipoOperacao;
+    public void setBaseCalculo(BigDecimal baseCalculo) {
+        this.baseCalculo = baseCalculo;
+    }
 
-    @Column(name = "valor_total", nullable = true)
-    private BigDecimal valorTotal;
+    public BigDecimal getVrIcms() {
+        return vrIcms;
+    }
 
-    @Column(name = "valor_desconto")
-    private BigDecimal valorDesconto;
+    public void setVrIcms(BigDecimal vrIcms) {
+        this.vrIcms = vrIcms;
+    }
 
-    @Column(name = "valor_icms")
-    private BigDecimal valorIcms;
+    public BigDecimal getVrTotalProd() {
+        return vrTotalProd;
+    }
 
-    @Column(name = "valor_frete")
-    private BigDecimal valorFrete;
+    public void setVrTotalProd(BigDecimal vrTotalProd) {
+        this.vrTotalProd = vrTotalProd;
+    }
 
-    @Column(name = "chave_nfe")
-    private String chaveNfe;
+    public BigDecimal getVrTotalNfe() {
+        return vrTotalNfe;
+    }
 
-    @Column(name = "status_nfe", nullable = true)
-    private String statusNfe;
+    public void setVrTotalNfe(BigDecimal vrTotalNfe) {
+        this.vrTotalNfe = vrTotalNfe;
+    }
 
-    @Column(name = "xml_gerado", columnDefinition = "TEXT")
-    private String xmlGerado;
-
-    @Column(name = "protocolo_autorizacao")
-    private String protocoloAutorizacao;
-
-    @Column(name = "data_cadastro", nullable = true)
-    private LocalDateTime dataCadastro;
- */
-
-   
+     
         
 }
