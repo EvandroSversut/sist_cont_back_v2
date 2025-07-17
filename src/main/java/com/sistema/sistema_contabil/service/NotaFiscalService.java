@@ -50,7 +50,7 @@ public class NotaFiscalService {
     @Transactional
     public void salvarNotaFiscalEstruturada(NotaFiscalDTO dto) {
         System.out.println("✅ Service - Recebendo NF-e do front (DTO).");
-        System.out.println("📘 Dados Gerais: " + dto.gerais);
+        System.out.println("📘 Dados Gerais: " + dto.gerais.codNumericoNFe);
         System.out.println("🧾 Emitente: " + dto.getEmitente());
         System.out.println("📦 Produtos: " + dto.getProdutos());
         System.out.println("👤 Destinatário: " + dto.getDestinatario());
