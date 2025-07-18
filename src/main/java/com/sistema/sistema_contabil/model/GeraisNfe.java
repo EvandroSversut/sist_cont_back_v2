@@ -1,11 +1,9 @@
 package com.sistema.sistema_contabil.model;
 
-import java.math.BigDecimal;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
-@Embeddable
+@Embeddable // cria no banco essas colunas em uma tabela que a incorporar
+            // exemplo: no banco tem uma entity com o nome "NotaFiscal @Embedded", entao na tabela notafiscal vai incluir estes campos aqui.
 public class GeraisNfe {
     private String layout;
     private String idChaveAcesso;
@@ -28,11 +26,11 @@ public class GeraisNfe {
     private String consumidorFinal;
     private String vendaPresencial;
     private String processoVersaoEmissor;
+    private String baseCalculo;
     private String vrIcms;
     private String vrTotalProd;
     private String vrTotalNfe;
-
-
+    
     public String getLayout() {
         return layout;
     }
@@ -159,7 +157,12 @@ public class GeraisNfe {
     public void setProcessoVersaoEmissor(String processoVersaoEmissor) {
         this.processoVersaoEmissor = processoVersaoEmissor;
     }
-   
+    public String getBaseCalculo() {
+        return baseCalculo;
+    }
+    public void setBaseCalculo(String baseCalculo) {
+        this.baseCalculo = baseCalculo;
+    }
     public String getVrIcms() {
         return vrIcms;
     }
@@ -179,6 +182,6 @@ public class GeraisNfe {
         this.vrTotalNfe = vrTotalNfe;
     }
 
-    
+   
     
 }

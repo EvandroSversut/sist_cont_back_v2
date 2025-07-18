@@ -1,10 +1,16 @@
 package com.sistema.sistema_contabil.model;
 
-import jakarta.persistence.*;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class NotaFiscal {
@@ -40,18 +46,6 @@ public class NotaFiscal {
     // 🔗 Itens da nota
     @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemNotaFiscal> itens;
-
-    private BigDecimal baseCalculo;
-
-    @Column(name = "valor_icms")
-    private BigDecimal vrIcms;
-
-    @Column(name = "valor_total_prod")
-    private BigDecimal vrTotalProd;
-
-    @Column(name = "valor_total_nfe")
-    private BigDecimal vrTotalNfe;
-
 
     public Long getId() {
         return id;
@@ -108,39 +102,6 @@ public class NotaFiscal {
     public void setItens(List<ItemNotaFiscal> itens) {
         this.itens = itens;
     }
-
-    public BigDecimal getBaseCalculo() {
-        return baseCalculo;
-    }
-
-    public void setBaseCalculo(BigDecimal baseCalculo) {
-        this.baseCalculo = baseCalculo;
-    }
-
-    public BigDecimal getVrIcms() {
-        return vrIcms;
-    }
-
-    public void setVrIcms(BigDecimal vrIcms) {
-        this.vrIcms = vrIcms;
-    }
-
-    public BigDecimal getVrTotalProd() {
-        return vrTotalProd;
-    }
-
-    public void setVrTotalProd(BigDecimal vrTotalProd) {
-        this.vrTotalProd = vrTotalProd;
-    }
-
-    public BigDecimal getVrTotalNfe() {
-        return vrTotalNfe;
-    }
-
-    public void setVrTotalNfe(BigDecimal vrTotalNfe) {
-        this.vrTotalNfe = vrTotalNfe;
-    }
-
-     
-        
+   
+            
 }

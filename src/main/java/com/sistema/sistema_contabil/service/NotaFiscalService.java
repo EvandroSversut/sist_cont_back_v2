@@ -50,7 +50,7 @@ public class NotaFiscalService {
     @Transactional
     public void salvarNotaFiscalEstruturada(NotaFiscalDTO dto) {
         System.out.println("✅ Service - Recebendo NF-e do front (DTO).");
-        System.out.println("📘 Dados Gerais: " + dto.gerais.codNumericoNFe);
+        System.out.println("📘 Dados Gerais: " + dto.gerais);
         System.out.println("🧾 Emitente: " + dto.getEmitente());
         System.out.println("📦 Produtos: " + dto.getProdutos());
         System.out.println("👤 Destinatário: " + dto.getDestinatario());
@@ -86,21 +86,6 @@ public class NotaFiscalService {
         transporte.setUfPlaca(dto.transporte.ufPlaca);
         //transporte.setValorFrete(dto.transporte.valor_frete);
 
-        // Criar nota fiscal
-        NotaFiscal nota = new NotaFiscal();
-        /* Explicaçao: exemplo Emitente: como na entity NotaFiscal está anotado como ManyToOne
-         * o objeto PessoaJuridica passado no setEmitente() já tem um id preenchido
-         * e o JPA entende que se o objeto tem ID, ele já existe no banco, entao nao deve
-         * ser recriado, so referenciado
-         * ✔️ Ou seja, ele não copia os dados do emitente e destinatário para a nota, 
-         * apenas vincula os IDs já existentes
-          */
-        nota.setEmitente(emitente);
-        nota.setDestinatario(destinatario);
-        nota.setTransportadora(transporte);
-        nota.setPagamento(pagamento);
-        
-      
         GeraisNfe gerais = new GeraisNfe();
        
         gerais.setLayout(dto.gerais.layout);
@@ -124,13 +109,28 @@ public class NotaFiscalService {
         gerais.setConsumidorFinal(dto.gerais.consumidorFinal);
         gerais.setVendaPresencial(dto.gerais.vendaPresencial);
         gerais.setProcessoVersaoEmissor(dto.gerais.processoVersaoEmissor);
-        //gerais.setBaseCalculo(dto.gerais.baseCalculo);
+        gerais.setVendaPresencial(dto.gerais.vendaPresencial);
+        gerais.setBaseCalculo(dto.gerais.baseCalculo);
         gerais.setVrIcms(dto.gerais.vrIcms);
         gerais.setVrTotalProd(dto.gerais.vrTotalProd);
         gerais.setVrTotalNfe(dto.gerais.vrTotalNfe);
 
+     
+         // Criar nota fiscal
+        NotaFiscal nota = new NotaFiscal();
+        /* Explicaçao: exemplo Emitente: como na entity NotaFiscal está anotado como ManyToOne
+         * o objeto PessoaJuridica passado no setEmitente() já tem um id preenchido
+         * e o JPA entende que se o objeto tem ID, ele já existe no banco, entao nao deve
+         * ser recriado, so referenciado
+         * ✔️ Ou seja, ele não copia os dados do emitente e destinatário para a nota, 
+         * apenas vincula os IDs já existentes
+          */
         nota.setGeraisNfe(gerais);
-
+        nota.setEmitente(emitente);
+        nota.setDestinatario(destinatario);
+        nota.setTransportadora(transporte);
+        nota.setPagamento(pagamento);
+       
                 // Montar lista de itens
         // 📆 Converte a lista de ProdutoDTO em lista de ItemNotaFiscal vinculando com a nota.
         List<ItemNotaFiscal> itens = dto.produtos.stream().map(p -> {
