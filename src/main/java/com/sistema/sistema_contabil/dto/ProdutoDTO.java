@@ -10,7 +10,7 @@ public class ProdutoDTO {
     private double quantidade;
     private double valorUnitario;
     private double desconto;
-    private double valorTotal;
+    private double vrTotalProd;
     private double frete;
     private double seguro;
     private double outraDesp;
@@ -68,12 +68,14 @@ public class ProdutoDTO {
     public void setDesconto(double desconto) {
         this.desconto = desconto;
     }
-    public double getValorTotal() {
-        return valorTotal;
+     public double getVrTotalProd() {
+        return vrTotalProd;
     }
-    public void setValorTotal(double valorTotal) {
-        this.valorTotal = valorTotal;
+    
+    public void setVrTotalProd(double vrTotalProd) {
+        this.vrTotalProd = vrTotalProd;
     }
+    
     public double getFrete() {
         return frete;
     }
@@ -122,6 +124,7 @@ public class ProdutoDTO {
     public void setIss(double iss) {
         this.iss = iss;
     }
+   
   
         
 }

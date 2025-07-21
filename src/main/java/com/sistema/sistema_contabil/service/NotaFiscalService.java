@@ -146,7 +146,7 @@ public class NotaFiscalService {
             item.setFrete(p.getFrete());
             item.setSeguro(p.getSeguro());
             item.setOutraDesp(p.getOutraDesp());
-            item.setValorTotal(p.getValorTotal());
+            item.setVrTotalProd(p.getVrTotalProd());
             item.setIcms(p.getIcms());
             item.setIpi(p.getIpi());
             item.setPis(p.getPis());

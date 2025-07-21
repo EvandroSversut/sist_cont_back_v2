@@ -17,7 +17,7 @@ public class ItemNotaFiscal {
     private String unidade;
     private double quantidade;
     private double valorUnitario;
-    private double valorTotal;
+    private double vrTotalProd;
     private double desconto;
     private double frete;
     private double seguro;
@@ -96,15 +96,16 @@ public class ItemNotaFiscal {
         this.valorUnitario = valorUnitario;
     }
 
-    public double getValorTotal() {
-        return valorTotal;
+        public double getVrTotalProd() {
+        return vrTotalProd;
     }
 
-    public void setValorTotal(double valorTotal) {
-        this.valorTotal = valorTotal;
+    public void setVrTotalProd(double vrTotalProd) {
+        this.vrTotalProd = vrTotalProd;
     }
 
-    public double getDesconto() {
+
+     public double getDesconto() {
         return desconto;
     }
 
@@ -188,18 +189,19 @@ public class ItemNotaFiscal {
     public String toString() {
         return "ItemNotaFiscal [id=" + id + ", descricao=" + descricao + ", ncm=" + ncm + ", cfop=" + cfop
                 + ", unidade=" + unidade + ", quantidade=" + quantidade + ", valorUnitario=" + valorUnitario
-                + ", valorTotal=" + valorTotal + ", desconto=" + desconto + ", frete=" + frete + ", seguro=" + seguro
+                + ", vrTotalProd=" + vrTotalProd + ", desconto=" + desconto + ", frete=" + frete + ", seguro=" + seguro
                 + ", outraDesp=" + outraDesp + ", icms=" + icms + ", ipi=" + ipi + ", pis=" + pis + ", cofins=" + cofins
                 + ", iss=" + iss + ", notaFiscal=" + notaFiscal + ", getId()=" + getId() + ", getDescricao()="
                 + getDescricao() + ", getNcm()=" + getNcm() + ", getCfop()=" + getCfop() + ", getUnidade()="
                 + getUnidade() + ", getClass()=" + getClass() + ", getQuantidade()=" + getQuantidade()
-                + ", getValorUnitario()=" + getValorUnitario() + ", getValorTotal()=" + getValorTotal()
+                + ", getValorUnitario()=" + getValorUnitario() + ", getVrTotalProd()=" + getVrTotalProd()
                 + ", getDesconto()=" + getDesconto() + ", getFrete()=" + getFrete() + ", getSeguro()=" + getSeguro()
                 + ", getOutraDesp()=" + getOutraDesp() + ", getIcms()=" + getIcms() + ", getIpi()=" + getIpi()
                 + ", getPis()=" + getPis() + ", getCofins()=" + getCofins() + ", hashCode()=" + hashCode()
                 + ", getIss()=" + getIss() + ", getNotaFiscal()=" + getNotaFiscal() + ", toString()=" + super.toString()
                 + "]";
     }
+
 
    
     
