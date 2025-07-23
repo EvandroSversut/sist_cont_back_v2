@@ -1,5 +1,8 @@
 package com.sistema.sistema_contabil.dto;
 
+import lombok.Data;
+
+@Data
 public class GeraisDTO {
     public String layout;
     public String idChaveAcesso;

@@ -1,117 +1,65 @@
 package com.sistema.sistema_contabil.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sistema.sistema_contabil.annotation.CEP;
+import com.sistema.sistema_contabil.annotation.Telefone;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PessoaUsuarioDTO {
-    
+
     private Long idPessoaFisica;
     private Long idUsuario;
-    public String nome;
-    public String cpf;
-    public String rg;
-    public String telefone;
-    public String rua;
-    public String numero;
-    public String complemento;
-    public String bairro;
-    public String cep;
-    public String cidade;
-    public String uf;
-    public String email;
-    public String senha;
-    
-    
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    public String getCpf() {
-        return cpf;
-    }
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-    public String getRg() {
-        return rg;
-    }
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-    public String getTelefone() {
-        return telefone;
-    }
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-    public String getRua() {
-        return rua;
-    }
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-    public String getNumero() {
-        return numero;
-    }
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-    public String getComplemento() {
-        return complemento;
-    }
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-    public String getBairro() {
-        return bairro;
-    }
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-    public String getCep() {
-        return cep;
-    }
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-    public String getCidade() {
-        return cidade;
-    }
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-    public String getUf() {
-        return uf;
-    }
-    public void setUf(String uf) {
-        this.uf = uf;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public Long getIdPessoaFisica() {
-        return idPessoaFisica;
-    }
-    public void setIdPessoaFisica(Long idPessoaFisica) {
-        this.idPessoaFisica = idPessoaFisica;
-    }
-    public Long getIdUsuario() {
-        return idUsuario;
-    }
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-    public String getSenha() {
-        return senha;
-    }
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-     
- // 🔥 Método para imprimir organizado
+
+    @NotBlank(message = "Nome é obrigatório")
+    @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
+    private String nome;
+
+    @Email(message = "Email deve ser válido")
+    @NotBlank(message = "Email é obrigatório")
+    private String email;
+
+    @Telefone
+    private String telefone;
+
+    // Campos de endereço
+    private String rua;
+    private String numero;
+    private String complemento;
+    private String bairro;
+
+    @CEP
+    private String cep;
+
+    private String cidade;
+
+    @Size(max = 2, message = "UF deve ter 2 caracteres")
+    private String uf;
+
+    // Documentos
+    @NotBlank(message = "CPF é obrigatório")
+    @CPF
+    private String cpf;
+
+    private String rg;
+
+    // Campos de usuário
+    @JsonIgnore // Não retornar senha em responses
+    @Size(min = 8, message = "Senha deve ter pelo menos 8 caracteres")
+    private String senha;
+
+    // 🔥 Método para imprimir organizado
     public String imprimirBonito() {
         return "\n************* PESSOA FISICA E USUARIO *************" +
                 "\nID PessFisica: " + idPessoaFisica +
@@ -119,13 +67,13 @@ public class PessoaUsuarioDTO {
                 "\nNome: " + nome +
                 "\nRG: " + rg +
                 "\nCPF: " + cpf +
-               "\nTelefone: " + telefone +
+                "\nTelefone: " + telefone +
                 "\nEmail: " + email +
                 "\nEndereço: " + rua + ", " + numero + " - " + bairro +
                 (complemento != null && !complemento.isEmpty() ? " (" + complemento + ")" : "") +
                 "\nCidade: " + cidade + " - " + uf + " | CEP: " + cep +
-               "\n*******************************************\n";
+                "\n*******************************************\n";
     }
 
-    
+
 }
