@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.sistema.sistema_contabil.generics.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sistema.sistema_contabil.model.Acesso;
@@ -15,36 +17,21 @@ import com.sistema.sistema_contabil.repository.UsuarioRepository;
 
 import jakarta.transaction.Transactional;
 
-// A camada de serviço é onde colocamos a regra de negócio. 
 
-// Não acessamos o banco diretamente no controller — usamos os serviços para isso.
+@Service
+public class UsuarioService extends BaseServiceImpl<Usuario, Long, UsuarioRepository> {
 
-/*
-🧠 O que essa classe vai fazer:
-Criar um novo usuário vinculado à pessoa física
-
-Associar um ou mais acessos
-
-Verificar se o usuário está ativo
-
-Buscar usuário por email
-
-Buscar todos os usuários ativos
- */
-
- @Service
-public class UsuarioService {
+    private final AcessoRepository acessoRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private PasswordEncoder passwordEncoder;
 
-   
+    protected UsuarioService(UsuarioRepository repository, AcessoRepository acessoRepository) {
+        super(repository);
+        this.acessoRepository = acessoRepository;
+    }
 
-    @Autowired
-    private AcessoRepository acessoRepository;
-
-    public Usuario cadastrarUsuario(Usuario usuario) {
-       
+    public Usuario save(Usuario usuario) {
 
         System.out.println("********Usuario Service: Salva o acesso padrão (ROLE_USER)");
 
@@ -60,14 +47,14 @@ public class UsuarioService {
             Acesso acessoUser = acessoRepository.findByDescricao("ROLE_USER")
                     // Se não encontrar, lança uma exceção
                     .orElseThrow(() -> new RuntimeException("Acesso ROLE_USER não encontrado"));
-                    System.err.println("❌ Acesso ROLE_USER não encontrado no banco!");
+            System.err.println("❌ Acesso ROLE_USER não encontrado no banco!");
             // Define a lista de acessos do usuário com apenas o acesso "ROLE_USER"
-            
+
             usuario.setAcessos(List.of(acessoUser));
             System.out.println("✅ Acesso ROLE_USER encontrado: " + acessoUser.getDescricao());
             System.out.println("🔐 Acesso ROLE_USER atribuído ao usuário: " + usuario.getEmail());
         } else {
-             System.out.println("✅ Usuário já possui acessos: " + usuario.getAcessos());
+            System.out.println("✅ Usuário já possui acessos: " + usuario.getAcessos());
         }
 
         usuario.setDataCriacao(LocalDateTime.now());
@@ -83,118 +70,63 @@ public class UsuarioService {
         System.out.println("Ativo: " + usuario.isAtivo());
         System.out.println("Data Criação: " + usuario.getDataCriacao());
 
-        return usuarioRepository.save(usuario);
+        return repository.save(usuario);
     }
 
 
-    
     public List<Usuario> listarUsuariosAtivos() {
-    return usuarioRepository.findAll()
-            .stream()
-            .filter(Usuario::isAtivo)
-            .collect(Collectors.toList());
+        return repository.findAll()
+                .stream()
+                .filter(Usuario::isAtivo)
+                .collect(Collectors.toList());
 
         // Você pode trocar esse filtro por uma consulta direta ao banco, se preferir mais performance:
-            //  @Query("SELECT u FROM Usuario u WHERE u.ativo = true")
-            //  List<Usuario> findUsuariosAtivos();
-            
-        }
+        //  @Query("SELECT u FROM Usuario u WHERE u.ativo = true")
+        //  List<Usuario> findUsuariosAtivos();
+
+    }
 
     @Transactional
     public void desativarUsuario(Long id) {
-    Usuario usuario = usuarioRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Usuario usuario = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-    usuario.setAtivo(false);
-    usuarioRepository.save(usuario);
-}
+        usuario.setAtivo(false);
+        repository.save(usuario);
+    }
 
     public Optional<Usuario> buscarPorEmail(String email) {
-        return usuarioRepository.findByEmail(email);
-    }
-}
-
-
-
-
-
-
-
-/*
-
-@Service
-public class UsuarioService {
-
-    private final UsuarioRepository usuarioRepository;
-    private final PessoaFisicaRepository pessoaFisicaRepository;
-    private final AcessoRepository acessoRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    public UsuarioService(
-        UsuarioRepository usuarioRepository,
-        PessoaFisicaRepository pessoaFisicaRepository,
-        AcessoRepository acessoRepository,
-        BCryptPasswordEncoder passwordEncoder
-    ) {
-        this.usuarioRepository = usuarioRepository;
-        this.pessoaFisicaRepository = pessoaFisicaRepository;
-        this.acessoRepository = acessoRepository;
-        this.passwordEncoder = passwordEncoder;
+        return repository.findByEmail(email);
     }
 
-    public Usuario criarUsuario(String email, String senha, String cpf, List<String> acessosDescricao) {
-        PessoaFisica pessoa = pessoaFisicaRepository.findByCpf(cpf)
-            .orElseThrow(() -> new RuntimeException("Pessoa física não encontrada com o CPF informado"));
+    /**
+     * Atualiza a senha de um usuário de forma segura, garantindo a criptografia.
+     *
+     * @param usuarioId O ID do usuário a ter a senha atualizada.
+     * @param novaSenha A nova senha em texto plano.
+     */
+    @Transactional
+    public void atualizarSenha(Long usuarioId, String novaSenha) {
+        logger.info("Iniciando atualização de senha para o usuário ID: {}", usuarioId);
+        // 1. Busca o usuário ou lança uma exceção se não encontrado
+        Usuario usuario = this.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + usuarioId));
+        ;
 
-        Usuario usuario = new Usuario();
-        usuario.setEmail(email);
-
-        // 🔒 Senha criptografada com BCrypt
-        String senhaCriptografada = passwordEncoder.encode(senha);
+        // 2. Criptografa a nova senha antes de salvar
+        String senhaCriptografada = passwordEncoder.encode(novaSenha);
         usuario.setSenha(senhaCriptografada);
 
-        usuario.setPessoaFisica(pessoa);
-        usuario.setAtivo(true);
+        super.save(usuario);
 
-        List<Acesso> acessos = new ArrayList<>();
-        for (String desc : acessosDescricao) {
-            Acesso acesso = acessoRepository.findByDescricao(desc)
-                .orElseThrow(() -> new RuntimeException("Acesso não encontrado: " + desc));
-            acessos.add(acesso);
-        }
-
-        usuario.setAcessos(acessos);
-
-        return usuarioRepository.save(usuario);
+        logger.info("Senha para o usuário ID: {} foi atualizada com sucesso.", usuarioId);
     }
-    
-    // Outros métodos como buscarPorEmail(), listarUsuariosAtivos(), etc.
-
-    public List<Usuario> listarUsuariosAtivos() {
-    return usuarioRepository.findAll()
-            .stream()
-            .filter(Usuario::isAtivo)
-            .collect(Collectors.toList());
-
-        // Você pode trocar esse filtro por uma consulta direta ao banco, se preferir mais performance:
-            //  @Query("SELECT u FROM Usuario u WHERE u.ativo = true")
-            //  List<Usuario> findUsuariosAtivos();
-            
-        }
-
-    public Optional<Usuario> buscarPorEmail(String email) {
-    return usuarioRepository.findByEmail(email);
-}
-
-    @Transactional
-    public void desativarUsuario(Long id) {
-    Usuario usuario = usuarioRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-    usuario.setAtivo(false);
-    usuarioRepository.save(usuario);
-}
-
 
 }
-*/
+
+
+
+
+
+
+

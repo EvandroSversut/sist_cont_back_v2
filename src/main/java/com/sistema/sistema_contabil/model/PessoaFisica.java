@@ -1,8 +1,12 @@
 package com.sistema.sistema_contabil.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
+@Data
 @Table(name = "pessoa_fisica")
 public class PessoaFisica extends Pessoa {
 
@@ -15,29 +19,6 @@ public class PessoaFisica extends Pessoa {
     @Column(nullable = false)
     private String rg;
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
 
     @Override
     public String toString() {
@@ -49,7 +30,5 @@ public class PessoaFisica extends Pessoa {
                 + ", toString()=" + super.toString() + ", hashCode()=" + hashCode() + "]";
     }
 
-    
-   
-    
+
 }

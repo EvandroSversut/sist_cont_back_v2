@@ -24,12 +24,12 @@ import com.sistema.sistema_contabil.service.UsuarioService;
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
 
-     @Autowired
+    @Autowired
     private UsuarioService usuarioService;
 
     @PostMapping("/cadastro")
     public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
-        Usuario usuarioSalvo = usuarioService.cadastrarUsuario(usuario);
+        Usuario usuarioSalvo = usuarioService.save(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvo);
     }
 
@@ -43,8 +43,8 @@ public class UsuarioController {
     @GetMapping("/buscar")
     public ResponseEntity<Usuario> buscarPorEmail(@RequestParam String email) {
         return usuarioService.buscarPorEmail(email)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // PUT: Desativa um usuário por ID

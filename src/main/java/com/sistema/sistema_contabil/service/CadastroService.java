@@ -1,210 +1,108 @@
 package com.sistema.sistema_contabil.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.sistema.sistema_contabil.mapper.CadastroMapper;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sistema.sistema_contabil.dto.PessoaUsuarioDTO;
 import com.sistema.sistema_contabil.model.PessoaFisica;
 import com.sistema.sistema_contabil.model.Usuario;
-import com.sistema.sistema_contabil.repository.PessoaFisicaRepository;
-import com.sistema.sistema_contabil.repository.UsuarioRepository;
 
 
 @Service
 public class CadastroService {
 
-    private static final Logger logger = LoggerFactory.getLogger(PessoaJuridicaService.class);
+    // Logger corrigido para a classe certa
+    private static final Logger logger = LoggerFactory.getLogger(CadastroService.class);
 
-    @Autowired
-    private PessoaFisicaRepository pessoaFisicaRepo;
+    // Injeção dos SERVIÇOS especializados, não dos repositórios
+    private final PessoaFisicaService pessoaFisicaService;
+    private final UsuarioService usuarioService;
+    private final CadastroMapper mapper;
 
-    @Autowired
-    private UsuarioRepository usuarioRepo;
+    // Injeção de dependências via construtor (melhor prática)
+    public CadastroService(PessoaFisicaService pessoaFisicaService, UsuarioService usuarioService, CadastroMapper mapper) {
+        this.pessoaFisicaService = pessoaFisicaService;
+        this.usuarioService = usuarioService;
+        this.mapper = mapper;
+    }
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UsuarioService usuarioService;
-
+    /**
+     * Orquestra o cadastro completo de uma Pessoa e seu Usuário associado.
+     * A anotação @Transactional garante que ou tudo funciona, ou nada é salvo.
+     */
+    @Transactional
     public void cadastrarPessoaUsuario(PessoaUsuarioDTO dto) {
+        logger.info("Iniciando processo de cadastro para o CPF: {}", dto.getCpf());
 
-    System.out.println("****************Cadastro de PF - Service*****************");
-    // 🔹 Cadastrar Pessoa Física 
-    PessoaFisica pessoaFisica = new PessoaFisica();
-    pessoaFisica.setNome(dto.getNome());
-    pessoaFisica.setEmail(dto.getEmail());
-    pessoaFisica.setTelefone(dto.getTelefone());
-    pessoaFisica.setRua(dto.getRua());
-    pessoaFisica.setNumero(dto.getNumero());
-    pessoaFisica.setComplemento(dto.getComplemento());
-    pessoaFisica.setBairro(dto.getBairro());
-    pessoaFisica.setCep(dto.getCep());
-    pessoaFisica.setCidade(dto.getCidade());
-    pessoaFisica.setUf(dto.getUf());
+        // 1. Mapear e Salvar PessoaFisica
+        PessoaFisica pessoaFisica = mapper.toPessoaFisica(dto);
+        PessoaFisica pessoaSalva = pessoaFisicaService.save(pessoaFisica);
+        logger.debug("Pessoa Física salva com ID: {}", pessoaSalva.getId());
 
-    pessoaFisica.setCpf(dto.getCpf());
-    pessoaFisica.setRg(dto.getRg());
+        // 2. Mapear, Associar e Salvar Usuario
+        Usuario usuario = mapper.toUsuario(dto);
+        usuario.setPessoaFisica(pessoaSalva); // Associa a pessoa recém-salva
 
-    pessoaFisica = pessoaFisicaRepo.save(pessoaFisica);
-    System.out.println("Salvo PessoaFisica: " + pessoaFisica.getId());
+        // 3. DELEGAR a criação do usuário para o service que sabe as regras de negócio
+        Usuario usuarioSalvo = usuarioService.save(usuario);
+        logger.info("Cadastro completo para o usuário com ID: {} e Pessoa Física com ID: {}", usuarioSalvo.getId(), pessoaSalva.getId());
 
-    System.out.println("**********Agora cadastrar Usuario**********************");
-    System.out.println("Usuário com ID PF a salvar: " + pessoaFisica.getId());
-    // 🔹 Cadastrar Usuário
-    Usuario usuario = new Usuario();
-    usuario.setEmail(dto.getEmail()); // pode ser igual ao da pessoa física
-    usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
-    usuario.setPessoaFisica(pessoaFisica); // associa corretamente
-    usuario.setDataCriacao(usuario.getDataCriacao());
-    usuario.isAtivo();
-    
-    // Chama o método que já cuida de adicionar o ROLE_USER
-    System.out.println("**************Chama o Cadastro de Usuario no Service*******************");
-    //System.out.println("Usuario --->> " + pessoaFisica.getId());
-    System.out.println("Usuario ----> " + usuario);
-
-    System.out.println("📥 Preparando para salvar o usuário:");
-
-        System.out.println("Email: " + usuario.getEmail());
-        System.out.println("Senha (criptografada): " + usuario.getSenha());
-        System.out.println("Pessoa Física: " + (usuario.getPessoaFisica().getId()));
-        System.out.println("Ativo: " + usuario.isAtivo());
-        System.out.println("Data Criação: " + usuario.getDataCriacao());
-
-    usuarioService.cadastrarUsuario(usuario);
-
-    System.out.println("Usuário salvo com ID: " + usuario.getId());
-}
-    
-    public void atualizarPessoaUsuario(PessoaUsuarioDTO dto) {
-    // 🔍 Busca PessoaFisica existente
-    PessoaFisica pessoaFisica = pessoaFisicaRepo.findById(dto.getIdPessoaFisica())
-        .orElseThrow(() -> new RuntimeException("Pessoa física não encontrada"));
-  
-    pessoaFisica.setNome(dto.getNome());
-    pessoaFisica.setEmail(dto.getEmail());
-    pessoaFisica.setTelefone(dto.getTelefone());
-    pessoaFisica.setRua(dto.getRua());
-    pessoaFisica.setNumero(dto.getNumero());
-    pessoaFisica.setComplemento(dto.getComplemento());
-    pessoaFisica.setBairro(dto.getBairro());
-    pessoaFisica.setCep(dto.getCep());
-    pessoaFisica.setCidade(dto.getCidade());
-    pessoaFisica.setUf(dto.getUf());
-    pessoaFisica.setCpf(dto.getCpf());
-    pessoaFisica.setRg(dto.getRg());
-    
-
-    pessoaFisicaRepo.save(pessoaFisica);
-
-    // 🔍 Busca Usuario existente
-    Usuario usuario = usuarioRepo.findById(dto.getIdUsuario())
-        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-    usuario.setEmail(dto.getEmail());
-
-    if (dto.getSenha() != null && !dto.getSenha().isBlank()) {
-        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
+        // 4. Retornar um DTO completo com os dados salvos
+        mapper.toPessoaUsuarioDTO(usuarioSalvo);
     }
 
-    usuario.setPessoaFisica(pessoaFisica);
-    usuario.setAtivo(true); // ou dto.isAtivo() se quiser controlar isso no front
-
-    usuarioRepo.save(usuario);
-}
-    
-        public List<PessoaUsuarioDTO> listarTodos() {
-        List<Usuario> usuarios = usuarioRepo.findAll();
-
-        List<PessoaUsuarioDTO> lista = usuarios.stream()
-            .map(usuario -> converterParaDTO(usuario.getPessoaFisica(), usuario))
-            .collect(Collectors.toList());
-
-        lista.forEach(dto -> System.out.println(dto.imprimirBonito()));
-
-        return lista;
+    /**
+     * Lista todos os usuários e suas informações de pessoa física associadas.
+     */
+    public List<PessoaUsuarioDTO> listarTodos() {
+        logger.info("Buscando todos os usuários para listagem completa.");
+        return usuarioService.findAll().stream()
+                .map(mapper::toPessoaUsuarioDTO) // Usa o mapper para converter cada um
+                .collect(Collectors.toList());
     }
 
-     // 🔸 Conversor de Entity para DTO
-    private PessoaUsuarioDTO converterParaDTO(PessoaFisica pessoaFisica, Usuario usuario) {
-        PessoaUsuarioDTO dto = new PessoaUsuarioDTO();
-        
-        dto.setIdPessoaFisica(pessoaFisica.getId());
-        dto.setNome(pessoaFisica.getNome());
-        dto.setCpf(pessoaFisica.getCpf());
-        dto.setRg(pessoaFisica.getRg());
-        dto.setTelefone(pessoaFisica.getTelefone());
-        dto.setRua(pessoaFisica.getRua());
-        dto.setNumero(pessoaFisica.getNumero());
-        dto.setComplemento(pessoaFisica.getComplemento());
-        dto.setBairro(pessoaFisica.getBairro());
-        dto.setCep(pessoaFisica.getCep());
-        dto.setCidade(pessoaFisica.getCidade());
-        dto.setUf(pessoaFisica.getUf());
+    /**
+     * Orquestra a atualização de uma Pessoa e seu Usuário.
+     */
+    @Transactional
+    public PessoaUsuarioDTO atualizarPessoaUsuario(Long pessoaId, Long usuarioId, PessoaUsuarioDTO dto) {
+        logger.info("Iniciando processo de atualização para Pessoa ID: {} e Usuário ID: {}", pessoaId, usuarioId);
 
-        dto.setIdUsuario(usuario.getId());
-        dto.setEmail(usuario.getEmail());
-        dto.setSenha(usuario.getSenha());
+        // 1. Busca as entidades existentes. Nosso BaseServiceImpl já lança exceção se não encontrar.
+        Optional<PessoaFisica> pfExistente = pessoaFisicaService.findById(pessoaId);
+        Optional<Usuario> usuarioExistente = usuarioService.findById(usuarioId);
 
-        return dto;
+        // 2. USA O MAPPER PARA ATUALIZAR AS ENTIDADES EM MEMÓRIA
+        // O MapStruct faz todo o trabalho de "setar" os campos para nós.
+        mapper.updatePessoaFromDto(dto, pfExistente.orElseThrow(() -> new RuntimeException("Pessoa não encontrada com ID: " + pessoaId)));
+        mapper.updateUsuarioFromDto(dto, usuarioExistente.orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + usuarioId)));
+        logger.debug("Entidades PessoaFisica e Usuario atualizadas em memória a partir do DTO.");
+
+        // 3. LÓGICA DE NEGÓCIO ESPECÍFICA (que não pertence ao mapper)
+        // A atualização de senha é uma regra de negócio separada e sensível.
+        if (dto.getSenha() != null && !dto.getSenha().isBlank()) {
+            logger.info("Senha fornecida para o usuário ID: {}. Solicitando atualização.", usuarioId);
+            // Supondo que você crie este método no UsuarioService para encapsular a lógica
+            usuarioService.atualizarSenha(usuarioId, dto.getSenha());
+        }
+
+        // 4. PERSISTIR AS MUDANÇAS NO BANCO
+        // Como o método é @Transactional, o próprio Spring/JPA já salvaria as
+        // alterações no final da transação, mas chamar o save() é explícito e seguro.
+        pessoaFisicaService.save(pfExistente.get());
+        Usuario usuarioAtualizado = usuarioService.save(usuarioExistente.get());
+        logger.info("Atualização persistida no banco de dados com sucesso.");
+
+        // 5. Retorna o DTO com os dados atualizados
+        return mapper.toPessoaUsuarioDTO(usuarioAtualizado);
     }
-
-
 }
 
 
-        /*teste */
-
-
-
-
-  
-
-        /*teste */
-
-
-
-
-
-    /*
-            // 🔹 Cadastrar Pessoa
-        Pessoa pessoa = new Pessoa();
-        pessoa.setNome(dto.getNome());
-        pessoa.setEmail(dto.getEmail());
-        pessoa.setTelefone(dto.getTelefone());
-        pessoa.setRua(dto.getRua());
-        pessoa.setNumero(dto.getNumero());
-        pessoa.setBairro(dto.getBairro());
-        pessoa.setComplemento(dto.getComplemento());
-        pessoa.setCep(dto.getCep());
-        pessoa.setCidade(dto.getCidade());
-        pessoa.setUf(dto.getUf());
-
-        pessoa = pessoaRepo.save(pessoa);
-
-        // 🔹 Cadastrar Pessoa Física
-        PessoaFisica pessoaFisica = new PessoaFisica();
-        System.out.println("Cpf: " + dto.getCpf());
-        System.out.println("RG: " + dto.getRg());
-               
-        pessoaFisica.setCpf(dto.getCpf());
-        pessoaFisica.setRg(dto.getRg());
-      
-        pessoaFisica = pessoaFisicaRepo.save(pessoaFisica);
-
-        // 🔹 Cadastrar Usuário
-        Usuario usuario = new Usuario();
-        usuario.setEmail(dto.getEmail());
-        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
-        usuario.setPessoaFisica(pessoaFisica);
-
-        usuarioRepo.save(usuario);
-    }
-    */
