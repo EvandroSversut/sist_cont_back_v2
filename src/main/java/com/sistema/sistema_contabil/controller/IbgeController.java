@@ -9,7 +9,6 @@ import com.sistema.sistema_contabil.model.Ibge;
 import com.sistema.sistema_contabil.repository.IbgeRepository;
 
 
-
 @RestController
 @RequestMapping("/api/ibge")
 @CrossOrigin(origins = "http://localhost:4200") // ajuste conforme necessário
@@ -22,7 +21,7 @@ public class IbgeController {
     public Ibge salvar(@RequestBody Ibge ibge) {
         return ibgeRepository.save(ibge);
     }
-
+// listar
     @GetMapping
     public List<Ibge> listar() {
     return ibgeRepository.findAll();
