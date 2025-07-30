@@ -6,14 +6,16 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.InputStream;
 
 @RestController
+@RequestMapping("/api/relatorio")
 public class RelatorioController {
 
-    @GetMapping("/relatorio/teste")
+    @GetMapping("/teste")
     public ResponseEntity<byte[]> gerarRelatorioTeste() throws Exception {
         InputStream jrxmlInput = new ClassPathResource("report/report_teste.jrxml").getInputStream();
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInput);
@@ -27,4 +29,3 @@ public class RelatorioController {
         return ResponseEntity.ok().headers(headers).body(pdfBytes);
     }
 }
-
