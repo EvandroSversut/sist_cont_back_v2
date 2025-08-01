@@ -24,6 +24,7 @@ public class PessoaJuridicaDTO {
     public String cep;
     public String cidade;
     public String uf;
+    public String ibge;
     
     public Long getId() {
         return id;
@@ -126,6 +127,15 @@ public class PessoaJuridicaDTO {
     public void setCnae(String cnae) {
         this.cnae = cnae;
     }
+
+     public String getIbge() {
+        return ibge;
+    }
+
+    public void setIbge(String ibge){
+        this.ibge = ibge;
+    }
+    
         
 /* 
     @Override
@@ -148,6 +158,7 @@ public class PessoaJuridicaDTO {
                  "\nCNAE: " + cnae +
                 "\nTelefone: " + telefone +
                 "\nEmail: " + email +
+                "\nIbge: " + ibge +
                 "\nEndereço: " + rua + ", " + numero + " - " + bairro +
                 (complemento != null && !complemento.isEmpty() ? " (" + complemento + ")" : "") +
                 "\nCidade: " + cidade + " - " + uf + " | CEP: " + cep +

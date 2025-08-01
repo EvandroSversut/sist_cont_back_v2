@@ -7,13 +7,15 @@ import jakarta.persistence.Table;
 @Table(name = "pessoa_juridica")
 public class PessoaJuridica extends Pessoa {
 
-    private String tipo; // EMITENTE, DESTINATARIO, TRANSPORTADORA
+    private String tipo; // EMITENTE, DESTINATARIO, TRANSPORTADORA. por enquanto nao estou enviando o tipo
+                         // so esta aqui para utilizar futuramente, se necessario.
     private String cnpj;
     private String razaoSocial;
     private String nomeFantasia;
     private String ie;
     private String inscMun;
     private String cnae;
+    private String ibge;
     
     public String getTipo() {
         return tipo;
@@ -57,6 +59,14 @@ public class PessoaJuridica extends Pessoa {
     public void setCnae(String cnae) {
         this.cnae = cnae;
     }
+
+       public String getIbge() {
+        return ibge;
+    }
+    public void setIbge(String ibge) {
+        this.ibge = ibge;
+    }
+
     
     @Override
     public String toString() {
@@ -68,8 +78,9 @@ public class PessoaJuridica extends Pessoa {
                 + getCnae() + ", getClass()=" + getClass() + ", getNumero()=" + getNumero() + ", getComplemento()="
                 + getComplemento() + ", getBairro()=" + getBairro() + ", getCep()=" + getCep() + ", getCidade()="
                 + getCidade() + ", getUf()=" + getUf() + ", getEmail()=" + getEmail() + ", toString()="
+                + getIbge() + ", getIbge()="
                 + super.toString() + ", hashCode()=" + hashCode() + "]";
     }
-
+ 
     
 }
