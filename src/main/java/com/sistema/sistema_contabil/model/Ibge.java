@@ -11,9 +11,12 @@ public class Ibge {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ibge_seq")
     private Long id;
 
-    private String codIbge;
-    private String nomeIbge;
     private String ufIbge;
+    private String codIbge;
+    private String nomeEstado;
+    private String nomeMun;
+    private String codUf;
+    private String regiao;
 
 
 }
