@@ -24,6 +24,9 @@ public class GeraisDTO {
     public String processoVersaoEmissor;
     public String baseCalculo;
     public String vrIcms;
+    private double frete;
+    private double seguro;
+    private double outraDesp;
     public String vrTotalProd;
     public String vrTotalNfe;
 
