@@ -143,15 +143,8 @@ public class NotaFiscalService {
             item.setQuantidade(p.getQuantidade());
             item.setValorUnitario(p.getValorUnitario());
             item.setDesconto(p.getDesconto());
-            item.setFrete(p.getFrete());
-            item.setSeguro(p.getSeguro());
-            item.setOutraDesp(p.getOutraDesp());
             item.setVrTotalProd(p.getVrTotalProd());
-            item.setIcms(p.getIcms());
-            item.setIpi(p.getIpi());
-            item.setPis(p.getPis());
-            item.setCofins(p.getCofins());
-            item.setIss(p.getIss());
+           
             //item.setAliquotaIcms(p.aliquotaIcms);
             return item;
         }).collect(Collectors.toList());
