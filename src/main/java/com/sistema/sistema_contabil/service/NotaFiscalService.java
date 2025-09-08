@@ -131,25 +131,57 @@ public class NotaFiscalService {
         nota.setTransportadora(transporte);
         nota.setPagamento(pagamento);
        
-                // Montar lista de itens
-        // 📆 Converte a lista de ProdutoDTO em lista de ItemNotaFiscal vinculando com a nota.
+     // Montar lista de itens
+     // 📆 Converte a lista de ProdutoDTO em lista de ItemNotaFiscal vinculando com a nota.
+    /*  dto.produtos.stream() — cria um stream (fluxo) de elementos da lista produtos (cada elemento é um ProdutoDTO).
+        .map(p -> { ... }) — para cada ProdutoDTO p executa a função lambda:
+            new ItemNotaFiscal() — cria uma nova instância da entidade que vai ser salva no banco.
+            item.setXxx(p.getXxx()) — copia valores do DTO para a entidade (conversão DTO → entidade).
+            return item; — o map transforma o ProdutoDTO em ItemNotaFiscal.
+        .collect(Collectors.toList()) — reúne todos os ItemNotaFiscal produzidos pelo map numa List<ItemNotaFiscal>.
+       */
         List<ItemNotaFiscal> itens = dto.produtos.stream().map(p -> {
-            ItemNotaFiscal item = new ItemNotaFiscal();
-            item.setCodigo(p.getCodigo());
-            item.setDescricao(p.getDescricao());
-            item.setNcm(p.getNcm());
-            item.setUnidade(p.getUnidade());
-            item.setCfop(p.getCfop());
-            item.setQuantidade(p.getQuantidade());
-            item.setValorUnitario(p.getValorUnitario());
-            item.setDesconto(p.getDesconto());
-            item.setVrTotalProd(p.getVrTotalProd());
-           
-            //item.setAliquotaIcms(p.aliquotaIcms);
-            return item;
-        }).collect(Collectors.toList());
+    ItemNotaFiscal item = new ItemNotaFiscal();
+    item.setCodProd(p.getCodProd());
+    item.setDescricao(p.getDescricao());
+    item.setCodBarras(p.getCodBarras());
+    item.setNcm(p.getNcm());
+    item.setProdutoST(p.getProdutoST());
+    item.setCst(p.getCst());
+    item.setCsosn(p.getCsosn());
+    item.setCfop(p.getCfop());
+    item.setUnidade(p.getUnidade());
+    item.setQuantidade(p.getQuantidade());
+    item.setValorUnitario(p.getValorUnitario());
+    item.setDesconto(p.getDesconto());
+    item.setVrTotalProd(p.getVrTotalProd());
+    item.setOrigem(p.getOrigem());
+    item.setBcIcmsProd(p.getBcIcmsProd());
+    item.setAliqIcms(p.getAliqIcms());
+    item.setVrDoIcms(p.getVrDoIcms());
+    item.setStPisCofins(p.getStPisCofins());
+    item.setBcPisCofins(p.getBcPisCofins());
+    item.setRegimeApuPisCofins(p.getRegimeApuPisCofins());
+    item.setVrPis(p.getVrPis());
+    item.setVrCofins(p.getVrCofins());
+    item.setStIPI(p.getStIPI());
+    item.setCodIPI(p.getCodIPI());
+    item.setAliqIPI(p.getAliqIPI());
+    item.setVrIPI(p.getVrIPI());
+    item.setVrTotalServ(p.getVrTotalServ());
+    item.setBcISSQN(p.getBcISSQN());
+    item.setVrISSQN(p.getVrISSQN());
+    item.setRetIRRF(p.getRetIRRF());
+    item.setRetPisCofins(p.getRetPisCofins());
+    return item;
+
+}).collect(Collectors.toList());
 
           // Relacionar nota com itens
+          /* 
+            ou seja: vincula o lado "many" ao lado "one" (cada item aponta para a nota). 
+            Isso é importante para manter a integridade do relacionamento bidirecional.
+          */
             itens.forEach(i -> i.setNotaFiscal(nota));
             nota.setItens(itens);
 

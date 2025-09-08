@@ -1,8 +1,10 @@
 package com.sistema.sistema_contabil.dto;
 
+import java.math.BigDecimal;
+
 public class ProdutoDTO {
     
-    private String codigo;
+    private String codProd;
     private String descricao;
     private String codBarras;
     private String ncm;
@@ -11,35 +13,37 @@ public class ProdutoDTO {
     private String csosn;
     private String cfop;
     private String unidade;
-    private double quantidade;
-    private double valorUnitario;
-    private double desconto;
-    private double vrTotalProd;
+    private BigDecimal quantidade;
+    private BigDecimal valorUnitario;
+    private BigDecimal desconto;
+    private BigDecimal vrTotalProd;
     private String origem;
-    private double bcIcmsProd;
-    private double aliqIcms;
-    private double vrDoIcms;
-    private double stPisCofins;
-    private double bcPisCofins;
+    private BigDecimal bcIcmsProd;
+    private BigDecimal aliqIcms;
+    private BigDecimal vrDoIcms;
+    private BigDecimal stPisCofins;
+    private BigDecimal bcPisCofins;
     private String regimeApuPisCofins;
-    private double vrPis;
-    private double vrCofins;
+    private BigDecimal vrPis;
+    private BigDecimal vrCofins;
     private String stIPI;
     private String codIPI;
-    private double aliqIPI;
-    private double vrIPI;
-    private double vrTotalServ;
-    private double bcISSQN;
-    private double vrISSQN;
-    private double retIRRf;
-    private double retPisCofins;
+    private BigDecimal aliqIPI;
+    private BigDecimal vrIPI;
+    private BigDecimal vrTotalServ;
+    private BigDecimal bcISSQN;
+    private BigDecimal vrISSQN;
+    private BigDecimal retIRRF;
+    private BigDecimal retPisCofins;
 
-    public String getCodigo() {
-        return codigo;
+     public String getCodProd() {
+        return codProd;
     }
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setCodProd(String codProd) {
+        this.codProd = codProd;
     }
+
+
     public String getDescricao() {
         return descricao;
     }
@@ -88,28 +92,28 @@ public class ProdutoDTO {
     public void setUnidade(String unidade) {
         this.unidade = unidade;
     }
-    public double getQuantidade() {
+    public BigDecimal getQuantidade() {
         return quantidade;
     }
-    public void setQuantidade(double quantidade) {
+    public void setQuantidade(BigDecimal quantidade) {
         this.quantidade = quantidade;
     }
-    public double getValorUnitario() {
+    public BigDecimal getValorUnitario() {
         return valorUnitario;
     }
-    public void setValorUnitario(double valorUnitario) {
+    public void setValorUnitario(BigDecimal valorUnitario) {
         this.valorUnitario = valorUnitario;
     }
-    public double getDesconto() {
+    public BigDecimal getDesconto() {
         return desconto;
     }
-    public void setDesconto(double desconto) {
+    public void setDesconto(BigDecimal desconto) {
         this.desconto = desconto;
     }
-    public double getVrTotalProd() {
+    public BigDecimal getVrTotalProd() {
         return vrTotalProd;
     }
-    public void setVrTotalProd(double vrTotalProd) {
+    public void setVrTotalProd(BigDecimal vrTotalProd) {
         this.vrTotalProd = vrTotalProd;
     }
     public String getOrigem() {
@@ -118,34 +122,34 @@ public class ProdutoDTO {
     public void setOrigem(String origem) {
         this.origem = origem;
     }
-    public double getBcIcmsProd() {
+    public BigDecimal getBcIcmsProd() {
         return bcIcmsProd;
     }
-    public void setBcIcmsProd(double bcIcmsProd) {
+    public void setBcIcmsProd(BigDecimal bcIcmsProd) {
         this.bcIcmsProd = bcIcmsProd;
     }
-    public double getAliqIcms() {
+    public BigDecimal getAliqIcms() {
         return aliqIcms;
     }
-    public void setAliqIcms(double aliqIcms) {
+    public void setAliqIcms(BigDecimal aliqIcms) {
         this.aliqIcms = aliqIcms;
     }
-    public double getVrDoIcms() {
+    public BigDecimal getVrDoIcms() {
         return vrDoIcms;
     }
-    public void setVrDoIcms(double vrDoIcms) {
+    public void setVrDoIcms(BigDecimal vrDoIcms) {
         this.vrDoIcms = vrDoIcms;
     }
-    public double getStPisCofins() {
+    public BigDecimal getStPisCofins() {
         return stPisCofins;
     }
-    public void setStPisCofins(double stPisCofins) {
+    public void setStPisCofins(BigDecimal stPisCofins) {
         this.stPisCofins = stPisCofins;
     }
-    public double getBcPisCofins() {
+    public BigDecimal getBcPisCofins() {
         return bcPisCofins;
     }
-    public void setBcPisCofins(double bcPisCofins) {
+    public void setBcPisCofins(BigDecimal bcPisCofins) {
         this.bcPisCofins = bcPisCofins;
     }
     public String getRegimeApuPisCofins() {
@@ -154,16 +158,16 @@ public class ProdutoDTO {
     public void setRegimeApuPisCofins(String regimeApuPisCofins) {
         this.regimeApuPisCofins = regimeApuPisCofins;
     }
-    public double getVrPis() {
+    public BigDecimal getVrPis() {
         return vrPis;
     }
-    public void setVrPis(double vrPis) {
+    public void setVrPis(BigDecimal vrPis) {
         this.vrPis = vrPis;
     }
-    public double getVrCofins() {
+    public BigDecimal getVrCofins() {
         return vrCofins;
     }
-    public void setVrCofins(double vrCofins) {
+    public void setVrCofins(BigDecimal vrCofins) {
         this.vrCofins = vrCofins;
     }
     public String getStIPI() {
@@ -178,50 +182,49 @@ public class ProdutoDTO {
     public void setCodIPI(String codIPI) {
         this.codIPI = codIPI;
     }
-    public double getAliqIPI() {
+    public BigDecimal getAliqIPI() {
         return aliqIPI;
     }
-    public void setAliqIPI(double aliqIPI) {
+    public void setAliqIPI(BigDecimal aliqIPI) {
         this.aliqIPI = aliqIPI;
     }
-    public double getVrIPI() {
+    public BigDecimal getVrIPI() {
         return vrIPI;
     }
-    public void setVrIPI(double vrIPI) {
+    public void setVrIPI(BigDecimal vrIPI) {
         this.vrIPI = vrIPI;
     }
-    public double getVrTotalServ() {
+    public BigDecimal getVrTotalServ() {
         return vrTotalServ;
     }
-    public void setVrTotalServ(double vrTotalServ) {
+    public void setVrTotalServ(BigDecimal vrTotalServ) {
         this.vrTotalServ = vrTotalServ;
     }
-    public double getBcISSQN() {
+    public BigDecimal getBcISSQN() {
         return bcISSQN;
     }
-    public void setBcISSQN(double bcISSQN) {
+    public void setBcISSQN(BigDecimal bcISSQN) {
         this.bcISSQN = bcISSQN;
     }
-    public double getVrISSQN() {
+    public BigDecimal getVrISSQN() {
         return vrISSQN;
     }
-    public void setVrISSQN(double vrISSQN) {
+    public void setVrISSQN(BigDecimal vrISSQN) {
         this.vrISSQN = vrISSQN;
     }
-    public double getRetIRRf() {
-        return retIRRf;
+    public BigDecimal getRetIRRF() {
+        return retIRRF;
     }
-    public void setRetIrrf(double retIRRf) {
-        this.retIRRf = retIRRf;
+    public void setRetIRRF(BigDecimal retIRRF) {
+        this.retIRRF = retIRRF;
     }
-    public double getRetPisCofins() {
+    public BigDecimal getRetPisCofins() {
         return retPisCofins;
     }
-    public void setRetPisCofins(double retPisCofins) {
+    public void setRetPisCofins(BigDecimal retPisCofins) {
         this.retPisCofins = retPisCofins;
     }
-    
+   
 
-  
-        
+    
 }
