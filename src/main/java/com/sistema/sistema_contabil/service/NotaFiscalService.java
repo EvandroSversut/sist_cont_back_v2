@@ -1,5 +1,7 @@
 package com.sistema.sistema_contabil.service;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sistema.sistema_contabil.controller.AcessoController;
 import com.sistema.sistema_contabil.dto.NotaFiscalDTO;
+import com.sistema.sistema_contabil.dto.NotaFiscalResumoDTO;
 import com.sistema.sistema_contabil.model.GeraisNfe;
 import com.sistema.sistema_contabil.model.ItemNotaFiscal;
 import com.sistema.sistema_contabil.model.NotaFiscal;
@@ -202,4 +205,20 @@ public class NotaFiscalService {
         
     }
     }
+
+     public List<NotaFiscalResumoDTO> listarNotas() {
+        return notaFiscalRepository.findAll().stream()
+            .map(nota -> new NotaFiscalResumoDTO(
+                nota.getId(),
+                nota.getGeraisNfe().getNumeroNFe(),
+                nota.getGeraisNfe().getSerie(),
+                nota.getGeraisNfe().getDtHrEmissao() != null ? 
+                    OffsetDateTime.parse(nota.getGeraisNfe().getDtHrEmissao()).toLocalDateTime() : null,
+                nota.getDestinatario() != null ? nota.getDestinatario().getRazaoSocial() : "—",
+                nota.getGeraisNfe().getVrTotalNfe(),
+                "SALVA" // depois podemos mudar para status real
+            ))
+            .collect(Collectors.toList());
+    }
 }
+

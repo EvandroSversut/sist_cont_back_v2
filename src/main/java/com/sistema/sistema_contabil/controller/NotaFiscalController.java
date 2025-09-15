@@ -1,7 +1,10 @@
 package com.sistema.sistema_contabil.controller;
 
 import com.sistema.sistema_contabil.dto.NotaFiscalDTO;
+import com.sistema.sistema_contabil.dto.NotaFiscalResumoDTO;
 import com.sistema.sistema_contabil.service.NotaFiscalService;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,4 +31,9 @@ public class NotaFiscalController {
         return ResponseEntity.ok("NF-e salva com sucesso!");
     }
     */
+    @GetMapping("/listar")
+    public List<NotaFiscalResumoDTO> listarNotas() {
+        return notaFiscalService.listarNotas();
+    }
+
 }
