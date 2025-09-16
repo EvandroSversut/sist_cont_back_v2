@@ -2,6 +2,7 @@ package com.sistema.sistema_contabil.controller;
 
 import com.sistema.sistema_contabil.dto.NotaFiscalDTO;
 import com.sistema.sistema_contabil.dto.NotaFiscalResumoDTO;
+import com.sistema.sistema_contabil.model.NotaFiscal;
 import com.sistema.sistema_contabil.service.NotaFiscalService;
 
 import java.util.List;
@@ -36,4 +37,17 @@ public class NotaFiscalController {
         return notaFiscalService.listarNotas();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<NotaFiscal> atualizarNota(
+            @PathVariable Long id,
+            @RequestBody NotaFiscalDTO dto) {
+        NotaFiscal notaAtualizada = notaFiscalService.atualizarNota(id, dto);
+        return ResponseEntity.ok(notaAtualizada);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirNota(@PathVariable Long id) {
+        notaFiscalService.excluirNota(id);
+        return ResponseEntity.noContent().build();
+    }
 }

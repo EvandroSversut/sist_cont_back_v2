@@ -24,6 +24,8 @@ import com.sistema.sistema_contabil.repository.PessoaRepository;
 
 import jakarta.transaction.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class NotaFiscalService {
 
@@ -220,5 +222,35 @@ public class NotaFiscalService {
             ))
             .collect(Collectors.toList());
     }
+
+    public NotaFiscal atualizarNota(Long id, NotaFiscalDTO dto) {
+        Optional<NotaFiscal> optionalNota = notaFiscalRepository.findById(id);
+        if (optionalNota.isEmpty()) {
+            throw new RuntimeException("Nota Fiscal não encontrada para ID " + id);
+        }
+
+        NotaFiscal nota = optionalNota.get();
+
+        // atualize os campos necessários
+        // exemplo:
+        nota.setGeraisNfe(dto.getGerais());
+        nota.setDestinatario(dto.getDestinatario());
+        nota.setEmitente(dto.getEmitente());
+        nota.setProdutos(dto.getProdutos());
+        nota.setPagamento(dto.getPagamento());
+        nota.setTotais(dto.getTotais());
+        nota.setTransporte(dto.getTransporte());
+
+        return notaFiscalRepository.save(nota);
+    }
+
+    public void excluirNota(Long id) {
+        if (!notaFiscalRepository.existsById(id)) {
+            throw new RuntimeException("Nota Fiscal não encontrada para ID " + id);
+        }
+        notaFiscalRepository.deleteById(id);
+    }
 }
+
+
 
