@@ -1,6 +1,5 @@
 package com.sistema.sistema_contabil.service;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sistema.sistema_contabil.controller.AcessoController;
 import com.sistema.sistema_contabil.dto.NotaFiscalDTO;
 import com.sistema.sistema_contabil.dto.NotaFiscalResumoDTO;
+import com.sistema.sistema_contabil.mapper.NotaFiscalMapper;
 import com.sistema.sistema_contabil.model.GeraisNfe;
 import com.sistema.sistema_contabil.model.ItemNotaFiscal;
 import com.sistema.sistema_contabil.model.NotaFiscal;
@@ -45,6 +45,20 @@ public class NotaFiscalService {
         this.acessoRepository = acessoRepository;
     }
 
+    @Transactional
+    public NotaFiscalDTO salvar(NotaFiscalDTO dto){
+        System.out.println("✅ Service - Recebendo NF-e do front (DTO).");
+        System.out.println("📘 Dados Gerais: " + dto.gerais);
+        System.out.println("🧾 Emitente: " + dto.getEmitente());
+        System.out.println("📦 Produtos: " + dto.getProdutos());
+        System.out.println("👤 Destinatário: " + dto.getDestinatario());
+        System.out.println("🚚 Transporte: " + dto.getTransporte());
+        System.out.println("💵 Pagamento: " + dto.getPagamento());
+
+        NotaFiscal entity = NotaFiscalMapper.toEntity(dto);
+        entity = notaFiscalRepository.save(entity);
+        return NotaFiscalMapper.toDTO(entity);
+    }
     
         /**
      * Salva uma nota fiscal completa, estruturada com dados de emitente, destinatário,
@@ -52,6 +66,8 @@ public class NotaFiscalService {
      *
      * @param dto Objeto NotaFiscalDTO contendo todos os dados da nota fiscal recebidos do front-end.
      */
+
+     
     @Transactional
     public void salvarNotaFiscalEstruturada(NotaFiscalDTO dto) {
         System.out.println("✅ Service - Recebendo NF-e do front (DTO).");
@@ -206,7 +222,7 @@ public class NotaFiscalService {
             throw new RuntimeException("Erro ao salvar nota fiscal: " + e.getMessage());
         
     }
-    }
+    }/* */
 
      public List<NotaFiscalResumoDTO> listarNotas() {
         return notaFiscalRepository.findAll().stream()
@@ -233,13 +249,13 @@ public class NotaFiscalService {
 
         // atualize os campos necessários
         // exemplo:
-        nota.setGeraisNfe(dto.getGerais());
-        nota.setDestinatario(dto.getDestinatario());
-        nota.setEmitente(dto.getEmitente());
-        nota.setProdutos(dto.getProdutos());
-        nota.setPagamento(dto.getPagamento());
-        nota.setTotais(dto.getTotais());
-        nota.setTransporte(dto.getTransporte());
+       // nota.setGeraisNfe(dto.getGerais());
+       // nota.setDestinatario(dto.getDestinatario());
+       // nota.setEmitente(dto.getEmitente());
+       // nota.setProdutos(dto.getProdutos());
+       // nota.setPagamento(dto.getPagamento());
+       // nota.setTotais(dto.getTotais());
+       // nota.setTransporte(dto.getTransporte());
 
         return notaFiscalRepository.save(nota);
     }
@@ -250,6 +266,8 @@ public class NotaFiscalService {
         }
         notaFiscalRepository.deleteById(id);
     }
+
+
 }
 
 

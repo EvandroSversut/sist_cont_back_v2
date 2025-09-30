@@ -47,6 +47,7 @@ public class NotaFiscal {
     @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemNotaFiscal> itens;
 
+
     public Long getId() {
         return id;
     }

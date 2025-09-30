@@ -9,22 +9,22 @@ import lombok.Data;
 public class PessoaJuridicaDTO {
     
     private Long id;
-    public String razaoSocial;
-    public String nomeFantasia;
-    public String cnpj;
-    public String inscEstadual;
-    public String inscMunicipal;
-    public String cnae;
-    public String telefone;
-    public String email;
-    public String rua;
-    public String numero;
-    public String complemento;
-    public String bairro;
-    public String cep;
-    public String cidade;
-    public String uf;
-    public String ibge;
+    private String razaoSocial;
+    private String nomeFantasia;
+    private String cnpj;
+    private String inscEstadual;
+    private String inscMunicipal;
+    private String cnae;
+    private String telefone;
+    private String email;
+    private String rua;
+    private String numero;
+    private String complemento;
+    private String bairro;
+    private String cep;
+    private String cidade;
+    private String uf;
+    private String ibge;
     
     public Long getId() {
         return id;

@@ -2,9 +2,9 @@ package com.sistema.sistema_contabil.dto;
 
 public class PagamentoDTO {
 
-    public String formaPagamento;
-    public double valorPago;
-    public double valorTroco;
+    private String formaPagamento;
+    private double valorPago;
+    private double valorTroco;
     
     public String getFormaPagamento() {
         return formaPagamento;

@@ -2,12 +2,12 @@ package com.sistema.sistema_contabil.dto;
 
 public class TransporteDTO {
 
-    public String modFrete;
-    public String transportadora;
-    public String cnpjTransportadora;
-    public String placaVeiculo;
-    public String ufPlaca;
-    public double valor_frete;
+    private String modFrete;
+    private String transportadora;
+    private String cnpjTransportadora;
+    private String placaVeiculo;
+    private String ufPlaca;
+    private double valor_frete;
 
     public String getModFrete() {
         return modFrete;

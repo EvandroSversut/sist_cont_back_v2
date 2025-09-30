@@ -4,23 +4,30 @@ import java.util.List;
 
 public class NotaFiscalDTO {
 
-    public GeraisDTO gerais;
-    public EmitenteDTO emitente;
-    public DestinatarioDTO destinatario;
-    public List<ProdutoDTO> produtos;
-    public TransporteDTO transporte;
-    public PagamentoDTO pagamento;
+    private GeraisDTO gerais;
+    private PessoaJuridicaDTO emitente;
+    private PessoaJuridicaDTO destinatario;
+    private List<ProdutoDTO> produtos;
+    private TransporteDTO transporte;
+    private PagamentoDTO pagamento;
+
+    public GeraisDTO getGerais() {
+        return gerais;
+    }
+    public void setGerais(GeraisDTO gerais) {
+        this.gerais = gerais;
+    }
     
-    public EmitenteDTO getEmitente() {
+    public PessoaJuridicaDTO getEmitente() {
         return emitente;
     }
-    public void setEmitente(EmitenteDTO emitente) {
+    public void setEmitente(PessoaJuridicaDTO emitente) {
         this.emitente = emitente;
     }
-    public DestinatarioDTO getDestinatario() {
+    public PessoaJuridicaDTO getDestinatario() {
         return destinatario;
     }
-    public void setDestinatario(DestinatarioDTO destinatario) {
+    public void setDestinatario(PessoaJuridicaDTO destinatario) {
         this.destinatario = destinatario;
     }
     public List<ProdutoDTO> getProdutos() {
@@ -41,12 +48,7 @@ public class NotaFiscalDTO {
     public void setPagamento(PagamentoDTO pagamento) {
         this.pagamento = pagamento;
     }
-    public GeraisDTO getGerais() {
-        return gerais;
-    }
-    public void setGerais(GeraisDTO gerais) {
-        this.gerais = gerais;
-    }
+    
 
     
     
