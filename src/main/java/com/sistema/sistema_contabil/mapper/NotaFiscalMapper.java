@@ -9,23 +9,30 @@ public class NotaFiscalMapper {
 
     public static NotaFiscal toEntity(NotaFiscalDTO dto) {
         if (dto == null) return null;
+        
         NotaFiscal entity = new NotaFiscal();
 
-        //entity.setId(dto.getId());
         entity.setGeraisNfe(GeraisMapper.toEntity(dto.getGerais()));
         entity.setEmitente(EmitenteMapper.toEntity(dto.getEmitente()));
         entity.setDestinatario(DestinatarioMapper.toEntity(dto.getDestinatario()));
         entity.setTransportadora(TransporteMapper.toEntity(dto.getTransporte()));
         
-        if (dto.getProdutos() != null) {
-            entity.setItens(dto.getProdutos()
-                .stream()
-                .map(ProdutoMapper::toEntity)
-                .collect(Collectors.toList()));
-        }
 
-        return entity;
+            // Itens (OneToMany — cada item precisa saber quem é o pai)
+    if (dto.getProdutos() != null) {
+        var itens = dto.getProdutos()
+            .stream()
+            .map(ProdutoMapper::toEntity)
+            .collect(Collectors.toList());
+
+        for (var item : itens) {
+            item.setNotaFiscal(entity); // 🔥 vínculo essencial
+        }
+        entity.setItens(itens);
     }
+
+    return entity;
+}
 
     public static NotaFiscalDTO toDTO(NotaFiscal entity) {
         if (entity == null) return null;

@@ -45,68 +45,81 @@ public class NotaFiscalService {
         this.acessoRepository = acessoRepository;
     }
 
+    // Criar/Salvar NotaFiscal
     @Transactional
     public NotaFiscalDTO salvar(NotaFiscalDTO dto){
-        System.out.println("✅ Service - Recebendo NF-e do front (DTO).");
-        System.out.println("📘 Dados Gerais: " + dto.gerais);
-        System.out.println("🧾 Emitente: " + dto.getEmitente());
-        System.out.println("📦 Produtos: " + dto.getProdutos());
-        System.out.println("👤 Destinatário: " + dto.getDestinatario());
-        System.out.println("🚚 Transporte: " + dto.getTransporte());
-        System.out.println("💵 Pagamento: " + dto.getPagamento());
 
+         System.out.println("✅ Service - Recebendo NF-e do front (DTO).");
+
+        // Usa o mapper para converter DTO -> Entity
         NotaFiscal entity = NotaFiscalMapper.toEntity(dto);
-        entity = notaFiscalRepository.save(entity);
-        return NotaFiscalMapper.toDTO(entity);
-    }
-    
-        /**
-     * Salva uma nota fiscal completa, estruturada com dados de emitente, destinatário,
-     * itens (produtos), transporte, pagamento e dados gerais da NF-e.
-     *
-     * @param dto Objeto NotaFiscalDTO contendo todos os dados da nota fiscal recebidos do front-end.
-     */
 
+         // Salva no banco
+        entity = notaFiscalRepository.save(entity);
+
+        // Converte de volta Entity -> DTO (caso queira devolver no response)
+        return NotaFiscalMapper.toDTO(entity);
+
+       
+       // System.out.println("📘 Dados Gerais: " + dto.gerais);
+       // System.out.println("🧾 Emitente: " + dto.getEmitente());
+       // System.out.println("📦 Produtos: " + dto.getProdutos());
+       // System.out.println("👤 Destinatário: " + dto.getDestinatario());
+       // System.out.println("🚚 Transporte: " + dto.getTransporte());
+       // System.out.println("💵 Pagamento: " + dto.getPagamento());
+                
+    }
+
+      // Buscar por ID
+    public Optional<NotaFiscalDTO> buscarPorId(Long id) {
+        return notaFiscalRepository.findById(id)
+                .map(NotaFiscalMapper::toDTO);
+    }
+
+     // Excluir por ID
+    public void excluir(Long id) {
+        notaFiscalRepository.deleteById(id);
+    }
      
     @Transactional
     public void salvarNotaFiscalEstruturada(NotaFiscalDTO dto) {
         System.out.println("✅ Service - Recebendo NF-e do front (DTO).");
-        System.out.println("📘 Dados Gerais: " + dto.gerais);
+       // System.out.println("📘 Dados Gerais: " + dto.gerais);
         System.out.println("🧾 Emitente: " + dto.getEmitente());
         System.out.println("📦 Produtos: " + dto.getProdutos());
         System.out.println("👤 Destinatário: " + dto.getDestinatario());
         System.out.println("🚚 Transporte: " + dto.getTransporte());
         System.out.println("💵 Pagamento: " + dto.getPagamento());
         
-        try {
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonDTO = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto);
-        System.out.println("🔍 Dados recebidos do front-end (DTO):\n" + jsonDTO);
+     //   try {
+       // ObjectMapper mapper = new ObjectMapper();
+     //   String jsonDTO = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto);
+      //  System.out.println("🔍 Dados recebidos do front-end (DTO):\n" + jsonDTO);
     
 
         // 🔎 Busca o emitente pelo CNPJ informado no DTO. Se não existir, lança exceção.
-        PessoaJuridica emitente = pessoaRepository.findByCnpj(dto.emitente.cnpj)
-        .orElseThrow(() -> new RuntimeException("Emitente não encontrado com CNPJ: " + dto.emitente.cnpj));
+       // PessoaJuridica emitente = pessoaRepository.findByCnpj(dto.emitente.cnpj)
+      //  .orElseThrow(() -> new RuntimeException("Emitente não encontrado com CNPJ: " + dto.emitente.cnpj));
 
         // 🔎 Busca o destinatário pelo CNPJ informado no DTO. Se não existir, lança exceção.
-        PessoaJuridica destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
-        .orElseThrow(() -> new RuntimeException("Destinatário não encontrado com CNPJ: " + dto.destinatario.cnpj));
+       // PessoaJuridica destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
+      //  .orElseThrow(() -> new RuntimeException("Destinatário não encontrado com CNPJ: " + dto.destinatario.cnpj));
 
         // Dados de pagamento
-        Pagamento pagamento = new Pagamento();
-        pagamento.setFormaPagamento(dto.pagamento.formaPagamento);
-        pagamento.setValorPago(dto.pagamento.valorPago);
-        pagamento.setValorTroco(dto.pagamento.valorTroco);
+      //  Pagamento pagamento = new Pagamento();
+       // pagamento.setFormaPagamento(dto.pagamento.formaPagamento);
+       // pagamento.setValorPago(dto.pagamento.valorPago);
+       // pagamento.setValorTroco(dto.pagamento.valorTroco);
 
         // Dados de transporte
-        Transporte transporte = new Transporte();
-        transporte.setModFrete(dto.transporte.modFrete);
-        transporte.setTransportadora(dto.transporte.transportadora);
-        transporte.setCnpjTransportadora(dto.transporte.cnpjTransportadora);
-        transporte.setPlacaVeiculo(dto.transporte.placaVeiculo);
-        transporte.setUfPlaca(dto.transporte.ufPlaca);
+      //  Transporte transporte = new Transporte();
+        //transporte.setModFrete(dto.transporte.modFrete);
+        //transporte.setTransportadora(dto.transporte.transportadora);
+       // transporte.setCnpjTransportadora(dto.transporte.cnpjTransportadora);
+        //transporte.setPlacaVeiculo(dto.transporte.placaVeiculo);
+        //transporte.setUfPlaca(dto.transporte.ufPlaca);
         //transporte.setValorFrete(dto.transporte.valor_frete);
-
+/* 
         GeraisNfe gerais = new GeraisNfe();
        
         gerais.setLayout(dto.gerais.layout);
@@ -135,10 +148,10 @@ public class NotaFiscalService {
         gerais.setVrIcms(dto.gerais.vrIcms);
         gerais.setVrTotalProd(dto.gerais.vrTotalProd);
         gerais.setVrTotalNfe(dto.gerais.vrTotalNfe);
-
+*/
      
          // Criar nota fiscal
-        NotaFiscal nota = new NotaFiscal();
+       // NotaFiscal nota = new NotaFiscal();
         /* Explicaçao: exemplo Emitente: como na entity NotaFiscal está anotado como ManyToOne
          * o objeto PessoaJuridica passado no setEmitente() já tem um id preenchido
          * e o JPA entende que se o objeto tem ID, ele já existe no banco, entao nao deve
@@ -146,11 +159,11 @@ public class NotaFiscalService {
          * ✔️ Ou seja, ele não copia os dados do emitente e destinatário para a nota, 
          * apenas vincula os IDs já existentes
           */
-        nota.setGeraisNfe(gerais);
-        nota.setEmitente(emitente);
-        nota.setDestinatario(destinatario);
-        nota.setTransportadora(transporte);
-        nota.setPagamento(pagamento);
+       // nota.setGeraisNfe(gerais);
+       // nota.setEmitente(emitente);
+       // nota.setDestinatario(destinatario);
+      //  nota.setTransportadora(transporte);
+      //  nota.setPagamento(pagamento);
        
      // Montar lista de itens
      // 📆 Converte a lista de ProdutoDTO em lista de ItemNotaFiscal vinculando com a nota.
@@ -161,8 +174,8 @@ public class NotaFiscalService {
             return item; — o map transforma o ProdutoDTO em ItemNotaFiscal.
         .collect(Collectors.toList()) — reúne todos os ItemNotaFiscal produzidos pelo map numa List<ItemNotaFiscal>.
        */
-        List<ItemNotaFiscal> itens = dto.produtos.stream().map(p -> {
-    ItemNotaFiscal item = new ItemNotaFiscal();
+     //   List<ItemNotaFiscal> itens = dto.produtos.stream().map(p -> {
+   /*  ItemNotaFiscal item = new ItemNotaFiscal();
     item.setCodProd(p.getCodProd());
     item.setDescricao(p.getDescricao());
     item.setCodBarras(p.getCodBarras());
@@ -194,34 +207,34 @@ public class NotaFiscalService {
     item.setVrISSQN(p.getVrISSQN());
     item.setRetIRRF(p.getRetIRRF());
     item.setRetPisCofins(p.getRetPisCofins());
-    return item;
+  //  return item; */
 
-}).collect(Collectors.toList());
+//}).collect(Collectors.toList());
 
           // Relacionar nota com itens
           /* 
             ou seja: vincula o lado "many" ao lado "one" (cada item aponta para a nota). 
             Isso é importante para manter a integridade do relacionamento bidirecional.
           */
-            itens.forEach(i -> i.setNotaFiscal(nota));
-            nota.setItens(itens);
+        //    itens.forEach(i -> i.setNotaFiscal(nota));
+         //   nota.setItens(itens);
 
 
             // Salvar nota fiscal no banco
-            notaFiscalRepository.save(nota);
+         //   notaFiscalRepository.save(nota);
 
-            System.out.println("📦 Nota fiscal salva com sucesso no banco.");
+           // System.out.println("📦 Nota fiscal salva com sucesso no banco.");
             // 📃 Log para depuração (opcional)
             
-            String jsonDebug = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto);
-            System.out.println("NF-e salva:");
-            System.out.println(jsonDebug);
+         //   String jsonDebug = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto);
+           // System.out.println("NF-e salva:");
+           // System.out.println(jsonDebug);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao salvar nota fiscal: " + e.getMessage());
+      //  } catch (Exception e) {
+        //    e.printStackTrace();
+           // throw new RuntimeException("Erro ao salvar nota fiscal: " + e.getMessage());
         
-    }
+   // }
     }/* */
 
      public List<NotaFiscalResumoDTO> listarNotas() {

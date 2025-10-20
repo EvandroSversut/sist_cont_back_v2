@@ -9,7 +9,7 @@ public class DestinatarioMapper {
         if (dto == null) return null;
 
         PessoaJuridica entity = new PessoaJuridica();
-        entity.setRazaoSocial(dto.getRazaoSocial());
+        entity.setId(dto.getId()); // só define o ID existente
         
        
         return entity;

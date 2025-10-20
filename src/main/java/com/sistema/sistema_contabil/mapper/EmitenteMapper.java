@@ -10,8 +10,7 @@ public class EmitenteMapper {
         if (dto == null) return null;
         
         PessoaJuridica entity = new PessoaJuridica();
-        entity.setRazaoSocial(dto.getRazaoSocial());
-        entity.setCnpj(dto.getCnpj());
+        entity.setId(dto.getId()); // só define o ID existente
 
         return entity;
     }
