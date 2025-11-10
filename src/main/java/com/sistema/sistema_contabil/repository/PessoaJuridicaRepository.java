@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.sistema.sistema_contabil.model.PessoaJuridica;
@@ -18,6 +19,14 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
       boolean existsByCnpj(String cnpj);
 
       List<PessoaJuridica> findAll();
+
+      // Conta o total de clientes cadastrados
+      @Query("SELECT COUNT(p) FROM PessoaJuridica p")
+      Long contarClientes();
+
+    // (Futuramente)
+    // @Query("SELECT COUNT(p) FROM PessoaJuridica p WHERE p.ativo = true")
+    // Long contarClientesAtivos();
 }
 
     
