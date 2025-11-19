@@ -2,32 +2,40 @@ package com.sistema.sistema_contabil.service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value; // Necessário para injetar valores
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sistema.sistema_contabil.controller.AcessoController;
 import com.sistema.sistema_contabil.dto.NotaFiscalDTO;
 import com.sistema.sistema_contabil.dto.NotaFiscalResumoDTO;
 import com.sistema.sistema_contabil.mapper.NotaFiscalMapper;
-import com.sistema.sistema_contabil.model.GeraisNfe;
-import com.sistema.sistema_contabil.model.ItemNotaFiscal;
 import com.sistema.sistema_contabil.model.NotaFiscal;
-import com.sistema.sistema_contabil.model.Pagamento;
-import com.sistema.sistema_contabil.model.PessoaJuridica;
-import com.sistema.sistema_contabil.model.Transporte;
 import com.sistema.sistema_contabil.repository.AcessoRepository;
 import com.sistema.sistema_contabil.repository.NotaFiscalRepository;
 import com.sistema.sistema_contabil.repository.PessoaRepository;
 
-import jakarta.transaction.Transactional;
 
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Value; // Necessário para injetar valores
+
+import java.io.File; // Para criar o diretório de logs
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class NotaFiscalService {
+
+  // Adicione as injeções de valores do application.properties
+    @Value("${nfe.certificado.caminho}")
+    private String caminhoCertificado;
+
+    @Value("${nfe.certificado.senha}")
+    private String senhaCertificado;
+
+    private static final String DIR_LOG_NFE = "C:/nfe_logs_e_xmls"; // Diretório onde logs e XMLs serão salvos
 
     private final AcessoRepository acessoRepository;
 
@@ -38,6 +46,12 @@ public class NotaFiscalService {
 
     @Autowired 
     private PessoaRepository pessoaRepository;
+
+    /**
+     * MÉTODO DE INICIALIZAÇÃO DA NF-E (SamuelWeb)
+     * Executado automaticamente após a inicialização do Spring Boot.
+     */
+
 
 
     NotaFiscalService(AcessoController acessoController, AcessoRepository acessoRepository) {
