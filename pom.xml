@@ -82,6 +82,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+   
+<dependency>
+        <groupId>br.com.swconsultoria</groupId>
+        <artifactId>java-nfe</artifactId>
+        <version>4.00.44</version> 
+    </dependency>
+    
+    <dependency>
+        <groupId>br.com.swconsultoria</groupId>
+        <artifactId>java_certificado</artifactId>
+        <version>3.12</version> 
+    </dependency>
+    
     </dependencies>
     
     <build>

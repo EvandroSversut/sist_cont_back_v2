@@ -18,23 +18,30 @@ import com.sistema.sistema_contabil.repository.AcessoRepository;
 import com.sistema.sistema_contabil.repository.NotaFiscalRepository;
 import com.sistema.sistema_contabil.repository.PessoaRepository;
 
+import br.com.swconsultoria.certificado.CertificadoService;
+import br.com.swconsultoria.certificado.Certificado;
+import br.com.swconsultoria.nfe.Nfe; // classe utilitária principal
+import br.com.swconsultoria.nfe.dom.ConfiguracoesNfe;
+import br.com.swconsultoria.nfe.dom.enuns.AmbienteEnum;
+import br.com.swconsultoria.nfe.dom.enuns.DocumentoEnum;
+import br.com.swconsultoria.nfe.dom.enuns.EstadosEnum;
+import br.com.swconsultoria.nfe.dom.enuns.ServicosEnum;
+import br.com.swconsultoria.nfe.schema_4.consStatServ.TRetConsStatServ;
+import br.com.swconsultoria.nfe.util.ConstantesUtil;
+
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import java.io.File; // Para carregar o certificado e Para criar o diretório de logs
+
 
 import org.springframework.beans.factory.annotation.Value; // Necessário para injetar valores
-
-import java.io.File; // Para criar o diretório de logs
 
 import jakarta.transaction.Transactional;
 
 @Service
 public class NotaFiscalService {
 
-  // Adicione as injeções de valores do application.properties
-    @Value("${nfe.certificado.caminho}")
-    private String caminhoCertificado;
-
-    @Value("${nfe.certificado.senha}")
-    private String senhaCertificado;
-
+  
     private static final String DIR_LOG_NFE = "C:/nfe_logs_e_xmls"; // Diretório onde logs e XMLs serão salvos
 
     private final AcessoRepository acessoRepository;
@@ -47,11 +54,62 @@ public class NotaFiscalService {
     @Autowired 
     private PessoaRepository pessoaRepository;
 
+    // ...
+// Declarações dos @Value no topo da classe
+
+    @Value("${nfe.certificado.caminho}")
+    private String caminhoCertificado;
+
+    @Value("${nfe.certificado.senha}")
+    private String senhaCertificado;
+
+    // ...
+
     /**
      * MÉTODO DE INICIALIZAÇÃO DA NF-E (SamuelWeb)
      * Executado automaticamente após a inicialização do Spring Boot.
      */
 
+
+@PostConstruct
+private void inicializarNfe() {
+    System.out.println("⏳ Inicializando Configurações da NF-e...");
+    try {
+        // 1. Criar diretório base
+        File baseDir = new File(DIR_LOG_NFE);
+        if (!baseDir.exists()) {
+            baseDir.mkdirs();
+        }
+
+        // 2. Carregar certificado A1 (PFX)
+        Certificado certificado = CertificadoService.certificadoPfx(
+            caminhoCertificado,
+            senhaCertificado
+        );
+
+        // 3. Configurar NF-e (sem iniciaConfiguracoes)
+        ConfiguracoesNfe config = ConfiguracoesNfe.criarConfiguracoes(
+            EstadosEnum.SP,                 // ajuste para a UF correta
+            AmbienteEnum.HOMOLOGACAO,       // ou PRODUCAO
+            certificado,
+            DIR_LOG_NFE                     // pasta para XML
+        );
+
+        // 4. Consulta de status do serviço
+         TRetConsStatServ status = Nfe.statusServico(
+          config,
+          DocumentoEnum.NFE // aqui você indica o tipo de documento
+    );
+
+        System.out.println("✅ Configuração concluída! Status: "
+            + status.getCStat() + " - " + status.getXMotivo());
+
+    } catch (Exception e) {
+        System.err.println("❌ Erro FATAL ao inicializar a NF-e. Verifique caminho/senha do certificado e UF.");
+        e.printStackTrace();
+        throw new RuntimeException("Falha na inicialização da NF-e.", e);
+    }
+}
 
 
     NotaFiscalService(AcessoController acessoController, AcessoRepository acessoRepository) {
