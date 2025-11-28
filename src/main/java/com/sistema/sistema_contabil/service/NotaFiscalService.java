@@ -1,5 +1,6 @@
 package com.sistema.sistema_contabil.service;
 
+import java.io.File; // Para carregar o certificado e Para criar o diretório de logs
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -18,25 +19,17 @@ import com.sistema.sistema_contabil.repository.AcessoRepository;
 import com.sistema.sistema_contabil.repository.NotaFiscalRepository;
 import com.sistema.sistema_contabil.repository.PessoaRepository;
 
-import br.com.swconsultoria.certificado.CertificadoService;
 import br.com.swconsultoria.certificado.Certificado;
+import br.com.swconsultoria.certificado.CertificadoService;
 import br.com.swconsultoria.nfe.Nfe; // classe utilitária principal
 import br.com.swconsultoria.nfe.dom.ConfiguracoesNfe;
 import br.com.swconsultoria.nfe.dom.enuns.AmbienteEnum;
 import br.com.swconsultoria.nfe.dom.enuns.DocumentoEnum;
 import br.com.swconsultoria.nfe.dom.enuns.EstadosEnum;
-import br.com.swconsultoria.nfe.dom.enuns.ServicosEnum;
 import br.com.swconsultoria.nfe.schema_4.consStatServ.TRetConsStatServ;
-import br.com.swconsultoria.nfe.util.ConstantesUtil;
-
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
-import java.io.File; // Para carregar o certificado e Para criar o diretório de logs
-
-
-import org.springframework.beans.factory.annotation.Value; // Necessário para injetar valores
-
 import jakarta.transaction.Transactional;
+
 
 @Service
 public class NotaFiscalService {
@@ -75,19 +68,30 @@ public class NotaFiscalService {
 private void inicializarNfe() {
     System.out.println("⏳ Inicializando Configurações da NF-e...");
     try {
-        // 1. Criar diretório base
-        File baseDir = new File(DIR_LOG_NFE);
-        if (!baseDir.exists()) {
-            baseDir.mkdirs();
-        }
+        // 1. Verificar o caminho e senha lidos do application.properties
+            System.out.println("✅ [NFE DEBUG] Caminho do Certificado LIDO: " + caminhoCertificado);
+            System.out.println("✅ [NFE DEBUG] Senha LIDA: " + (senhaCertificado != null ? "******" : "NÃO INFORMADA")); // Não printar a senha!
 
-        // 2. Carregar certificado A1 (PFX)
-        Certificado certificado = CertificadoService.certificadoPfx(
-            caminhoCertificado,
-            senhaCertificado
-        );
+      // 2. Criar o diretório de logs e XMLs, se não existir
+            File dirLog = new File(DIR_LOG_NFE);
+            if (!dirLog.exists()) {
+                dirLog.mkdirs();
+                System.out.println("✅ [NFE DEBUG] Diretório de Logs/XML criado: " + DIR_LOG_NFE);
+            } else {
+                System.out.println("✅ [NFE DEBUG] Diretório de Logs/XML OK: " + DIR_LOG_NFE);
+            }
 
-        // 3. Configurar NF-e (sem iniciaConfiguracoes)
+            // 3. Carregar o certificado A1/A3
+            System.out.println("⏳ [NFE DEBUG] Tentando carregar o Certificado...");
+            Certificado certificado = CertificadoService.certificadoPfx(
+                caminhoCertificado, 
+                senhaCertificado
+            );
+            System.out.println("✅ [NFE DEBUG] Certificado CARREGADO com sucesso! Emitente: " + certificado);
+            System.out.println("✅ [NFE DEBUG] UF (IBGE) do Certificado: " + certificado);
+
+
+        // 4. Configurar NF-e (sem iniciaConfiguracoes)
         ConfiguracoesNfe config = ConfiguracoesNfe.criarConfiguracoes(
             EstadosEnum.SP,                 // ajuste para a UF correta
             AmbienteEnum.HOMOLOGACAO,       // ou PRODUCAO
@@ -95,7 +99,7 @@ private void inicializarNfe() {
             DIR_LOG_NFE                     // pasta para XML
         );
 
-        // 4. Consulta de status do serviço
+        // 5. Consulta de status do serviço
          TRetConsStatServ status = Nfe.statusServico(
           config,
           DocumentoEnum.NFE // aqui você indica o tipo de documento
@@ -110,6 +114,10 @@ private void inicializarNfe() {
         throw new RuntimeException("Falha na inicialização da NF-e.", e);
     }
 }
+
+
+
+
 
 
     NotaFiscalService(AcessoController acessoController, AcessoRepository acessoRepository) {
@@ -162,7 +170,56 @@ private void inicializarNfe() {
         System.out.println("👤 Destinatário: " + dto.getDestinatario());
         System.out.println("🚚 Transporte: " + dto.getTransporte());
         System.out.println("💵 Pagamento: " + dto.getPagamento());
-        
+
+         }
+
+     public List<NotaFiscalResumoDTO> listarNotas() {
+        return notaFiscalRepository.findAll().stream()
+            .map(nota -> new NotaFiscalResumoDTO(
+                nota.getId(),
+                nota.getGeraisNfe().getNumeroNFe(),
+                nota.getGeraisNfe().getSerie(),
+                nota.getGeraisNfe().getDtHrEmissao() != null ? 
+                    OffsetDateTime.parse(nota.getGeraisNfe().getDtHrEmissao()).toLocalDateTime() : null,
+                nota.getDestinatario() != null ? nota.getDestinatario().getRazaoSocial() : "—",
+                nota.getGeraisNfe().getVrTotalNfe(),
+                "SALVA" // depois podemos mudar para status real
+            ))
+            .collect(Collectors.toList());
+    }
+
+    public NotaFiscal atualizarNota(Long id, NotaFiscalDTO dto) {
+        Optional<NotaFiscal> optionalNota = notaFiscalRepository.findById(id);
+        if (optionalNota.isEmpty()) {
+            throw new RuntimeException("Nota Fiscal não encontrada para ID " + id);
+        }
+
+        NotaFiscal nota = optionalNota.get();
+
+        // atualize os campos necessários
+        // exemplo:
+       // nota.setGeraisNfe(dto.getGerais());
+       // nota.setDestinatario(dto.getDestinatario());
+       // nota.setEmitente(dto.getEmitente());
+       // nota.setProdutos(dto.getProdutos());
+       // nota.setPagamento(dto.getPagamento());
+       // nota.setTotais(dto.getTotais());
+       // nota.setTransporte(dto.getTransporte());
+
+        return notaFiscalRepository.save(nota);
+    }
+
+    public void excluirNota(Long id) {
+        if (!notaFiscalRepository.existsById(id)) {
+            throw new RuntimeException("Nota Fiscal não encontrada para ID " + id);
+        }
+        notaFiscalRepository.deleteById(id);
+    }
+
+
+}
+
+       
      //   try {
        // ObjectMapper mapper = new ObjectMapper();
      //   String jsonDTO = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto);
@@ -307,53 +364,4 @@ private void inicializarNfe() {
            // throw new RuntimeException("Erro ao salvar nota fiscal: " + e.getMessage());
         
    // }
-    }/* */
-
-     public List<NotaFiscalResumoDTO> listarNotas() {
-        return notaFiscalRepository.findAll().stream()
-            .map(nota -> new NotaFiscalResumoDTO(
-                nota.getId(),
-                nota.getGeraisNfe().getNumeroNFe(),
-                nota.getGeraisNfe().getSerie(),
-                nota.getGeraisNfe().getDtHrEmissao() != null ? 
-                    OffsetDateTime.parse(nota.getGeraisNfe().getDtHrEmissao()).toLocalDateTime() : null,
-                nota.getDestinatario() != null ? nota.getDestinatario().getRazaoSocial() : "—",
-                nota.getGeraisNfe().getVrTotalNfe(),
-                "SALVA" // depois podemos mudar para status real
-            ))
-            .collect(Collectors.toList());
-    }
-
-    public NotaFiscal atualizarNota(Long id, NotaFiscalDTO dto) {
-        Optional<NotaFiscal> optionalNota = notaFiscalRepository.findById(id);
-        if (optionalNota.isEmpty()) {
-            throw new RuntimeException("Nota Fiscal não encontrada para ID " + id);
-        }
-
-        NotaFiscal nota = optionalNota.get();
-
-        // atualize os campos necessários
-        // exemplo:
-       // nota.setGeraisNfe(dto.getGerais());
-       // nota.setDestinatario(dto.getDestinatario());
-       // nota.setEmitente(dto.getEmitente());
-       // nota.setProdutos(dto.getProdutos());
-       // nota.setPagamento(dto.getPagamento());
-       // nota.setTotais(dto.getTotais());
-       // nota.setTransporte(dto.getTransporte());
-
-        return notaFiscalRepository.save(nota);
-    }
-
-    public void excluirNota(Long id) {
-        if (!notaFiscalRepository.existsById(id)) {
-            throw new RuntimeException("Nota Fiscal não encontrada para ID " + id);
-        }
-        notaFiscalRepository.deleteById(id);
-    }
-
-
-}
-
-
-
+   
