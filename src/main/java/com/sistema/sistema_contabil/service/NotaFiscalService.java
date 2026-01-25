@@ -25,16 +25,10 @@ import br.com.swconsultoria.nfe.dom.ConfiguracoesNfe;
 import br.com.swconsultoria.nfe.dom.enuns.AmbienteEnum;
 import br.com.swconsultoria.nfe.dom.enuns.DocumentoEnum;
 import br.com.swconsultoria.nfe.dom.enuns.EstadosEnum;
-import br.com.swconsultoria.nfe.dom.enuns.ServicosEnum;
 import br.com.swconsultoria.nfe.schema_4.consStatServ.TRetConsStatServ;
-import br.com.swconsultoria.nfe.util.ConstantesUtil;
-
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
 import java.io.File; // Para carregar o certificado e Para criar o diretório de logs
 
-
-import org.springframework.beans.factory.annotation.Value; // Necessário para injetar valores
 
 import jakarta.transaction.Transactional;
 
@@ -63,6 +57,9 @@ public class NotaFiscalService {
     @Value("${nfe.certificado.senha}")
     private String senhaCertificado;
 
+    private ConfiguracoesNfe configNfe;
+
+
     // ...
 
     /**
@@ -75,40 +72,44 @@ public class NotaFiscalService {
 private void inicializarNfe() {
     System.out.println("⏳ Inicializando Configurações da NF-e...");
     try {
-        // 1. Criar diretório base
-        File baseDir = new File(DIR_LOG_NFE);
-        if (!baseDir.exists()) {
-            baseDir.mkdirs();
-        }
-
-        // 2. Carregar certificado A1 (PFX)
-        Certificado certificado = CertificadoService.certificadoPfx(
-            caminhoCertificado,
-            senhaCertificado
-        );
-
-        // 3. Configurar NF-e (sem iniciaConfiguracoes)
-        ConfiguracoesNfe config = ConfiguracoesNfe.criarConfiguracoes(
-            EstadosEnum.SP,                 // ajuste para a UF correta
-            AmbienteEnum.HOMOLOGACAO,       // ou PRODUCAO
-            certificado,
-            DIR_LOG_NFE                     // pasta para XML
-        );
-
-        // 4. Consulta de status do serviço
-         TRetConsStatServ status = Nfe.statusServico(
-          config,
-          DocumentoEnum.NFE // aqui você indica o tipo de documento
-    );
-
-        System.out.println("✅ Configuração concluída! Status: "
-            + status.getCStat() + " - " + status.getXMotivo());
+        // apenas carrega config (não chama SEFAZ aqui)
+        getConfigNfe();
+        System.out.println("✅ Configuração carregada! (sem statusServico no startup)");
 
     } catch (Exception e) {
-        System.err.println("❌ Erro FATAL ao inicializar a NF-e. Verifique caminho/senha do certificado e UF.");
+        System.err.println("⚠️ NF-e NÃO inicializada no startup. O sistema vai subir mesmo assim.");
         e.printStackTrace();
-        throw new RuntimeException("Falha na inicialização da NF-e.", e);
+
+        // IMPORTANTE: NÃO derrubar a aplicação
+        this.configNfe = null;
     }
+}
+
+
+private ConfiguracoesNfe getConfigNfe() throws Exception {
+    if (this.configNfe != null) return this.configNfe;
+
+    File baseDir = new File(DIR_LOG_NFE);
+    if (!baseDir.exists()) baseDir.mkdirs();
+
+    Certificado certificado = CertificadoService.certificadoPfx(
+        caminhoCertificado,
+        senhaCertificado
+    );
+
+    this.configNfe = ConfiguracoesNfe.criarConfiguracoes(
+        EstadosEnum.SP,
+        AmbienteEnum.HOMOLOGACAO,
+        certificado,
+        DIR_LOG_NFE
+    );
+
+    return this.configNfe;
+}
+
+public String testarStatusServico() throws Exception {
+    TRetConsStatServ status = Nfe.statusServico(getConfigNfe(), DocumentoEnum.NFE);
+    return status.getCStat() + " - " + status.getXMotivo();
 }
 
 
@@ -133,13 +134,7 @@ private void inicializarNfe() {
         return NotaFiscalMapper.toDTO(entity);
 
        
-       // System.out.println("📘 Dados Gerais: " + dto.gerais);
-       // System.out.println("🧾 Emitente: " + dto.getEmitente());
-       // System.out.println("📦 Produtos: " + dto.getProdutos());
-       // System.out.println("👤 Destinatário: " + dto.getDestinatario());
-       // System.out.println("🚚 Transporte: " + dto.getTransporte());
-       // System.out.println("💵 Pagamento: " + dto.getPagamento());
-                
+                      
     }
 
       // Buscar por ID
@@ -163,151 +158,8 @@ private void inicializarNfe() {
         System.out.println("🚚 Transporte: " + dto.getTransporte());
         System.out.println("💵 Pagamento: " + dto.getPagamento());
         
-     //   try {
-       // ObjectMapper mapper = new ObjectMapper();
-     //   String jsonDTO = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto);
-      //  System.out.println("🔍 Dados recebidos do front-end (DTO):\n" + jsonDTO);
-    
 
-        // 🔎 Busca o emitente pelo CNPJ informado no DTO. Se não existir, lança exceção.
-       // PessoaJuridica emitente = pessoaRepository.findByCnpj(dto.emitente.cnpj)
-      //  .orElseThrow(() -> new RuntimeException("Emitente não encontrado com CNPJ: " + dto.emitente.cnpj));
-
-        // 🔎 Busca o destinatário pelo CNPJ informado no DTO. Se não existir, lança exceção.
-       // PessoaJuridica destinatario = pessoaRepository.findByCnpj(dto.destinatario.cnpj)
-      //  .orElseThrow(() -> new RuntimeException("Destinatário não encontrado com CNPJ: " + dto.destinatario.cnpj));
-
-        // Dados de pagamento
-      //  Pagamento pagamento = new Pagamento();
-       // pagamento.setFormaPagamento(dto.pagamento.formaPagamento);
-       // pagamento.setValorPago(dto.pagamento.valorPago);
-       // pagamento.setValorTroco(dto.pagamento.valorTroco);
-
-        // Dados de transporte
-      //  Transporte transporte = new Transporte();
-        //transporte.setModFrete(dto.transporte.modFrete);
-        //transporte.setTransportadora(dto.transporte.transportadora);
-       // transporte.setCnpjTransportadora(dto.transporte.cnpjTransportadora);
-        //transporte.setPlacaVeiculo(dto.transporte.placaVeiculo);
-        //transporte.setUfPlaca(dto.transporte.ufPlaca);
-        //transporte.setValorFrete(dto.transporte.valor_frete);
-/* 
-        GeraisNfe gerais = new GeraisNfe();
-       
-        gerais.setLayout(dto.gerais.layout);
-        gerais.setIdChaveAcesso(dto.gerais.idChaveAcesso);
-        gerais.setUfEmitente(dto.gerais.ufEmitente);
-        gerais.setCodNumericoNFe(dto.gerais.codNumericoNFe);
-        gerais.setNatOperacao(dto.gerais.natOperacao);
-        gerais.setCrt(dto.gerais.crt);
-        gerais.setSerie(dto.gerais.serie);
-        gerais.setNumeroNFe(dto.gerais.numeroNFe);
-        gerais.setDtHrEmissao(dto.gerais.dtHrEmissao);
-        gerais.setDtHrSaida(dto.gerais.dtHrSaida);
-        gerais.setTipo(dto.gerais.tipo);
-        gerais.setDestinoOpe(dto.gerais.destinoOpe);
-        gerais.setIbge(dto.gerais.ibge);
-        gerais.setFormatoDanfe(dto.gerais.formatoDanfe);
-        gerais.setTipoEmissao(dto.gerais.tipoEmissao);
-        gerais.setDigitoChave(dto.gerais.digitoChave);
-        gerais.setAmbiente(dto.gerais.ambiente);
-        gerais.setFinalidade(dto.gerais.finalidade);
-        gerais.setConsumidorFinal(dto.gerais.consumidorFinal);
-        gerais.setVendaPresencial(dto.gerais.vendaPresencial);
-        gerais.setProcessoVersaoEmissor(dto.gerais.processoVersaoEmissor);
-        gerais.setVendaPresencial(dto.gerais.vendaPresencial);
-        gerais.setBaseCalculo(dto.gerais.baseCalculo);
-        gerais.setVrIcms(dto.gerais.vrIcms);
-        gerais.setVrTotalProd(dto.gerais.vrTotalProd);
-        gerais.setVrTotalNfe(dto.gerais.vrTotalNfe);
-*/
-     
-         // Criar nota fiscal
-       // NotaFiscal nota = new NotaFiscal();
-        /* Explicaçao: exemplo Emitente: como na entity NotaFiscal está anotado como ManyToOne
-         * o objeto PessoaJuridica passado no setEmitente() já tem um id preenchido
-         * e o JPA entende que se o objeto tem ID, ele já existe no banco, entao nao deve
-         * ser recriado, so referenciado
-         * ✔️ Ou seja, ele não copia os dados do emitente e destinatário para a nota, 
-         * apenas vincula os IDs já existentes
-          */
-       // nota.setGeraisNfe(gerais);
-       // nota.setEmitente(emitente);
-       // nota.setDestinatario(destinatario);
-      //  nota.setTransportadora(transporte);
-      //  nota.setPagamento(pagamento);
-       
-     // Montar lista de itens
-     // 📆 Converte a lista de ProdutoDTO em lista de ItemNotaFiscal vinculando com a nota.
-    /*  dto.produtos.stream() — cria um stream (fluxo) de elementos da lista produtos (cada elemento é um ProdutoDTO).
-        .map(p -> { ... }) — para cada ProdutoDTO p executa a função lambda:
-            new ItemNotaFiscal() — cria uma nova instância da entidade que vai ser salva no banco.
-            item.setXxx(p.getXxx()) — copia valores do DTO para a entidade (conversão DTO → entidade).
-            return item; — o map transforma o ProdutoDTO em ItemNotaFiscal.
-        .collect(Collectors.toList()) — reúne todos os ItemNotaFiscal produzidos pelo map numa List<ItemNotaFiscal>.
-       */
-     //   List<ItemNotaFiscal> itens = dto.produtos.stream().map(p -> {
-   /*  ItemNotaFiscal item = new ItemNotaFiscal();
-    item.setCodProd(p.getCodProd());
-    item.setDescricao(p.getDescricao());
-    item.setCodBarras(p.getCodBarras());
-    item.setNcm(p.getNcm());
-    item.setProdutoST(p.getProdutoST());
-    item.setCst(p.getCst());
-    item.setCsosn(p.getCsosn());
-    item.setCfop(p.getCfop());
-    item.setUnidade(p.getUnidade());
-    item.setQuantidade(p.getQuantidade());
-    item.setValorUnitario(p.getValorUnitario());
-    item.setDesconto(p.getDesconto());
-    item.setVrTotalProd(p.getVrTotalProd());
-    item.setOrigem(p.getOrigem());
-    item.setBcIcmsProd(p.getBcIcmsProd());
-    item.setAliqIcms(p.getAliqIcms());
-    item.setVrDoIcms(p.getVrDoIcms());
-    item.setStPisCofins(p.getStPisCofins());
-    item.setBcPisCofins(p.getBcPisCofins());
-    item.setRegimeApuPisCofins(p.getRegimeApuPisCofins());
-    item.setVrPis(p.getVrPis());
-    item.setVrCofins(p.getVrCofins());
-    item.setStIPI(p.getStIPI());
-    item.setCodIPI(p.getCodIPI());
-    item.setAliqIPI(p.getAliqIPI());
-    item.setVrIPI(p.getVrIPI());
-    item.setVrTotalServ(p.getVrTotalServ());
-    item.setBcISSQN(p.getBcISSQN());
-    item.setVrISSQN(p.getVrISSQN());
-    item.setRetIRRF(p.getRetIRRF());
-    item.setRetPisCofins(p.getRetPisCofins());
-  //  return item; */
-
-//}).collect(Collectors.toList());
-
-          // Relacionar nota com itens
-          /* 
-            ou seja: vincula o lado "many" ao lado "one" (cada item aponta para a nota). 
-            Isso é importante para manter a integridade do relacionamento bidirecional.
-          */
-        //    itens.forEach(i -> i.setNotaFiscal(nota));
-         //   nota.setItens(itens);
-
-
-            // Salvar nota fiscal no banco
-         //   notaFiscalRepository.save(nota);
-
-           // System.out.println("📦 Nota fiscal salva com sucesso no banco.");
-            // 📃 Log para depuração (opcional)
-            
-         //   String jsonDebug = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto);
-           // System.out.println("NF-e salva:");
-           // System.out.println(jsonDebug);
-
-      //  } catch (Exception e) {
-        //    e.printStackTrace();
-           // throw new RuntimeException("Erro ao salvar nota fiscal: " + e.getMessage());
-        
-   // }
-    }/* */
+    }
 
      public List<NotaFiscalResumoDTO> listarNotas() {
         return notaFiscalRepository.findAll().stream()
@@ -332,16 +184,7 @@ private void inicializarNfe() {
 
         NotaFiscal nota = optionalNota.get();
 
-        // atualize os campos necessários
-        // exemplo:
-       // nota.setGeraisNfe(dto.getGerais());
-       // nota.setDestinatario(dto.getDestinatario());
-       // nota.setEmitente(dto.getEmitente());
-       // nota.setProdutos(dto.getProdutos());
-       // nota.setPagamento(dto.getPagamento());
-       // nota.setTotais(dto.getTotais());
-       // nota.setTransporte(dto.getTransporte());
-
+   
         return notaFiscalRepository.save(nota);
     }
 

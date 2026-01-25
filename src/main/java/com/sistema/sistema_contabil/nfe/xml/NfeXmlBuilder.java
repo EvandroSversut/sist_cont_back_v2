@@ -1,5 +1,5 @@
 package com.sistema.sistema_contabil.nfe.xml;
-
+/*
 import br.com.swconsultoria.nfe.schema_4.enviNFe.TEnviNFe;
 import br.com.swconsultoria.nfe.schema_4.nfe.TNFe;
 import br.com.swconsultoria.nfe.schema_4.nfe.TNFe.InfNFe;
@@ -37,3 +37,4 @@ public class NfeXmlBuilder {
         return br.com.swconsultoria.nfe.util.NfeUtil.objectToXml(envi);
     }
 }
+ */
