@@ -25,7 +25,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
         
       boolean existsByEmail(String email);
 
-      Optional<Usuario> findByPessoaFisicaId(Long idPessoaFisica);
+      Optional<Usuario> findByPessoaId(Long id);
 
       // ✅ Busca pelo nome da PessoaFisica OU pelo email
       //List<Usuario> findByNomeContainingIgnoreCaseOrEmailContainingIgnoreCase(String nome, String email);

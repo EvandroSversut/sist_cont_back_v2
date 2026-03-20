@@ -45,8 +45,7 @@ public class PessoaFisica extends Pessoa {
                 + getCpf() + ", getRg()=" + getRg() + ", getId()=" + getId() + ", getTelefone()=" + getTelefone()
                 + ", getRua()=" + getRua() + ", getClass()=" + getClass() + ", getNumero()=" + getNumero()
                 + ", getComplemento()=" + getComplemento() + ", getBairro()=" + getBairro() + ", getCep()=" + getCep()
-                + ", getCidade()=" + getCidade() + ", getUf()=" + getUf() + ", getEmail()=" + getEmail()
-                + ", toString()=" + super.toString() + ", hashCode()=" + hashCode() + "]";
+                + ", getCidade()=" + getCidade() + ", getUf()=" + getUf() + ", toString()=" + super.toString() + ", hashCode()=" + hashCode() + "]";
     }
 
     

@@ -114,7 +114,7 @@ public class PessoaJuridicaService {
         dto.setInscMunicipal(entity.getInscMun());
         dto.setCnae(entity.getCnae());
         dto.setTelefone(entity.getTelefone());
-        dto.setEmail(entity.getEmail());
+        //dto.setEmail(entity.getEmail());
         dto.setIbge(entity.getIbge());
         dto.setRua(entity.getRua());
         dto.setNumero(entity.getNumero());
@@ -136,7 +136,7 @@ public class PessoaJuridicaService {
         entity.setIe(dto.getInscEstadual());
         entity.setCnae(dto.getCnae());
         entity.setInscMun(dto.getInscMunicipal());
-        entity.setEmail(dto.getEmail());
+       // entity.setEmail(dto.getEmail());
         entity.setIbge(dto.getIbge());
         entity.setTelefone(dto.getTelefone());
         entity.setRua(dto.getRua());

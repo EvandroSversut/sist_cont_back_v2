@@ -26,7 +26,7 @@ import lombok.Setter;
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -44,7 +44,7 @@ public class Usuario {
     // PessoaFisica não "conhece" o Usuario, mas Usuario conhece PessoaFisica.
     @OneToOne
     @JoinColumn(name = "pessoa_fisica_id", nullable = false)
-    private PessoaFisica pessoaFisica;
+    private Pessoa pessoa;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

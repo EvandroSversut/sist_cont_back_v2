@@ -39,7 +39,6 @@ public class CadastroService {
     // 🔹 Cadastrar Pessoa Física 
     PessoaFisica pessoaFisica = new PessoaFisica();
     pessoaFisica.setNome(dto.getNome());
-    pessoaFisica.setEmail(dto.getEmail());
     pessoaFisica.setTelefone(dto.getTelefone());
     pessoaFisica.setRua(dto.getRua());
     pessoaFisica.setNumero(dto.getNumero());
@@ -61,7 +60,7 @@ public class CadastroService {
     Usuario usuario = new Usuario();
     usuario.setEmail(dto.getEmail()); // pode ser igual ao da pessoa física
     usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
-    usuario.setPessoaFisica(pessoaFisica); // associa corretamente
+    usuario.setPessoa(pessoaFisica); // associa corretamente
     usuario.setDataCriacao(usuario.getDataCriacao());
     usuario.isAtivo();
     
@@ -74,7 +73,7 @@ public class CadastroService {
 
         System.out.println("Email: " + usuario.getEmail());
         System.out.println("Senha (criptografada): " + usuario.getSenha());
-        System.out.println("Pessoa Física: " + (usuario.getPessoaFisica().getId()));
+        System.out.println("Pessoa Física: " + (usuario.getPessoa().getId()));
         System.out.println("Ativo: " + usuario.isAtivo());
         System.out.println("Data Criação: " + usuario.getDataCriacao());
 
@@ -89,7 +88,7 @@ public class CadastroService {
         .orElseThrow(() -> new RuntimeException("Pessoa física não encontrada"));
   
     pessoaFisica.setNome(dto.getNome());
-    pessoaFisica.setEmail(dto.getEmail());
+    //pessoaFisica.setEmail(dto.getEmail());
     pessoaFisica.setTelefone(dto.getTelefone());
     pessoaFisica.setRua(dto.getRua());
     pessoaFisica.setNumero(dto.getNumero());
@@ -114,7 +113,7 @@ public class CadastroService {
         usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
     }
 
-    usuario.setPessoaFisica(pessoaFisica);
+    usuario.setPessoa(pessoaFisica);
     usuario.setAtivo(true); // ou dto.isAtivo() se quiser controlar isso no front
 
     usuarioRepo.save(usuario);
@@ -124,7 +123,7 @@ public class CadastroService {
         List<Usuario> usuarios = usuarioRepo.findAll();
 
         List<PessoaUsuarioDTO> lista = usuarios.stream()
-            .map(usuario -> converterParaDTO(usuario.getPessoaFisica(), usuario))
+            .map(usuario -> converterParaDTO((PessoaFisica)usuario.getPessoa(), usuario))
             .collect(Collectors.toList());
 
         lista.forEach(dto -> System.out.println(dto.imprimirBonito()));

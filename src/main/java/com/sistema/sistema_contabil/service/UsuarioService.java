@@ -58,10 +58,12 @@ public class UsuarioService {
             System.out.println("🛡️ Nenhum acesso foi atribuído ao usuário. Definindo acesso padrão...");
             // Busca o acesso com a descrição "ROLE_USER" no banco de dados
             Acesso acessoUser = acessoRepository.findByDescricao("ROLE_USER")
-                    // Se não encontrar, lança uma exceção
-                    .orElseThrow(() -> new RuntimeException("Acesso ROLE_USER não encontrado"));
-                    System.err.println("❌ Acesso ROLE_USER não encontrado no banco!");
-            // Define a lista de acessos do usuário com apenas o acesso "ROLE_USER"
+                .orElseGet(() -> {
+            System.out.println("⚠️ ROLE_USER não encontrado. Criando automaticamente...");
+            Acesso novo = new Acesso();
+            novo.setDescricao("ROLE_USER");
+            return acessoRepository.save(novo);
+        });
             
             usuario.setAcessos(List.of(acessoUser));
             System.out.println("✅ Acesso ROLE_USER encontrado: " + acessoUser.getDescricao());
@@ -77,7 +79,7 @@ public class UsuarioService {
         System.out.println("📥 Preparando para salvar o usuário:");
         System.out.println("Email: " + usuario.getEmail());
         System.out.println("Senha (criptografada): " + usuario.getSenha());
-        System.out.println("Pessoa Física: " + (usuario.getPessoaFisica() != null ? usuario.getPessoaFisica().getNome() : "null"));
+        System.out.println("Pessoa Física: " + (usuario.getPessoa() != null ? usuario.getPessoa().getClass().getName() : "null"));
         System.out.println("Acessos:");
         usuario.getAcessos().forEach(a -> System.out.println("🔑 " + a.getDescricao()));
         System.out.println("Ativo: " + usuario.isAtivo());

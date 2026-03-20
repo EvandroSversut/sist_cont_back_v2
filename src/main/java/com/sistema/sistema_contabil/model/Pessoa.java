@@ -38,9 +38,6 @@ public class Pessoa {
     @Column(nullable = true)
     private String uf;
 
-    @Column(nullable = true)
-    private String email;
-
     public Long getId() {
         return id;
     }
@@ -113,19 +110,12 @@ public class Pessoa {
         this.uf = uf;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+ 
     @Override
     public String toString() {
         return "Pessoa [id=" + id + ", telefone=" + telefone + ", rua=" + rua + ", numero=" + numero
                 + ", complemento=" + complemento + ", bairro=" + bairro + ", cep=" + cep + ", cidade=" + cidade
-                + ", uf=" + uf + ", email=" + email + "]";
+                + ", uf=" + uf + "]";
     }
 
     

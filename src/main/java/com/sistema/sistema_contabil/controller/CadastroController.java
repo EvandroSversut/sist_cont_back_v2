@@ -132,9 +132,9 @@ public ResponseEntity<?> cadastrar(@RequestBody PessoaUsuarioDTO dto) {
         dto.setCep(pf.getCep());
         dto.setCidade(pf.getCidade());
         dto.setUf(pf.getUf());
-        dto.setEmail(pf.getEmail());
+    
 
-        usuarioRepository.findByPessoaFisicaId(pf.getId())
+        usuarioRepository.findByPessoaId(pf.getId())
                          .ifPresent(usuario -> dto.setIdUsuario(usuario.getId()));
 
         return dto;
@@ -176,7 +176,7 @@ public ResponseEntity<?> cadastrar(@RequestBody PessoaUsuarioDTO dto) {
 
      @GetMapping("/buscar")
     public List<PessoaFisica> buscar(@RequestParam String filtro) {
-        return fisicaRepository.findByNomeContainingIgnoreCaseOrEmailContainingIgnoreCase(filtro, filtro);
+        return fisicaRepository.findByNomeContainingIgnoreCase(filtro);
     }
 
 }

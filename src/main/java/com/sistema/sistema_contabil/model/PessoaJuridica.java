@@ -77,7 +77,7 @@ public class PessoaJuridica extends Pessoa {
                 + getTelefone() + ", getInscMun()=" + getInscMun() + ", getRua()=" + getRua() + ", getCnae()="
                 + getCnae() + ", getClass()=" + getClass() + ", getNumero()=" + getNumero() + ", getComplemento()="
                 + getComplemento() + ", getBairro()=" + getBairro() + ", getCep()=" + getCep() + ", getCidade()="
-                + getCidade() + ", getUf()=" + getUf() + ", getEmail()=" + getEmail() + ", toString()="
+                + getCidade() + ", getUf()=" + getUf() + ", toString()="
                 + getIbge() + ", getIbge()="
                 + super.toString() + ", hashCode()=" + hashCode() + "]";
     }

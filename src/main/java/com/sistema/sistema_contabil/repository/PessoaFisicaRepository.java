@@ -16,6 +16,6 @@ Optional<PessoaFisica> findByCpf(String cpf);
 
 boolean existsByCpf(String cpf);
 
-List<PessoaFisica> findByNomeContainingIgnoreCaseOrEmailContainingIgnoreCase(String nome, String email);
+List<PessoaFisica> findByNomeContainingIgnoreCase(String nome);
     
 }
