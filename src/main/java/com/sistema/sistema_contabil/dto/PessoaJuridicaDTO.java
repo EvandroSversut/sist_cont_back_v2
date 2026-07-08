@@ -8,6 +8,9 @@ import lombok.Data;
 @Data
 public class PessoaJuridicaDTO {
     
+    private String tipo; //NOVO ou EXISTENTE
+    private String mensagem;
+
     private Long id;
     private String razaoSocial;
     private String nomeFantasia;
@@ -15,8 +18,12 @@ public class PessoaJuridicaDTO {
     private String inscEstadual;
     private String inscMunicipal;
     private String cnae;
-    private String telefone;
-    private String email;
+    private String ibge;
+
+     // 👇 CAMPOS DA PESSOA
+    private String telefone1;
+    private String telefone2;
+    private String emailContato;
     private String rua;
     private String numero;
     private String complemento;
@@ -24,8 +31,26 @@ public class PessoaJuridicaDTO {
     private String cep;
     private String cidade;
     private String uf;
-    private String ibge;
-    
+      
+        
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+
+
+
     public Long getId() {
         return id;
     }
@@ -66,18 +91,26 @@ public class PessoaJuridicaDTO {
     public void setInscMunicipal(String inscMunicipal) {
         this.inscMunicipal = inscMunicipal;
     }
-    public String getTelefone() {
-        return telefone;
+    public String getTelefone1() {
+        return telefone1;
     }
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setTelefone(String telefone1) {
+        this.telefone1 = telefone1;
     }
-    public String getEmail() {
-        return email;
+public String getTelefone2() {
+        return telefone2;
     }
-    public void setEmail(String email) {
-        this.email = email;
+    public void setTelefone2(String telefone2) {
+        this.telefone2 = telefone2;
     }
+
+    public String getEmailContato() {
+        return emailContato;
+    }
+    public void setEmailContato(String emailContato) {
+        this.emailContato = emailContato;
+    }
+
     public String getRua() {
         return rua;
     }
@@ -156,8 +189,8 @@ public class PessoaJuridicaDTO {
                 "\nRazão Social: " + razaoSocial +
                 "\nNome Fantasia: " + nomeFantasia +
                  "\nCNAE: " + cnae +
-                "\nTelefone: " + telefone +
-                "\nEmail: " + email +
+                "\nTelefone: " + telefone1 +
+                "\nEmail: " + emailContato +
                 "\nIbge: " + ibge +
                 "\nEndereço: " + rua + ", " + numero + " - " + bairro +
                 (complemento != null && !complemento.isEmpty() ? " (" + complemento + ")" : "") +

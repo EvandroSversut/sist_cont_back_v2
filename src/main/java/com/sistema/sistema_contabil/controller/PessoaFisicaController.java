@@ -41,7 +41,7 @@ public class PessoaFisicaController {
     public ResponseEntity<PessoaFisica> cadastrar(@RequestBody PessoaFisicaRequest request) {
         PessoaFisica pf = new PessoaFisica();
         pf.setNome(request.nome);
-        pf.setTelefone(request.telefone);
+        pf.setTelefone1(request.telefone);
         pf.setRua(request.rua);
         pf.setNumero(request.numero);
         pf.setComplemento(request.complemento);

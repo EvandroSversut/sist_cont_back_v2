@@ -6,16 +6,21 @@ import jakarta.persistence.*;
 // , as classes que herdarem vao criar as colunas desta classe
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Pessoa {
+public abstract class Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pessoa_seq")
     @SequenceGenerator(name = "pessoa_seq", sequenceName = "pessoa_seq", allocationSize = 1)
     private Long id;
-  
-    
+      
     @Column(nullable = true)
-    private String telefone;
+    private String telefone1;
+
+    @Column(nullable = true)
+    private String telefone2;
+
+    @Column(nullable = true)
+    private String emailContato;
 
     @Column(nullable = true)
     private String rua;
@@ -46,12 +51,30 @@ public class Pessoa {
         this.id = id;
     }
 
-    public String getTelefone() {
-        return telefone;
+   
+
+    public String getTelefone1() {
+        return telefone1;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setTelefone1(String telefone1) {
+        this.telefone1 = telefone1;
+    }
+
+    public String getTelefone2() {
+        return telefone2;
+    }
+
+    public void setTelefone2(String telefone2) {
+        this.telefone2 = telefone2;
+    }
+
+    public String getEmailContato() {
+        return emailContato;
+    }
+
+    public void setEmailContato(String emailContato) {
+        this.emailContato = emailContato;
     }
 
     public String getRua() {
@@ -113,7 +136,7 @@ public class Pessoa {
  
     @Override
     public String toString() {
-        return "Pessoa [id=" + id + ", telefone=" + telefone + ", rua=" + rua + ", numero=" + numero
+        return "Pessoa [id=" + id + ", telefone=" + telefone1 + ", rua=" + rua + ", numero=" + numero
                 + ", complemento=" + complemento + ", bairro=" + bairro + ", cep=" + cep + ", cidade=" + cidade
                 + ", uf=" + uf + "]";
     }

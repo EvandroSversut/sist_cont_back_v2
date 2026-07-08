@@ -17,6 +17,7 @@ public class PessoaJuridica extends Pessoa {
     private String cnae;
     private String ibge;
     
+    
     public String getTipo() {
         return tipo;
     }
@@ -68,19 +69,20 @@ public class PessoaJuridica extends Pessoa {
     }
 
     
+    
     @Override
     public String toString() {
         return "PessoaJuridica [tipo=" + tipo + ", cnpj=" + cnpj + ", razaoSocial=" + razaoSocial + ", nomeFantasia="
                 + nomeFantasia + ", ie=" + ie + ", inscMun=" + inscMun + ", cnae=" + cnae + ", getTipo()=" + getTipo()
                 + ", getCnpj()=" + getCnpj() + ", getRazaoSocial()=" + getRazaoSocial() + ", getNomeFantasia()="
                 + getNomeFantasia() + ", getId()=" + getId() + ", getIe()=" + getIe() + ", getTelefone()="
-                + getTelefone() + ", getInscMun()=" + getInscMun() + ", getRua()=" + getRua() + ", getCnae()="
+                + getTelefone1() + ", getInscMun()=" + getInscMun() + ", getRua()=" + getRua() + ", getCnae()="
                 + getCnae() + ", getClass()=" + getClass() + ", getNumero()=" + getNumero() + ", getComplemento()="
                 + getComplemento() + ", getBairro()=" + getBairro() + ", getCep()=" + getCep() + ", getCidade()="
                 + getCidade() + ", getUf()=" + getUf() + ", toString()="
                 + getIbge() + ", getIbge()="
                 + super.toString() + ", hashCode()=" + hashCode() + "]";
     }
- 
+
     
 }

@@ -1,6 +1,8 @@
 package com.sistema.sistema_contabil.service;
 
+import com.sistema.sistema_contabil.dto.BrasilApiDTO;
 import com.sistema.sistema_contabil.dto.PessoaJuridicaDTO;
+import com.sistema.sistema_contabil.mapper.PessoaJuridicaMapper;
 import com.sistema.sistema_contabil.model.PessoaJuridica;
 import com.sistema.sistema_contabil.repository.PessoaJuridicaRepository;
 
@@ -8,9 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,51 +26,67 @@ public class PessoaJuridicaService {
     @Autowired
     private PessoaJuridicaRepository repository;
 
+    @Autowired
+    private BrasilApiService brasilApiService;
+
+    @Autowired
+    private PessoaJuridicaMapper mapper;
+
+    public PessoaJuridicaDTO buscarCnpj(String cnpj) {
+
+    System.out.println("🏢 Verificando se CNPJ já existe no banco...");
+
+    Optional<PessoaJuridica> existente = repository.findByCnpj(cnpj);
+
+    // 🟣 CASO EXISTENTE
+    if (existente.isPresent()) {
+
+        PessoaJuridicaDTO dto = mapper.toDTO(existente.get());
+
+        dto.setTipo("EXISTENTE");
+        dto.setMensagem("CNPJ já cadastrato");
+
+        return dto;
+    }
+
+     // 🔵 CASO NOVO (BrasilAPI)
+     
+    System.out.println("🌐 CNPJ não encontrado. Consultando BrasilAPI...");
+
+    BrasilApiDTO api = brasilApiService.consultarCnpj(cnpj);
+
+    PessoaJuridicaDTO dto = mapper.fromBrasilApi(api);
+
+    dto.setTipo("NOVO");
+
+    return dto;
+
+}
+
     private static final Logger logger = LoggerFactory.getLogger(PessoaJuridicaService.class);
 
        // 🔸 Salvar
     public PessoaJuridicaDTO salvar(PessoaJuridicaDTO dto) {
+
+        logger.info("🟢 Recebendo DTO: {}", dto);
+
         //👉 Aqui o converterParaEntity(dto) transforma o DTO que veio da API
         //    em uma entidade que o banco entende.
-        PessoaJuridica entity = converterParaEntity(dto);
+        PessoaJuridica entity = mapper.toEntity(dto);
+
         System.out.println("🟢 Dados recebidos no DTO: " + dto);
+
         PessoaJuridica salvo = repository.save(entity);
-        return converterParaDTO(salvo);
+
+          // ✅ converter de volta usando mapper
+        return mapper.toDTO(salvo);
     }
 
-
-/* 
-     // 🔸 Listar todos
     public List<PessoaJuridicaDTO> listarTodos() {
-        return repository.findAll()
-                .stream()
-                .map(this::converterParaDTO)
-                .collect(Collectors.toList());
 
-                System.out.println("\n************* LISTA DE PESSOAS JURÍDICAS ************");
-    lista.forEach(pj -> {
-        System.out.println("-----------------------------------------------------");
-        System.out.println("ID: " + pj.getId());
-        System.out.println("CNPJ: " + pj.getCnpj());
-        System.out.println("Razão Social: " + pj.getRazaoSocial());
-        System.out.println("Nome Fantasia: " + pj.getNomeFantasia());
-        System.out.println("Telefone: " + pj.getTelefone());
-        System.out.println("Email: " + pj.getEmail());
-        System.out.println("Endereço: " + pj.getRua() + ", " + pj.getNumero() + " - " + pj.getBairro());
-        System.out.println("Cidade: " + pj.getCidade() + " - " + pj.getUf() + " | CEP: " + pj.getCep());
-        System.out.println("-----------------------------------------------------\n");
-    });
-
-    return lista;
-}
-
-    }
-*/
-
-       public List<PessoaJuridicaDTO> listarTodos() {
         List<PessoaJuridicaDTO> lista = repository.findAll()
                 .stream()
-                .map(this::converterParaDTO)
+                .map(mapper::toDTO)
                 .collect(Collectors.toList());
 
         logger.info("************* LISTAR PJ PESSOAS ************");
@@ -71,10 +94,46 @@ public class PessoaJuridicaService {
         //lista.forEach(pj -> logger.info(pj.toString()));
         lista.forEach(pj -> System.out.println(pj.imprimirBonito())); // este metodo esta no DTO
 
-
         return lista;
     }
 
+  /*   public List<PessoaJuridicaDTO> buscarPorNome(String nome) {
+
+        System.out.println("🔍 Service: Buscando por Nome: " + nome);
+    return repository.findByRazaoSocialContainingIgnoreCase(nome)
+            .stream()
+            .map(mapper::toDTO)
+            .toList();
+}*/
+
+
+public Page<PessoaJuridicaDTO> buscarPaginado(String nome, int page, int size) {
+
+    System.out.println("🔍 NOME: " + nome);
+    System.out.println("📄 PAGE: " + page + " SIZE: " + size);
+
+    PageRequest pageable = PageRequest.of(page, size);
+
+    Page<PessoaJuridica> resultado;
+
+    if (nome == null || nome.isEmpty()) {
+        resultado = repository.findAll(pageable);
+    } else {
+        resultado = repository.findByRazaoSocialContainingIgnoreCase(nome, pageable);
+    }
+
+    System.out.println("📦 TOTAL REGISTROS: " + resultado.getTotalElements());
+
+    resultado.getContent().forEach(pj -> {
+        System.out.println("➡️ " + pj.getRazaoSocial()
+            + " | IE : " + pj.getIe()
+            + " | EMAIL: " + pj.getEmailContato()
+            + " | TEL: " + pj.getTelefone1());
+    });
+
+    return resultado.map(mapper::toDTO);
+}
+    
 
 
    public PessoaJuridica buscarPorRazaoSocial(String nome) {
@@ -82,77 +141,12 @@ public class PessoaJuridicaService {
             .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
 }
 
-/* 
-    // 🔸 Buscar por ID
-    public PessoaJuridicaDTO buscarPorId(Long id) {
-        PessoaJuridica entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pessoa Jurídica não encontrada"));
-        return converterParaDTO(entity);
-    } */
-
-    /* 
-    // 🔸 Criar ou atualizar
-    public PessoaJuridicaDTO salvar(PessoaJuridicaDTO dto) {
-        PessoaJuridica entity = converterParaEntidade(dto);
-        entity = repository.save(entity);
-        return converterParaDTO(entity);
-    } */
-
     // 🔸 Excluir
     public void excluir(Long id) {
         repository.deleteById(id);
     }
     
-    // 🔸 Conversor de Entity para DTO
-    private PessoaJuridicaDTO converterParaDTO(PessoaJuridica entity) {
-        PessoaJuridicaDTO dto = new PessoaJuridicaDTO();
-        dto.setId(entity.getId());
-        dto.setRazaoSocial(entity.getRazaoSocial());
-        dto.setNomeFantasia(entity.getNomeFantasia());
-        dto.setCnpj(entity.getCnpj());
-        dto.setInscEstadual(entity.getIe());
-        dto.setInscMunicipal(entity.getInscMun());
-        dto.setCnae(entity.getCnae());
-        dto.setTelefone(entity.getTelefone());
-        //dto.setEmail(entity.getEmail());
-        dto.setIbge(entity.getIbge());
-        dto.setRua(entity.getRua());
-        dto.setNumero(entity.getNumero());
-        dto.setComplemento(entity.getComplemento());
-        dto.setBairro(entity.getBairro());
-        dto.setCep(entity.getCep());
-        dto.setCidade(entity.getCidade());
-        dto.setUf(entity.getUf());
-        return dto;
-    }
-
-    // 🔸 Conversor DTO → Entity
-    private PessoaJuridica converterParaEntity(PessoaJuridicaDTO dto) {
-        PessoaJuridica entity = new PessoaJuridica();
-        //entity.setId(dto.getId());
-        entity.setCnpj(dto.getCnpj());
-        entity.setRazaoSocial(dto.getRazaoSocial());
-        entity.setNomeFantasia(dto.getNomeFantasia());
-        entity.setIe(dto.getInscEstadual());
-        entity.setCnae(dto.getCnae());
-        entity.setInscMun(dto.getInscMunicipal());
-       // entity.setEmail(dto.getEmail());
-        entity.setIbge(dto.getIbge());
-        entity.setTelefone(dto.getTelefone());
-        entity.setRua(dto.getRua());
-        entity.setNumero(dto.getNumero());
-        entity.setComplemento(dto.getComplemento());
-        entity.setBairro(dto.getBairro());
-        entity.setCep(dto.getCep());
-        entity.setCidade(dto.getCidade());
-        entity.setUf(dto.getUf());
-
-        logger.info("PessoaJuridica convertida: {}", entity);
-
-        return entity;
-    }
-    
-    
+       
 
 }
 

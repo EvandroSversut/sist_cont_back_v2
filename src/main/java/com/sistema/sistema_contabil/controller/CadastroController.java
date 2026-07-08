@@ -47,7 +47,7 @@ public ResponseEntity<?> cadastrar(@RequestBody PessoaUsuarioDTO dto) {
         System.out.println("Nome: " + dto.getNome());
         System.out.println("Cpf: " + dto.getCpf());
         System.out.println("RG: " + dto.getRg());
-        System.out.println("Telefone: " + dto.getTelefone());
+        System.out.println("Telefone: " + dto.getTelefone1());
         System.out.println("Rua: " + dto.getRua());
         System.out.println("Numero: " + dto.getNumero());
         System.out.println("Complemento: " + dto.getComplemento());
@@ -124,7 +124,7 @@ public ResponseEntity<?> cadastrar(@RequestBody PessoaUsuarioDTO dto) {
         dto.setNome(pf.getNome());
         dto.setCpf(pf.getCpf());
         dto.setRg(pf.getRg());
-        dto.setTelefone(pf.getTelefone());
+        dto.setTelefone1(pf.getTelefone1());
         dto.setRua(pf.getRua());
         dto.setNumero(pf.getNumero());
         dto.setComplemento(pf.getComplemento());
@@ -155,7 +155,7 @@ public ResponseEntity<?> cadastrar(@RequestBody PessoaUsuarioDTO dto) {
         System.out.println("Nome: " + dto.getNome());
         System.out.println("Email: " + dto.getEmail());
         System.out.println("Senha: " + dto.getSenha());
-        System.out.println("Telefone: " + dto.getTelefone());
+        System.out.println("Telefone: " + dto.getTelefone1());
         System.out.println("Rua: " + dto.getRua());
         System.out.println("Numero: " + dto.getNumero());
         System.out.println("Complemento: " + dto.getComplemento());

@@ -7,7 +7,7 @@ public class PessoaUsuarioDTO {
     public String nome;
     public String cpf;
     public String rg;
-    public String telefone;
+    public String telefone1;
     public String rua;
     public String numero;
     public String complemento;
@@ -37,11 +37,11 @@ public class PessoaUsuarioDTO {
     public void setRg(String rg) {
         this.rg = rg;
     }
-    public String getTelefone() {
-        return telefone;
+    public String getTelefone1() {
+        return telefone1;
     }
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setTelefone1(String telefone1) {
+        this.telefone1 = telefone1;
     }
     public String getRua() {
         return rua;
@@ -119,7 +119,7 @@ public class PessoaUsuarioDTO {
                 "\nNome: " + nome +
                 "\nRG: " + rg +
                 "\nCPF: " + cpf +
-               "\nTelefone: " + telefone +
+               "\nTelefone: " + telefone1 +
                 "\nEmail: " + email +
                 "\nEndereço: " + rua + ", " + numero + " - " + bairro +
                 (complemento != null && !complemento.isEmpty() ? " (" + complemento + ")" : "") +

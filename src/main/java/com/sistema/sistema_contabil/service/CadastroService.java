@@ -39,7 +39,7 @@ public class CadastroService {
     // 🔹 Cadastrar Pessoa Física 
     PessoaFisica pessoaFisica = new PessoaFisica();
     pessoaFisica.setNome(dto.getNome());
-    pessoaFisica.setTelefone(dto.getTelefone());
+    pessoaFisica.setTelefone1(dto.getTelefone1());
     pessoaFisica.setRua(dto.getRua());
     pessoaFisica.setNumero(dto.getNumero());
     pessoaFisica.setComplemento(dto.getComplemento());
@@ -77,6 +77,7 @@ public class CadastroService {
         System.out.println("Ativo: " + usuario.isAtivo());
         System.out.println("Data Criação: " + usuario.getDataCriacao());
 
+    // Aqui salva um novo usuario "ROLE_USER"
     usuarioService.cadastrarUsuario(usuario);
 
     System.out.println("Usuário salvo com ID: " + usuario.getId());
@@ -89,7 +90,7 @@ public class CadastroService {
   
     pessoaFisica.setNome(dto.getNome());
     //pessoaFisica.setEmail(dto.getEmail());
-    pessoaFisica.setTelefone(dto.getTelefone());
+    pessoaFisica.setTelefone1(dto.getTelefone1());
     pessoaFisica.setRua(dto.getRua());
     pessoaFisica.setNumero(dto.getNumero());
     pessoaFisica.setComplemento(dto.getComplemento());
@@ -139,7 +140,7 @@ public class CadastroService {
         dto.setNome(pessoaFisica.getNome());
         dto.setCpf(pessoaFisica.getCpf());
         dto.setRg(pessoaFisica.getRg());
-        dto.setTelefone(pessoaFisica.getTelefone());
+        dto.setTelefone1(pessoaFisica.getTelefone1());
         dto.setRua(pessoaFisica.getRua());
         dto.setNumero(pessoaFisica.getNumero());
         dto.setComplemento(pessoaFisica.getComplemento());

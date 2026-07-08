@@ -1,0 +1,19 @@
+	
+	cmd
+
+	cd C:\Users\peric\sist_cont_back_v2
+
+	code .
+
+	back spring
+
+	    cd C:\Users\peric\sist_cont_back_v2
+
+		mvn spring-boot:run
+
+	front angular
+		ng serv
+
+		ng s
+
+	

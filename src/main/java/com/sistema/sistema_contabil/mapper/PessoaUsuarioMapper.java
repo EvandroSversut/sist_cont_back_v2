@@ -13,7 +13,7 @@ public class PessoaUsuarioMapper {
         pf.setNome(dto.getNome());
         pf.setCpf(dto.getCpf());
         pf.setRg(dto.getRg());
-        pf.setTelefone(dto.getTelefone());
+        pf.setTelefone1(dto.getTelefone1());
         pf.setRua(dto.getRua());
         pf.setNumero(dto.getNumero());
         pf.setComplemento(dto.getComplemento());
