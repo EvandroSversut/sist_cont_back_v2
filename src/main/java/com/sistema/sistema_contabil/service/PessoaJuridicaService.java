@@ -3,7 +3,7 @@ package com.sistema.sistema_contabil.service;
 import com.sistema.sistema_contabil.dto.BrasilApiDTO;
 import com.sistema.sistema_contabil.dto.PessoaJuridicaDTO;
 import com.sistema.sistema_contabil.mapper.PessoaJuridicaMapper;
-import com.sistema.sistema_contabil.model.PessoaJuridica;
+import com.sistema.sistema_contabil.model.pessoa.PessoaJuridica;
 import com.sistema.sistema_contabil.repository.PessoaJuridicaRepository;
 
 import org.slf4j.Logger;

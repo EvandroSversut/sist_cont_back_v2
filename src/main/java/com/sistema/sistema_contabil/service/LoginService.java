@@ -1,6 +1,6 @@
 package com.sistema.sistema_contabil.service;
 
-import com.sistema.sistema_contabil.model.Usuario;
+import com.sistema.sistema_contabil.model.pessoa.Usuario;
 import com.sistema.sistema_contabil.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

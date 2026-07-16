@@ -2,7 +2,7 @@ package com.sistema.sistema_contabil.controller;
 
 import com.sistema.sistema_contabil.dto.NotaFiscalDTO;
 import com.sistema.sistema_contabil.dto.NotaFiscalResumoDTO;
-import com.sistema.sistema_contabil.model.NotaFiscal;
+import com.sistema.sistema_contabil.model.nfe.NotaFiscal;
 import com.sistema.sistema_contabil.service.NotaFiscalService;
 
 import java.util.List;

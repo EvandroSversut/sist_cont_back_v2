@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.sistema.sistema_contabil.model.PessoaFisica;
+import com.sistema.sistema_contabil.model.pessoa.PessoaFisica;
 import com.sistema.sistema_contabil.repository.PessoaFisicaRepository;
 
 

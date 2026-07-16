@@ -1,9 +1,11 @@
-package com.sistema.sistema_contabil.model;
+package com.sistema.sistema_contabil.model.compras;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sistema.sistema_contabil.model.pessoa.PessoaJuridica;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

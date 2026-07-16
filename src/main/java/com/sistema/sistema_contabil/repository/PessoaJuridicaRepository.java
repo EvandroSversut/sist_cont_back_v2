@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.sistema.sistema_contabil.model.PessoaJuridica;
+import com.sistema.sistema_contabil.model.pessoa.PessoaJuridica;
 
 @Repository
 public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, Long> {

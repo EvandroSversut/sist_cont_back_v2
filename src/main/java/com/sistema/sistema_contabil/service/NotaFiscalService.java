@@ -13,7 +13,7 @@ import com.sistema.sistema_contabil.controller.AcessoController;
 import com.sistema.sistema_contabil.dto.NotaFiscalDTO;
 import com.sistema.sistema_contabil.dto.NotaFiscalResumoDTO;
 import com.sistema.sistema_contabil.mapper.NotaFiscalMapper;
-import com.sistema.sistema_contabil.model.NotaFiscal;
+import com.sistema.sistema_contabil.model.nfe.NotaFiscal;
 import com.sistema.sistema_contabil.repository.AcessoRepository;
 import com.sistema.sistema_contabil.repository.NotaFiscalRepository;
 import com.sistema.sistema_contabil.repository.PessoaRepository;

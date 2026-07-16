@@ -1,7 +1,7 @@
 package com.sistema.sistema_contabil.service;
 
 
-import com.sistema.sistema_contabil.model.NotaFiscal;
+import com.sistema.sistema_contabil.model.nfe.NotaFiscal;
 import com.sistema.sistema_contabil.repository.NotaFiscalRepository;
 import com.sistema.sistema_contabil.repository.PessoaJuridicaRepository;
 

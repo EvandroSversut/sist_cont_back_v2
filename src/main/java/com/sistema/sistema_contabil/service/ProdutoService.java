@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sistema.sistema_contabil.model.Produtos;
+import com.sistema.sistema_contabil.model.produto.Produtos;
 import com.sistema.sistema_contabil.repository.ProdutoRepository;
 
 @Service

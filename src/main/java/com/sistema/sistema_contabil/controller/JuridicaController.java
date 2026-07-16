@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sistema.sistema_contabil.dto.PessoaJuridicaDTO;
-import com.sistema.sistema_contabil.model.PessoaJuridica;
+import com.sistema.sistema_contabil.model.pessoa.PessoaJuridica;
 import com.sistema.sistema_contabil.service.PessoaJuridicaService;
 
 @RestController

@@ -1,8 +1,9 @@
-package com.sistema.sistema_contabil.model;
+package com.sistema.sistema_contabil.model.compras;
 
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sistema.sistema_contabil.model.produto.Produtos;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

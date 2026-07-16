@@ -1,4 +1,7 @@
-package com.sistema.sistema_contabil.model;
+package com.sistema.sistema_contabil.model.produto;
+
+import java.math.BigDecimal;
+import java.util.function.BiConsumer;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +15,8 @@ import jakarta.persistence.Table;
 @Table(name = "produtos")
 public class Produtos {
 
+
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "produtos_seq")
     @SequenceGenerator(name = "produtos_seq", sequenceName = "produtos_seq", allocationSize = 1)
@@ -32,47 +37,42 @@ public class Produtos {
 
     private String descricao;
 
-    public Long getId() {
-        return id;
-    }
+    private String gtin;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String cest;
 
-    public String getNomeProduto() {
-        return nomeProduto;
-    }
+    private String origem;
 
-    public void setNomeProduto(String nomeProduto) {
-        this.nomeProduto = nomeProduto;
-    }
+    private String cfopPadrao;
 
-    public String getNcm() {
-        return ncm;
-    }
+    private String cstIcms;
 
-    public void setNcm(String ncm) {
-        this.ncm = ncm;
-    }
+    private String csosn;
 
-    public String getUnidade() {
-        return unidade;
-    }
+    private String cstPis;
 
-    public void setUnidade(String unidade) {
-        this.unidade = unidade;
-    }
+    private String cstCofins;
 
-    public String getDescricao() {
-        return descricao;
-    }
+    private String cstIpi;
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+    private BigDecimal aliqIcms;
 
-   
+    private BigDecimal aliqPis;
+
+    private BigDecimal aliqCofins;
+
+    private BigDecimal aliqIpi;
+
+    // REFORMA TRIBUTARIA
+    private String classificacaoIbs;
+    private String classificacaoCbs;
+    private String classificacaoIs;
+
+    private BigDecimal aliqIbs;
+    private BigDecimal aliqCbs;
+    private BigDecimal aliqIs;
+
+      
     
    
 }

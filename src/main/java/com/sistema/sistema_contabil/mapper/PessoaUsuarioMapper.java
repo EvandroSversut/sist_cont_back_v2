@@ -1,8 +1,8 @@
 package com.sistema.sistema_contabil.mapper;
 
 import com.sistema.sistema_contabil.dto.PessoaUsuarioDTO;
-import com.sistema.sistema_contabil.model.PessoaFisica;
-import com.sistema.sistema_contabil.model.Usuario;
+import com.sistema.sistema_contabil.model.pessoa.PessoaFisica;
+import com.sistema.sistema_contabil.model.pessoa.Usuario;
 
 public class PessoaUsuarioMapper {
 

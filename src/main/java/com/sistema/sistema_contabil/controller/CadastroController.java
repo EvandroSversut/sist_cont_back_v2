@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sistema.sistema_contabil.dto.PessoaUsuarioDTO;
-import com.sistema.sistema_contabil.model.PessoaFisica;
+import com.sistema.sistema_contabil.model.pessoa.PessoaFisica;
 import com.sistema.sistema_contabil.repository.PessoaFisicaRepository;
 import com.sistema.sistema_contabil.repository.UsuarioRepository;
 import com.sistema.sistema_contabil.service.CadastroService;

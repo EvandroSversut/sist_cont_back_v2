@@ -1,9 +1,10 @@
 
 package com.sistema.sistema_contabil.repository;
 
-import com.sistema.sistema_contabil.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.sistema.sistema_contabil.model.pessoa.Usuario;
 
 import java.util.List;
 import java.util.Optional;

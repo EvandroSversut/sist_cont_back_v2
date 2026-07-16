@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.sistema.sistema_contabil.model.Acesso;
+import com.sistema.sistema_contabil.model.pessoa.Acesso;
 import com.sistema.sistema_contabil.repository.AcessoRepository;
 
 

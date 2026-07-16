@@ -1,7 +1,7 @@
 package com.sistema.sistema_contabil.mapper;
 
 import com.sistema.sistema_contabil.dto.ProdutoDTO;
-import com.sistema.sistema_contabil.model.ItemNotaFiscal;
+import com.sistema.sistema_contabil.model.nfe.ItemNotaFiscal;
 
 public class ProdutoMapper {
 

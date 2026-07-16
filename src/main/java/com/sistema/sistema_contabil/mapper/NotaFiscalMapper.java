@@ -1,7 +1,7 @@
 package com.sistema.sistema_contabil.mapper;
 
 import com.sistema.sistema_contabil.dto.NotaFiscalDTO;
-import com.sistema.sistema_contabil.model.NotaFiscal;
+import com.sistema.sistema_contabil.model.nfe.NotaFiscal;
 
 import java.util.stream.Collectors;
 

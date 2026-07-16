@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sistema.sistema_contabil.model.Compras;
+import com.sistema.sistema_contabil.model.compras.Compras;
 import com.sistema.sistema_contabil.repository.ComprasRepository;
 
 @Service

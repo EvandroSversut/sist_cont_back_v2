@@ -1,6 +1,12 @@
-package com.sistema.sistema_contabil.model;
+package com.sistema.sistema_contabil.model.nfe;
 
 import java.util.List;
+
+import com.sistema.sistema_contabil.model.nfe.dados.GeraisNfe;
+import com.sistema.sistema_contabil.model.nfe.dados.Pagamento;
+import com.sistema.sistema_contabil.model.nfe.dados.TotaisNfe;
+import com.sistema.sistema_contabil.model.nfe.dados.Transporte;
+import com.sistema.sistema_contabil.model.pessoa.PessoaJuridica;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
@@ -46,6 +52,9 @@ public class NotaFiscal {
     // 🔗 Itens da nota
     @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemNotaFiscal> itens;
+
+    @Embedded
+    private TotaisNfe totais;
 
 
     public Long getId() {

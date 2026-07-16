@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sistema.sistema_contabil.model.Usuario;
+import com.sistema.sistema_contabil.model.pessoa.Usuario;
 import com.sistema.sistema_contabil.security.JwtUtil;
 import com.sistema.sistema_contabil.service.LoginService;
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sistema.sistema_contabil.model.PessoaFisica;
+import com.sistema.sistema_contabil.model.pessoa.PessoaFisica;
 import com.sistema.sistema_contabil.service.PessoaFisicaService;
 
 @RestController

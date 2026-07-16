@@ -1,7 +1,7 @@
 package com.sistema.sistema_contabil.mapper;
 
 import com.sistema.sistema_contabil.dto.TransporteDTO;
-import com.sistema.sistema_contabil.model.Transporte;
+import com.sistema.sistema_contabil.model.nfe.dados.Transporte;
 
 public class TransporteMapper {
 

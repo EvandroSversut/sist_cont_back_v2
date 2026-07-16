@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.sistema.sistema_contabil.dto.BrasilApiDTO;
 import com.sistema.sistema_contabil.dto.PessoaJuridicaDTO;
-import com.sistema.sistema_contabil.model.PessoaJuridica;
+import com.sistema.sistema_contabil.model.pessoa.PessoaJuridica;
 
 @Component
 public class PessoaJuridicaMapper {

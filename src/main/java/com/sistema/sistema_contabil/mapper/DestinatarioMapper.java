@@ -1,7 +1,7 @@
 package com.sistema.sistema_contabil.mapper;
 
 import com.sistema.sistema_contabil.dto.PessoaJuridicaDTO;
-import com.sistema.sistema_contabil.model.PessoaJuridica;
+import com.sistema.sistema_contabil.model.pessoa.PessoaJuridica;
 
 public class DestinatarioMapper {
 

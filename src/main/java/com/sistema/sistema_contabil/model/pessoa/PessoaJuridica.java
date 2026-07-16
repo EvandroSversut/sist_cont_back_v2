@@ -1,4 +1,4 @@
-package com.sistema.sistema_contabil.model;
+package com.sistema.sistema_contabil.model.pessoa;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

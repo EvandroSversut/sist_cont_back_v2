@@ -1,4 +1,4 @@
-package com.sistema.sistema_contabil.model;
+package com.sistema.sistema_contabil.model.nfe.dados;
 
 import jakarta.persistence.Embeddable;
 

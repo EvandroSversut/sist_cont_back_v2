@@ -3,7 +3,7 @@ package com.sistema.sistema_contabil.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.sistema.sistema_contabil.model.NotaFiscal;
+import com.sistema.sistema_contabil.model.nfe.NotaFiscal;
 
 public interface NotaFiscalRepository extends JpaRepository<NotaFiscal, Long> {
 

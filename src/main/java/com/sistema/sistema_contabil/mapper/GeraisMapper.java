@@ -1,7 +1,7 @@
 package com.sistema.sistema_contabil.mapper;
 
 import com.sistema.sistema_contabil.dto.GeraisDTO;
-import com.sistema.sistema_contabil.model.GeraisNfe;
+import com.sistema.sistema_contabil.model.nfe.dados.GeraisNfe;
 
 public class GeraisMapper {
 

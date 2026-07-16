@@ -1,11 +1,19 @@
-package com.sistema.sistema_contabil.model;
+package com.sistema.sistema_contabil.model.nfe;
 
 import java.math.BigDecimal;
+
+import com.sistema.sistema_contabil.model.nfe.tributacao.TributacaoItem;
+import com.sistema.sistema_contabil.model.produto.Produtos;
 
 import jakarta.persistence.*;
 
 @Entity
 public class ItemNotaFiscal {
+
+    // aqui vamos colocar os @Embeddable para ficar mais 
+    // organizado (icms.java, pis.java, etc)
+    // Ex: @Embedded
+    //     private Icms icms;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "produto_item_seq")
@@ -43,6 +51,26 @@ public class ItemNotaFiscal {
     private BigDecimal vrISSQN;
     private BigDecimal retIRRF;
     private BigDecimal retPisCofins;
+
+    private String cBenef;
+
+    private Produtos produto;
+
+    private TributacaoItem tributacao;
+
+    // REFORMA TRIBUTARIA
+
+    private BigDecimal baseIbs;
+    private BigDecimal baseCbs;
+    private BigDecimal baseIs;
+
+    private BigDecimal aliqIbs;
+    private BigDecimal aliqCbs;
+    private BigDecimal aliqIs;
+
+    private BigDecimal vIbs;
+    private BigDecimal vCbs;
+    private BigDecimal vIs;
    
     // 🔗 Referência à nota fiscal
     @ManyToOne
