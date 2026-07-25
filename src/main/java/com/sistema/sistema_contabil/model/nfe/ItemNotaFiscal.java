@@ -2,7 +2,6 @@ package com.sistema.sistema_contabil.model.nfe;
 
 import java.math.BigDecimal;
 
-import com.sistema.sistema_contabil.model.nfe.tributacao.TributacaoItem;
 import com.sistema.sistema_contabil.model.produto.Produtos;
 
 import jakarta.persistence.*;
@@ -54,9 +53,10 @@ public class ItemNotaFiscal {
 
     private String cBenef;
 
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
     private Produtos produto;
 
-    private TributacaoItem tributacao;
 
     // REFORMA TRIBUTARIA
 

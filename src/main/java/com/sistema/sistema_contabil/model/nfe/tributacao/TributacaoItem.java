@@ -1,33 +1,40 @@
-package com.sistema.sistema_contabil.model.nfe.tributacao;
+package com.sistema.sistema_contabil.model.nfe.Tributacao;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
-@Embeddable
+@Entity
 public class TributacaoItem {
     
-    @Embedded
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Icms icms;
 
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
     private Pis pis;
 
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
     private Cofins cofins;
 
-    @Embedded
+   @OneToOne(cascade = CascadeType.ALL)
     private Ipi ipi;
 
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
     private Ibs ibs;
 
     // os detalhes estao na classe "Cbs.java"
     // Embedded é o uso do objeto
     // Embeddable define o bloco; Embedded usa o bloco
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
     private Cbs cbs;
 
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
     private ImpostoSeletivo impostoSeletivo;
 
 

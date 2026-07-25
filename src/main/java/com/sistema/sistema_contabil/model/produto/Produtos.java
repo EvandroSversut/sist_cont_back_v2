@@ -11,10 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name = "produtos")
 public class Produtos {
-
 
     
     @Id
