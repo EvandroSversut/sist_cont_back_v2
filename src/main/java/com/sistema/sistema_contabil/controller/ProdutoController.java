@@ -33,6 +33,7 @@ public class ProdutoController {
 
     @PostMapping("/salvar")
     public Produtos salvar(@RequestBody Produtos produto) {
+     System.out.println("***************SALVAR PRODUTO*******");   
     return service.salvar(produto);
 
 }
