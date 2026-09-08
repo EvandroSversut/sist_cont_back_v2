@@ -31,6 +31,16 @@ public class NotaFiscalController {
         return ResponseEntity.ok("NF-e salva com sucesso!");
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<String> statusServico() {
+        try {
+            return ResponseEntity.ok(notaFiscalService.testarStatusServico());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body("Erro ao consultar SEFAZ: " + e.getMessage());
+        }
+    }
+
     /* 
     @PostMapping("/json")
     public ResponseEntity<String> salvarNotaJson(@RequestBody NotaFiscalDTO notaFiscalDTO) {
