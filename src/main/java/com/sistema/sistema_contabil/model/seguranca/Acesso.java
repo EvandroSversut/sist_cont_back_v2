@@ -1,4 +1,4 @@
-package com.sistema.sistema_contabil.model.pessoa;
+package com.sistema.sistema_contabil.model.seguranca;
 
 import java.util.ArrayList;
 import java.util.List;

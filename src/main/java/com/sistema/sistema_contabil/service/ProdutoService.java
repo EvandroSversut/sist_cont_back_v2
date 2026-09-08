@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sistema.sistema_contabil.model.produto.Produtos;
+import com.sistema.sistema_contabil.model.produto.Produto;
 import com.sistema.sistema_contabil.repository.ProdutoRepository;
 
 @Service
@@ -20,12 +20,12 @@ public class ProdutoService {
     private static final Logger logger = LoggerFactory.getLogger(ProdutoService.class);
 
        // 🔸 Salvar
-    public Produtos salvar(Produtos produto) {
+    public Produto salvar(Produto produto) {
               return repository.save(produto);
         
     }
 
-        public List<Produtos> listar() {
+        public List<Produto> listar() {
         return repository.findAll();
     }
 
@@ -35,8 +35,8 @@ public class ProdutoService {
            logger.info("************* EXCLUIR ************");
     }
     
-        public Produtos buscarPorId(Long id) {
-        Optional<Produtos> optional = repository.findById(id);
+        public Produto buscarPorId(Long id) {
+        Optional<Produto> optional = repository.findById(id);
         return optional.orElse(null);
     }
 

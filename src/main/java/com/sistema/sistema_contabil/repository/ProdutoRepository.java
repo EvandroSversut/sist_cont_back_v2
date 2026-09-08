@@ -6,12 +6,12 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.sistema.sistema_contabil.model.produto.Produtos;
+import com.sistema.sistema_contabil.model.produto.Produto;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produtos, Long> {
+public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-    Optional<Produtos> findByNomeProduto(String nomeProduto); // ✔️ correto
+    Optional<Produto> findByNomeProduto(String nomeProduto); // ✔️ correto
 
-    List<Produtos> findAll(); // ✔️ opcional, já vem do JpaRepository
+    List<Produto> findAll(); // ✔️ opcional, já vem do JpaRepository
 }

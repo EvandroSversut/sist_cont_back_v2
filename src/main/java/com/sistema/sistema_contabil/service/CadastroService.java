@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.sistema.sistema_contabil.dto.PessoaUsuarioDTO;
 import com.sistema.sistema_contabil.model.pessoa.PessoaFisica;
-import com.sistema.sistema_contabil.model.pessoa.Usuario;
+import com.sistema.sistema_contabil.model.seguranca.Usuario;
 import com.sistema.sistema_contabil.repository.PessoaFisicaRepository;
 import com.sistema.sistema_contabil.repository.UsuarioRepository;
 

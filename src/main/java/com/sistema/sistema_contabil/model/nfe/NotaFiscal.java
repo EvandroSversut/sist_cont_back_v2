@@ -113,5 +113,12 @@ public class NotaFiscal {
         this.itens = itens;
     }
    
+    public TotaisNfe getTotais() {
+    return totais;
+}
+
+public void setTotais(TotaisNfe totais) {
+    this.totais = totais;
+}
             
 }

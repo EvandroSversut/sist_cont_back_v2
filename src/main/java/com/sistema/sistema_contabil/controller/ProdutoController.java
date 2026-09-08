@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sistema.sistema_contabil.model.produto.Produtos;
+import com.sistema.sistema_contabil.model.produto.Produto;
 import com.sistema.sistema_contabil.service.ProdutoService;
 
 @RestController
@@ -32,7 +32,7 @@ public class ProdutoController {
 
 
     @PostMapping("/salvar")
-    public Produtos salvar(@RequestBody Produtos produto) {
+    public Produto salvar(@RequestBody Produto produto) {
      System.out.println("***************SALVAR PRODUTO*******");   
     return service.salvar(produto);
 
@@ -41,13 +41,13 @@ public class ProdutoController {
 
     // 🔍 Listar todos
     @GetMapping("/listar")
-    public List<Produtos> listar() {
+    public List<Produto> listar() {
         return service.listar();
     }
 
         // 🔍 Buscar por ID
     @GetMapping("/buscar/{id}")
-    public Produtos buscarPorId(@PathVariable Long id) {
+    public Produto buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id);
     }
 

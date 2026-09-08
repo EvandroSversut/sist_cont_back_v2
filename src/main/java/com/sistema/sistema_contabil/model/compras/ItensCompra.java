@@ -3,7 +3,7 @@ package com.sistema.sistema_contabil.model.compras;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sistema.sistema_contabil.model.produto.Produtos;
+import com.sistema.sistema_contabil.model.produto.Produto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class ItensCompra {
 
     @ManyToOne
     @JoinColumn(name = "produto_id", nullable = false)
-    private Produtos produto;
+    private Produto produto;
 
     @Column(nullable = false)
     private BigDecimal quantidade;
@@ -62,11 +62,11 @@ public class ItensCompra {
         this.compra = compra;
     }
 
-    public Produtos getProduto() {
+    public Produto getProduto() {
         return produto;
     }
 
-    public void setProduto(Produtos produto) {
+    public void setProduto(Produto produto) {
         this.produto = produto;
     }
 

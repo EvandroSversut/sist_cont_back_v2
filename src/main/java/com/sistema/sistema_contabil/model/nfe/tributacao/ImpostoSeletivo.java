@@ -1,4 +1,4 @@
-package com.sistema.sistema_contabil.model.nfe.Tributacao;
+package com.sistema.sistema_contabil.model.nfe.tributacao;
 
 import java.math.BigDecimal;
 

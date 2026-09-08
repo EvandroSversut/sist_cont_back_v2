@@ -2,7 +2,7 @@ package com.sistema.sistema_contabil.mapper;
 
 import com.sistema.sistema_contabil.dto.PessoaUsuarioDTO;
 import com.sistema.sistema_contabil.model.pessoa.PessoaFisica;
-import com.sistema.sistema_contabil.model.pessoa.Usuario;
+import com.sistema.sistema_contabil.model.seguranca.Usuario;
 
 public class PessoaUsuarioMapper {
 

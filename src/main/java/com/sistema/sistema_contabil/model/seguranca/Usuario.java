@@ -1,7 +1,9 @@
-package com.sistema.sistema_contabil.model.pessoa;
+package com.sistema.sistema_contabil.model.seguranca;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.sistema.sistema_contabil.model.pessoa.Pessoa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

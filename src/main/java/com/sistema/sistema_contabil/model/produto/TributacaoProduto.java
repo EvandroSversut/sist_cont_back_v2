@@ -13,7 +13,7 @@ public class TributacaoProduto {
     private Long id;
 
     @OneToOne
-    private Produtos produto;
+    private Produto produto;
 
 
 

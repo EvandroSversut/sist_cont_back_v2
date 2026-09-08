@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sistema.sistema_contabil.model.pessoa.Usuario;
+import com.sistema.sistema_contabil.model.seguranca.Usuario;
 import com.sistema.sistema_contabil.service.UsuarioService;
 
 

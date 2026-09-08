@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sistema.sistema_contabil.model.pessoa.Acesso;
-import com.sistema.sistema_contabil.model.pessoa.Usuario;
+import com.sistema.sistema_contabil.model.seguranca.Acesso;
+import com.sistema.sistema_contabil.model.seguranca.Usuario;
 import com.sistema.sistema_contabil.repository.AcessoRepository;
 import com.sistema.sistema_contabil.repository.UsuarioRepository;
 
